@@ -1,71 +1,70 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>lingK™ - IPTV</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            justify-content: space-between;
-            background-color: #121212;
-            color: white;
-        }.bottom-nav {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        background-color: #1e1e1e;
-        display: flex;
-        justify-content: space-around;
-        padding: 10px 0;
-        border-top: 1px solid #333;
-    }
-
-    .nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: white;
-        text-decoration: none;
-        font-size: 12px;
-        padding: 5px;
-    }
-
-    .nav-item span {
-        font-size: 24px;
-        margin-bottom: 2px;
-    }
-
-    .nav-item.active {
-        color: #0000FF;
-    }
-</style>
-
+    <title>IPTV Streaming Service</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 </head>
 <body>
-    <h1 style="text-align:center; color:#0000FF;">lingK™ - IPTV</h1><div class="bottom-nav">
-    <a href="#home" class="nav-item active"><span class="material-symbols-outlined">home</span>Home</a>
-    <a href="#library" class="nav-item"><span class="material-symbols-outlined">library_add</span>Library</a>
-    <a href="#watchlist" class="nav-item"><span class="material-symbols-outlined">bookmark</span>Watchlist</a>
-    <a href="#search" class="nav-item"><span class="material-symbols-outlined">search</span>Search</a>
-    <a href="#notifications" class="nav-item"><span class="material-symbols-outlined">notifications</span>Notifications</a>
-    <a href="#settings" class="nav-item"><span class="material-symbols-outlined">settings</span>Settings</a>
-</div>
-
-<script>
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function() {
-            document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-            this.classList.add('active');
-        });
-    });
-</script>
-
+    <header>
+        <h1>IPTV Streaming</h1>
+    </header>
+    <main>
+        <div class="video-container">
+            <video id="video" controls></video>
+        </div>
+        <div class="channel-list">
+            <button onclick="loadChannel('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')">Channel 1</button>
+            <button onclick="loadChannel('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')">Channel 2</button>
+        </div>
+    </main>
+    <nav class="bottom-navigation">
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Live TV</a></li>
+            <li><a href="#">VOD</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+    </nav>
+    <script>
+        function loadChannel(url) {
+            var video = document.getElementById('video');
+            if (Hls.isSupported()) {
+                var hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+            }
+            video.play();
+        }
+    </script>
+    <style>
+        .bottom-navigation {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #333;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .bottom-navigation ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        .bottom-navigation li {
+            display: inline;
+        }
+        .bottom-navigation a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            display: block;
+        }
+    </style>
 </body>
 </html>
