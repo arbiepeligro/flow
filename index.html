@@ -3,102 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamLink</title>
+    <title>Google TV Inspired UI</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>StreamLink</h1>
+        <div class="logo">Google TV</div>
+        <div class="header-icons">
+            <div class="search-icon">Q</div>
+            <div class="profile-icon"></div> </div>
     </header>
 
     <main>
-        <section class="service-list">
-            <h2>Available Streaming Services</h2>
-            <div class="grid">
-                <div class="service-card">
-                    <img src="https://i.imgur.com/fHBIgs6.png" alt="HBO Logo">
-                    <h3>HBO</h3>
-                    <p>Watch your favorite content from HBO.</p>
-                    <button class="watch-button" data-name="HBO" data-type="mpegdash" data-manifest="https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cg_hbohd.mpd" data-clearkey='{"d47ebabf7a21430b83a8c4b82d9ef6b1": "54c213b2b5f885f1e0290ee4131d425b"}'>Watch Now</button>
+        <section class="top-picks">
+            <div class="section-title">Top picks for you ></div>
+            <div class="movie-list">
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <img src="placeholder-sonic.jpg" alt="Sonic 3">
+                    </div>
+                    <div class="movie-info">
+                        <div class="movie-title">SONIC3</div>
+                        <div class="price-discount">
+                            <span class="old-price">P790.00</span>
+                            <span class="new-price">P700.00</span>
+                            <span class="discount">85%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <img src="placeholder-wolfman.jpg" alt="Wolf Man">
+                    </div>
+                    <div class="movie-info">
+                        <div class="movie-title">WOLF MAN</div>
+                        <div class="price-discount">
+                            <span class="old-price">P560.00</span>
+                            <span class="new-price">P500.00</span>
+                            <span class="discount">50%</span>
+                        </div>
+                    </div>
                 </div>
                 </div>
         </section>
 
-        <div id="video-player-modal" class="modal">
-            <div class="modal-content">
-                <span class="close-button">&times;</span>
-                <h3 id="modal-title"></h3>
-                <div class="video-container">
-                    <video id="stream-player" controls></video>
+        <section class="popular-movies">
+            <div class="section-title">Popular movies ></div>
+            <div class="movie-list">
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <img src="placeholder-sonic.jpg" alt="Sonic 3">
+                    </div>
+                    <div class="movie-info">
+                        <div class="movie-title">SONIC3</div>
+                        <div class="price-discount">
+                            <span class="old-price">P790.00</span>
+                            <span class="new-price">P700.00</span>
+                            <span class="discount">85%</span>
+                        </div>
+                    </div>
                 </div>
-                <p class="stream-info">Type: <span id="stream-type"></span></p>
-                <p class="stream-info">Manifest URI: <span id="stream-manifest"></span></p>
-                <p class="stream-info">Clear Key: <span id="stream-clearkey"></span></p>
-            </div>
-        </div>
+                <div class="movie-card">
+                    <div class="movie-poster">
+                        <img src="placeholder-wolfman.jpg" alt="Wolf Man">
+                    </div>
+                    <div class="movie-info">
+                        <div class="movie-title">WOLF MAN</div>
+                        <div class="price-discount">
+                            <span class="old-price">P560.00</span>
+                            <span class="new-price">P500.00</span>
+                            <span class="discount">50%</span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </section>
     </main>
 
+    <div class="connect-button">Connect TV</div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active">
+            <div class="nav-icon">A</div> <div class="nav-text">Home</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon">Π</div> <div class="nav-text">Library</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"></div> <div class="nav-text">Watchlist</div>
+        </div>
+    </nav>
+
     <script>
-        const watchButtons = document.querySelectorAll('.watch-button');
-        const modal = document.getElementById('video-player-modal');
-        const closeButton = document.querySelector('.close-button');
-        const modalTitle = document.getElementById('modal-title');
-        const streamPlayer = document.getElementById('stream-player');
-        const streamTypeDisplay = document.getElementById('stream-type');
-        const streamManifestDisplay = document.getElementById('stream-manifest');
-        const streamClearkeyDisplay = document.getElementById('stream-clearkey');
-
-        watchButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const name = button.dataset.name;
-                const type = button.dataset.type;
-                const manifest = button.dataset.manifest;
-                const clearkey = button.dataset.clearkey;
-
-                modalTitle.textContent = `Now Watching: ${name}`;
-                streamTypeDisplay.textContent = type;
-                streamManifestDisplay.textContent = manifest;
-                streamClearkeyDisplay.textContent = clearkey;
-
-                // **Important:** Directly playing MPEG-DASH with clear key in the standard <video> tag is not supported by most browsers.
-                // You would typically need a JavaScript library like dash.js or Shaka Player to handle this.
-                // For this basic HTML/CSS example, we'll just show the information.
-
-                // **Conceptual Integration with dash.js (Illustrative - Requires including the dash.js library):**
-                // if (type === 'mpegdash' && dashjs) {
-                //     const player = dashjs.MediaPlayer().create();
-                //     player.initialize(streamPlayer, manifest, false);
-                //     // If clear key needs to be applied, you would use the dash.js API for that.
-                //     // Example (conceptual and might need adjustments based on dash.js version):
-                //     // player.setProtectionData({
-                //     //     'org.w3.clearkey': {
-                //     //         'keyId': 'd47ebabf7a21430b83a8c4b82d9ef6b1',
-                //     //         'key': '54c213b2b5f885f1e0290ee4131d425b'
-                //     //     }
-                //     // });
-                // } else {
-                //     streamPlayer.src = manifest; // This might not work for MPEG-DASH
-                // }
-
-                modal.style.display = 'block';
+        // Basic script to handle active class on bottom navigation
+        const navItems = document.querySelectorAll('.bottom-nav .nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                navItems.forEach(navItem => navItem.classList.remove('active'));
+                this.classList.add('active');
             });
-        });
-
-        closeButton.addEventListener('click', () => {
-            modal.style.display = 'none';
-            // Optionally, stop the video when the modal is closed
-            streamPlayer.pause();
-            streamPlayer.removeAttribute('src');
-            streamPlayer.load();
-        });
-
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                modal.style.display = 'none';
-                streamPlayer.pause();
-                streamPlayer.removeAttribute('src');
-                streamPlayer.load();
-            }
         });
     </script>
 </body>
