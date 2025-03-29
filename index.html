@@ -2,134 +2,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netflix-Style TV Streaming</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>IPTV Streaming</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #1e1e1e;
+        }
+        .search-bar {
+            flex: 1;
+            margin: 0 10px;
+            padding: 10px;
+            border-radius: 20px;
+            border: none;
+            background-color: #2a2a2a;
+            color: white;
+        }
+        .category {
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .channel-list {
+            display: flex;
+            overflow-x: auto;
+            padding: 10px;
+        }
+        .channel {
+            background-color: #2a2a2a;
+            border-radius: 10px;
+            padding: 10px;
+            margin-right: 10px;
+            text-align: center;
+            width: 150px;
+        }
+        .channel img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background-color: #1e1e1e;
+            padding: 10px 0;
+        }
+        .bottom-nav div {
+            text-align: center;
+            color: white;
+        }
+    </style>
 </head>
-
-body {
-  margin: 0;
-  font-family: 'DM Sans', sans-serif;
-  background-color: #ffffff;
-  color: #000000;
-  transition: background-color 0.3s, color 0.3s;
-}
- 
-.dark-mode {
-  background-color: #141414;
-  color: #ffffff; 
-}
-
-header { 
-  display: flex;
-  align-items: center;
-  padding: 20px; background: black;
-}
-
-.logo { font-size: 28px;
-  font-weight: bold;
-  font-style: italic;
-  color: blue; 
-}
-
-.tab-content {
-  display: none;
-  padding: 20px;
-}
-
-.tab-content.active {
-  display: block;
-}
-
-video { width: 100%;
-  max-width: 600px;
-  display: block;
-  margin: 20px auto;
-}
-
-.categories, .favorite-list {
-  list-style: none;
-  padding: 0;
-}
-
-.categories li, .favorite-list li {
-  background: gray;
-  padding: 10px;
-  margin: 5px;
-  border-radius: 5px;
-  text-align: center;
-}
-
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%; 
-  background: black;
-  padding: 10px 0; 
-}
-
-footer nav ul {
-  display: flex;
-  justify-content: space-around;
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-footer nav ul li a {
-  color: white;
-  text-decoration: none;
-  font-size: 18px;
-}
-
-#theme-toggle {
-  margin-left: 10px;
-}
-    
 <body>
-    <header class="navbar">
-        <div class="logo">Netflix IPTV</div>
-        <nav>
-            <ul>
-                <li>Home</li>
-                <li>TV Shows</li>
-                <li>Movies</li>
-                <li>My List</li>
-            </ul>
-        </nav>
-    </header><section class="hero">
-    <div class="hero-content">
-        <h1>Live TV Channels</h1>
-        <p>Watch your favorite channels anytime, anywhere.</p>
+    <div class="header">
+        <h2>IPTV Streaming</h2>
+        <input type="text" class="search-bar" placeholder="Search channels...">
+        <div>🔔</div>
+    </div><div class="category">News Channels</div>
+<div class="channel-list">
+    <div class="channel">
+        <img src="https://i.imgur.com/Ddyfzrn.png" alt="TV5">
+        <p>TV5</p>
     </div>
-</section>
+    <div class="channel">
+        <img src="https://i.imgur.com/43nZ2rv.png" alt="A2Z">
+        <p>A2Z</p>
+    </div>
+</div>
 
-<section class="categories">
-    <h2>FREE TV</h2>
-    <div class="channel-grid">
-        <a href="https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd" class="channel"><img src="https://i.imgur.com/Ddyfzrn.png" alt="TV5"><p>TV5</p></a>
-        <a href="https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd" class="channel"><img src="https://i.imgur.com/43nZ2rv.png" alt="A2Z"><p>A2Z</p></a>
+<div class="category">Entertainment</div>
+<div class="channel-list">
+    <div class="channel">
+        <img src="https://i.imgur.com/buOVATz.png" alt="PBO">
+        <p>PBO</p>
     </div>
-    
-    <h2>MOVIES</h2>
-    <div class="channel-grid">
-        <a href="https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/pbo_sd.mpd" class="channel"><img src="https://i.imgur.com/buOVATz.png" alt="PBO"><p>PBO</p></a>
-        <a href="https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/viva_sd.mpd" class="channel"><img src="https://i.imgur.com/51RWtvd.png" alt="Viva Cinema"><p>Viva Cinema</p></a>
+    <div class="channel">
+        <img src="https://i.imgur.com/MXxN1UO.png" alt="Sari-Sari">
+        <p>Sari-Sari</p>
     </div>
-    
-    <h2>ENTERTAINMENT</h2>
-    <div class="channel-grid">
-        <a href="https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_sari_sari_sd.mpd" class="channel"><img src="https://i.imgur.com/MXxN1UO.png" alt="Sari-Sari"><p>Sari-Sari</p></a>
-        <a href="https://jungotvstream-chanall.akamaized.net/jungotv/hallypop/stream.m3u8" class="channel"><img src="https://i.imgur.com/moSPpuJ.png" alt="HallyPop"><p>HallyPop</p></a>
-    </div>
-    
-    <h2>KIDS</h2>
-    <div class="channel-grid">
-        <a href="https://tglmp01.akamaized.net/out/v1/de55fad9216e4fe7ad8d2eed456ba1ec/manifest.mpd" class="channel"><img src="https://i.imgur.com/iYRTs2n.png" alt="Animax"><p>Animax</p></a>
-        <a href="https://qp-pldt-live-grp-12-prod.akamaized.net/out/u/dr_cartoonnetworkhd.mpd" class="channel"><img src="https://i.imgur.com/R1fV2uY.png" alt="Cartoon Network"><p>Cartoon Network</p></a>
-    </div>
-</section>
+</div>
 
-<script src="script.js"></script>
+<div class="bottom-nav">
+    <div>🏠 Home</div>
+    <div>📂 Library</div>
+    <div>🔖 Watchlist</div>
+</div>
 
 </body>
-</html>
+    </html>
