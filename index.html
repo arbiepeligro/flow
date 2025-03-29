@@ -3,106 +3,469 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google TV Inspired UI</title>
-    <link rel="stylesheet" href="style.css">
+    <title>lingK</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+    <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #0F172A; /* Darker background */
+            color: #E0F2FE; /* Light blue text */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px; /* Add some padding around the content */
+            box-sizing: border-box; /* Ensure padding doesn't add to width */
+        }
+
+        #wrapper {
+            width: 100%;
+            max-width: 1200px;
+            text-align: center;
+        }
+
+        #title {
+            font-size: 2.5em; /* Slightly larger title */
+            font-weight: 700;
+            margin: 20px 0 30px; /* More bottom margin */
+            color: #38BDF8; /* Brighter blue for title */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+        }
+
+        #video-container {
+            position: relative;
+            width: 100%;
+            margin-bottom: 30px; /* More bottom margin */
+            aspect-ratio: 16 / 9;
+            border-radius: 12px; /* More rounded corners */
+            overflow: hidden; /* Clip content within rounded corners */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8); /* More pronounced shadow */
+        }
+
+        video, iframe {
+            width: 100%;
+            height: 100%;
+            border-radius: inherit; /* Inherit border-radius from container */
+            z-index: 2;
+            position: relative;
+            display: none;
+        }
+
+        .category {
+            margin: 30px 0; /* More vertical spacing */
+            width: 100%; /* Make categories full width */
+        }
+
+        .category-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 15px 0;
+            text-align: left;
+            padding-left: 15px;
+            color: #6EE7B7; /* A different accent color */
+            border-left: 5px solid #6EE7B7; /* Add a visual indicator */
+        }
+
+        .channel-slider-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .channel-slider {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px; /* Increased gap */
+            padding: 15px; /* Increased padding */
+            scroll-behavior: smooth;
+            flex-grow: 1;
+        }
+
+        .channel-slider::-webkit-scrollbar {
+            height: 10px;
+        }
+
+        .channel-slider::-webkit-scrollbar-thumb {
+            background: #4A5568; /* Darker scrollbar */
+            border-radius: 5px;
+        }
+
+        .arrow-button {
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border: none;
+            padding: 12px; /* Slightly smaller padding */
+            cursor: pointer;
+            z-index: 10;
+            font-size: 1.5em; /* Slightly smaller font size */
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* Adjusted shadow */
+            transition: background-color 0.3s ease;
+        }
+
+        .arrow-button:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .arrow-left {
+            margin-right: 15px;
+        }
+
+        .arrow-right {
+            margin-left: 15px;
+        }
+
+        .channel-card {
+            flex: 0 0 auto;
+            width: 120px; /* Slightly wider cards */
+            background: #1E293B; /* Darker card background */
+            border-radius: 10px; /* More rounded corners */
+            text-align: center;
+            padding: 15px; /* Increased padding */
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; /* Smoother transitions */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 150px; /* Slightly taller cards */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5); /* Add card shadow */
+        }
+
+        .channel-card:hover {
+            transform: scale(1.08);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6); /* Enhanced hover effect */
+        }
+
+        .channel-logo {
+            width: 90px; /* Slightly larger logo */
+            height: 90px; /* Slightly larger logo */
+            object-fit: contain;
+            border-radius: 8px;
+            margin-bottom: 10px; /* Add some space below the logo */
+        }
+
+        .channel-name {
+            font-size: 0.9em;
+            font-weight: 500;
+            color: #60A5FA; /* Blue for channel name */
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        #footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #94A3B8; /* Lighter grey for footer */
+            text-align: center; /* Center the footer text */
+        }
+
+        #footer a {
+            color: #60A5FA; /* Blue for links in footer */
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        #footer a:hover {
+            text-decoration: underline;
+            color: #38BDF8; /* Brighter blue on hover */
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="logo">Google TV</div>
-        <div class="header-icons">
-            <div class="search-icon">Q</div>
-            <div class="profile-icon"></div> </div>
-    </header>
-
-    <main>
-        <section class="top-picks">
-            <div class="section-title">Top picks for you ></div>
-            <div class="movie-list">
-                <div class="movie-card">
-                    <div class="movie-poster">
-                        <img src="placeholder-sonic.jpg" alt="Sonic 3">
-                    </div>
-                    <div class="movie-info">
-                        <div class="movie-title">SONIC3</div>
-                        <div class="price-discount">
-                            <span class="old-price">P790.00</span>
-                            <span class="new-price">P700.00</span>
-                            <span class="discount">85%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="movie-card">
-                    <div class="movie-poster">
-                        <img src="placeholder-wolfman.jpg" alt="Wolf Man">
-                    </div>
-                    <div class="movie-info">
-                        <div class="movie-title">WOLF MAN</div>
-                        <div class="price-discount">
-                            <span class="old-price">P560.00</span>
-                            <span class="new-price">P500.00</span>
-                            <span class="discount">50%</span>
-                        </div>
-                    </div>
-                </div>
-                </div>
-        </section>
-
-        <section class="popular-movies">
-            <div class="section-title">Popular movies ></div>
-            <div class="movie-list">
-                <div class="movie-card">
-                    <div class="movie-poster">
-                        <img src="placeholder-sonic.jpg" alt="Sonic 3">
-                    </div>
-                    <div class="movie-info">
-                        <div class="movie-title">SONIC3</div>
-                        <div class="price-discount">
-                            <span class="old-price">P790.00</span>
-                            <span class="new-price">P700.00</span>
-                            <span class="discount">85%</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="movie-card">
-                    <div class="movie-poster">
-                        <img src="placeholder-wolfman.jpg" alt="Wolf Man">
-                    </div>
-                    <div class="movie-info">
-                        <div class="movie-title">WOLF MAN</div>
-                        <div class="price-discount">
-                            <span class="old-price">P560.00</span>
-                            <span class="new-price">P500.00</span>
-                            <span class="discount">50%</span>
-                        </div>
-                    </div>
-                </div>
-                </div>
-        </section>
-    </main>
-
-    <div class="connect-button">Connect TV</div>
-
-    <nav class="bottom-nav">
-        <div class="nav-item active">
-            <div class="nav-icon">A</div> <div class="nav-text">Home</div>
+    <div id="wrapper">
+        <div id="title">lingK</div>
+        <div id="video-container">
+            <iframe id="youtube-video" allowfullscreen></iframe>
+            <video id="video" controls></video>
         </div>
-        <div class="nav-item">
-            <div class="nav-icon">Π</div> <div class="nav-text">Library</div>
+
+        <div id="categories">
+            </div>
+
+        <div id="footer">
+            This web was created by <a href="https://example.com" target="_blank">Gabriel</a> and this is for free!
         </div>
-        <div class="nav-item">
-            <div class="nav-icon"></div> <div class="nav-text">Watchlist</div>
-        </div>
-    </nav>
+    </div>
 
     <script>
-        // Basic script to handle active class on bottom navigation
-        const navItems = document.querySelectorAll('.bottom-nav .nav-item');
-        navItems.forEach(item => {
-            item.addEventListener('click', function() {
-                navItems.forEach(navItem => navItem.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-    </script>
-</body>
-    </html>
+        const streams = [
+            {
+                name: 'TV5',
+                logo: 'https://i.imgur.com/Ddyfzrn.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd',
+                clearKey: { '2615129ef2c846a9bbd43a641c7303ef': '07c7f996b1734ea288641a68e1cfdc4d' },
+                category: "News"
+            },
+            {
+                name: 'A2Z',
+                logo: 'https://i.imgur.com/43nZ2rv.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
+                clearKey: { 'f703e4c8ec9041eeb5028ab4248fa094': 'c22f2162e176eee6273a5d0b68d19530' },
+                category: "News"
+            },
+            {
+                name: 'GMA Pinoy TV',
+                logo: 'https://i.imgur.com/Eo0f51v.png',
+                type: 'mpegdash',
+                manifestUri: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-abscbn-gma-x7-dash-abscbnono/7c693236-e0c1-40a3-8bd0-bb25e43f5bfc/index.mpd',
+                clearKey: { 'c95ed4c44b0b4f7fa1c6ebbbbaab21a1': '47635b8e885e19f2ccbdff078c207058' },
+                category: "News"
+            },
+            {
+                name: 'TFC',
+                logo: 'https://i.imgur.com/zZWj5vn.png',
+                type: 'mpegdash',
+                manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/7045bc3c-9492-42d4-974e-a3b217776e57/index.mpd',
+                clearKey: { '9568cc84e1d944f38eac304517eab6fd': 'f12142af8f39b3bab79d3679d3665ebe' },
+                category: "News"
+            },
+            {
+                name: 'PBO',
+                logo: 'https://i.imgur.com/buOVATz.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/pbo_sd.mpd',
+                clearKey: { 'dcbdaaa6662d4188bdf97f9f0ca5e830': '31e752b441bd2972f2b98a4b1bc1c7a1' },
+                category: "News"
+            },
+            {
+                name: 'Sari-Sari',
+                logo: 'https://i.imgur.com/MXxN1UO.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_sari_sari_sd.mpd',
+                clearKey: { '0a7ab3612f434335aa6e895016d8cd2d': 'b21654621230ae21714a5cab52daeb9d' },
+                category: "News"
+            },
+            {
+                name: 'Viva Cinema',
+                logo: 'https://i.imgur.com/51RWtvd.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/viva_sd.mpd',
+                clearKey: { '07aa813bf2c147748046edd930f7736e': '3bd6688b8b44e96201e753224adfc8fb' },
+                category: "News"
+            },
+            {
+                name: 'Cinema One',
+                logo: 'https://i.imgur.com/moSPpuJ.png',
+                type: 'hls',
+                manifestUri: 'https://cinemaone-abscbn-ono.amagi.tv/index.m3u8',
+                category: "Local"
+            },
+            {
+                name: 'HallyPop',
+                logo: 'https://i.imgur.com/moSPpuJ.png',
+                type: 'hls',
+                manifestUri: 'https://jungotvstream-chanall.akamaized.net/jungotv/hallypop/stream.m3u8',
+                category: "Local"
+            },
+            {
+                name: 'CineMo!',
+                logo: 'https://i.imgur.com/2Jn7QHG.png',
+                type: 'hls',
+                manifestUri: 'https://cinemo-abscbn-ono.amagi.tv/playlist.m3u8',
+                category: "Local"
+            },
+            {
+                name: 'Jungo Pinoy TV',
+                logo: 'https://i.imgur.com/2Jn7QHG.png',
+                type: 'hls',
+                manifestUri: 'https://jungotvstream-chanall.akamaized.net/jungotv/jungopinoytv/stream.m3u8',
+                category: "Local"
+            },
+            {
+                name: 'ANC',
+                logo: 'https://i.imgur.com/Bcu69bU.png',
+                type: 'mpegdash',
+                manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-anc-global-dash-abscbnono/index.mpd',
+                clearKey: { '4bbdc78024a54662854b412d01fafa16': '6039ec9b213aca913821677a28bd78ae' },
+                category: "News"
+            },
+            {
+                name: 'TVN Movies Pinoy',
+                logo: 'https://imgur.com/12f0Qk8.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_tvnmovie.mpd',
+                clearKey: { '2e53f8d8a5e94bca8f9a1e16ce67df33': '3471b2464b5c7b033a03bb8307d9fa35' },
+                category: "News"
+            },
+            {
+                name: 'TMC',
+                logo: 'https://i.imgur.com/6mNCite.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_tagalogmovie.mpd',
+                clearKey: { '96701d297d1241e492d41c397631d857': 'ca2931211c1a261f082a3a2c4fd9f91b' },
+                category: "News"
+            },{
+                name: 'Animax',
+                logo: 'https://i.imgur.com/iYRTs2n.png',
+                type: 'mpegdash',
+                manifestUri: 'https://tglmp01.akamaized.net/out/v1/de55fad9216e4fe7ad8d2eed456ba1ec/manifest.mpd',
+                clearKey: { 'edf1a715de9748638dd2fad75a419af2': '2f5a3199b26e9b693ae881af7ff864cf' },
+                category: "News"
+            },{
+                name: 'Cartoon Network',
+                logo: 'https://i.imgur.com/R1fV2uY.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-12-prod.akamaized.net/out/u/dr_cartoonnetworkhd.mpd',
+                clearKey: { 'a2d1f552ff9541558b3296b5a932136b': 'cdd48fa884dc0c3a3f85aeebca13d444' },
+                category: "News"
+            },
+            {
+                name: 'Disney Channel',
+                logo: 'https://i.imgur.com/NVRbZfJ.png',
+                type: 'hls',
+                manifestUri: 'https://disney-channel.13l.link/live/Disney/index.m3u8',
+                category: "Kids"
+            },{
+                name: 'DreamWorks Tagalized',
+                logo: 'https://i.imgur.com/fh1Lg7b.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_dreamworktag.mpd',
+                clearKey: { '564b3b1c781043c19242c66e348699c5': 'd3ad27d7fe1f14fb1a2cd5688549fbab' },
+                category: "News"
+            },{
+                name: 'DreamWorks',
+                logo: 'https://i.imgur.com/fh1Lg7b.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_dreamworks_hd1.mpd',
+                clearKey: { '4ab9645a2a0a47edbd65e8479c2b9669': '8cb209f1828431ce9b50b593d1f44079' },
+                category: "News"
+            },
+            {
+                name: 'PBS Kids',
+                logo: 'https://imgur.com/RNtLJ3S.png',
+                type: 'hls',
+                manifestUri: 'https://2-fss-2.streamhoster.com/pl_140/amlst:200914-1298290/chunklist_b2000000.m3u8',
+                category: "Kids"
+            },{
+                name: 'Moonbug Kids',
+                logo: 'https://i.imgur.com/H5Ha3ll.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_moonbug_kids_sd.mpd',
+                clearKey: { '0bf00921bec94a65a124fba1ef52b1cd': '0f1488487cbe05e2badc3db53ae0f29f' },
+                category: "News"
+            },
+            {
+                name: 'Nickelodeon',
+                logo: 'https://i.imgur.com/tIRSRoR.png',
+                type: 'mpegdash',
+                manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/2511/default_primary.mpd',
+                clearKey: { 'd8520e96a1283ab6e5be538474bfa810': 'bda5f7bbc1e44096f779a0619fe9881f' },
+                category: "News"
+            },{
+                name: 'Nick Jr',
+                logo: 'https://i.imgur.com/nliH2PY.png',
+                type: 'mpegdash',
+                manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/9982/default_primary.mpd',
+                clearKey: { 'fa65220c9f76e424173899df533a6d10': 'b4abbee95b69b3e80a0d141272c870db' },
+                category: "News"
+            },{
+                name: 'HBO',
+                logo: 'https://i.imgur.com/fHBIgs6.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cg_hbohd.mpd',
+                clearKey: { 'd47ebabf7a21430b83a8c4b82d9ef6b1': '54c213b2b5f885f1e0290ee4131d425b' },
+                category: "News"
+            },{
+                name: 'HBO Family',
+                logo: 'https://i.imgur.com/WANpEkc.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cg_hbofam.mpd',
+                clearKey: { '872910c843294319800d85f9a0940607': 'f79fd895b79c590708cf5e8b5c6263be' },
+                category: "News"
+            },
+            {
+                name: 'HBO Signature',
+                logo: 'https://i.imgur.com/Q2ki7HC.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_hbosign.mpd',
+                clearKey: { 'a06ca6c275744151895762e0346380f5': '559da1b63eec77b5a942018f14d3f56f' },
+                category: "News"
+            },
+            {
+                name: 'HBO Hits',
+                logo: 'https://i.imgur.com/iCnfJS0.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_hbohits.mpd',
+                clearKey: { 'b04ae8017b5b4601a5a0c9060f6d5b7d': 'a8795f3bdb8a4778b7e888ee484cc7a1' },
+                category: "News"
+            },{
+                name: 'Cinemax',
+                logo: 'https://i.imgur.com/r8qzNiy.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_cinemax.mpd',
+                clearKey: { 'b207c44332844523a3a3b0469e5652d7': 'fe71aea346db08f8c6fbf0592209f955' },
+                category: "News"
+            },{
+                name: 'Hits Now',
+                logo: 'https://i.imgur.com/S3pNx8G.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_hitsnow.mpd',
+                clearKey: { '14439a1b7afc4527bb0ebc51cf11cbc1': '92b0287c7042f271b266cc11ab7541f1' },
+                category: "News"
+            },
+            {
+                name: 'Hits',
+                logo: 'https://i.imgur.com/jghDgUJ.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/hits_hd1.mpd',
+                clearKey: { 'dac605bc197e442c93f4f08595a95100': '975e27ffc1b7949721ee3ccb4b7fd3e5' },
+                category: "News"
+            },{
+                name: 'Hits Movies',
+                logo: 'https://i.imgur.com/zzdj40q.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-12-prod.akamaized.net/out/u/dr_hitsmovies.mpd',
+                clearKey: { 'f56b57b32d7e4b2cb21748c0b56761a7': '3df06a89aa01b32655a77d93e09e266f' },
+                category: "News"
+            },{
+                name: 'AXN',
+                logo: 'https://i.imgur.com/Dj6tVaG.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_axn_sd.mpd',
+                clearKey: { 'fd5d928f5d974ca4983f6e9295dfe410': '3aaa001ddc142fedbb9d5557be43792f' },
+                category: "News"
+            },
+            {
+                name: 'Warner TV',
+                logo: 'https://i.imgur.com/vGEL2Ne.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-11-prod.akamaized.net/out/u/dr_warnertvhd.mpd',
+                clearKey: { '4503cf86bca3494ab95a77ed913619a0': 'afc9c8f627fb3fb255dee8e3b0fe1d71' },
+                category: "News"
+            },{
+                name: 'Rock Action',
+                logo: 'https://i.imgur.com/PJZmoyW.png',
+                type: 'mpegdash',
+                manifestUri: 'https://tglmp04.akamaized.net/out/v1/421a3cd3bdcd492f8f4b5efb2363ed2c/manifest.mpd',
+                clearKey: { '2341c2ecd3cf4865881bb0fa1287de8f': 'ad45202e64f66ef36b3f60fac93cc47f' },
+                category: "News"
+            },{
+                name: 'Rock Entertainment',
+                logo: 'https://i.imgur.com/DP36vpY.png',
+                type: 'mpegdash',
+                manifestUri: 'https://tglmp02.akamaized.net/out/v1/621a7089e63144e4be7891cd9bfb10e2/manifest.mpd',
+                clearKey: { '9229814c629b406f8de98d2f23c968a0': '40b9f250455b43b3b2ea6845ab81abca' },
+                category: "News"
+            },{
+                name: 'Thrill',
+                logo: 'https://i.imgur.com/Szf7VBM.png',
+                type: 'mpegdash',
+                manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_thrill_sd.mpd',
+                clearKey: { '928114ffb2394d14b5585258f70ed183': 'a82edc340bc73447bac16cdfed0a4c62' },
+                category: "News"
+            },
+            {
+                name: 'Lotus Macau',
+                log
