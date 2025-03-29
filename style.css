@@ -1,0 +1,142 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #141414; /* Dark background */
+    color: #fff;
+}
+
+header {
+    background-color: #222;
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid #333;
+}
+
+main {
+    padding: 20px;
+}
+
+.service-list h2 {
+    margin-bottom: 20px;
+    color: #e50914; /* Netflix red accent */
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.service-card {
+    background-color: #222;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease-in-out;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+}
+
+.service-card img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    display: block;
+}
+
+.service-card h3 {
+    margin: 15px 10px 10px;
+    color: #eee;
+}
+
+.service-card p {
+    margin: 0 10px 15px;
+    color: #aaa;
+    font-size: 0.9em;
+}
+
+.service-card .watch-button {
+    display: block;
+    width: 100%;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    padding: 12px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 0 0 8px 8px;
+    transition: background-color 0.3s ease;
+}
+
+.service-card .watch-button:hover {
+    background-color: #c40812;
+}
+
+/* Video Player Modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+.modal-content {
+    position: relative;
+    background-color: #333;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #555;
+    width: 80%; /* Could be more or less, depending on screen size */
+    border-radius: 8px;
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.video-container {
+    position: relative;
+    padding-top: 56.25%; /* 16:9 aspect ratio */
+    background-color: #000;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.video-container video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#modal-title {
+    color: #eee;
+    margin-bottom: 10px;
+}
+
+.stream-info {
+    color: #aaa;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
