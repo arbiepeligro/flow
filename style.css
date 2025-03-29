@@ -1,142 +1,155 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: sans-serif;
+    background-color: #181818;
+    color: #e0e0e0;
     margin: 0;
-    background-color: #141414; /* Dark background */
-    color: #fff;
+    padding-bottom: 60px; /* To accommodate the bottom navigation */
 }
 
 header {
-    background-color: #222;
-    padding: 20px;
-    text-align: center;
-    border-bottom: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.header-icons {
+    display: flex;
+    gap: 20px;
+}
+
+.search-icon {
+    font-size: 1.3em;
+    cursor: pointer;
+}
+
+.profile-icon {
+    width: 30px;
+    height: 30px;
+    background-color: #333; /* Placeholder for profile icon/image */
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 main {
     padding: 20px;
 }
 
-.service-list h2 {
-    margin-bottom: 20px;
-    color: #e50914; /* Netflix red accent */
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.service-card {
-    background-color: #222;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: transform 0.2s ease-in-out;
-}
-
-.service-card:hover {
-    transform: scale(1.05);
-}
-
-.service-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-    display: block;
-}
-
-.service-card h3 {
-    margin: 15px 10px 10px;
-    color: #eee;
-}
-
-.service-card p {
-    margin: 0 10px 15px;
-    color: #aaa;
-    font-size: 0.9em;
-}
-
-.service-card .watch-button {
-    display: block;
-    width: 100%;
-    background-color: #e50914;
-    color: white;
-    border: none;
-    padding: 12px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 1em;
-    cursor: pointer;
-    border-radius: 0 0 8px 8px;
-    transition: background-color 0.3s ease;
-}
-
-.service-card .watch-button:hover {
-    background-color: #c40812;
-}
-
-/* Video Player Modal */
-.modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
-}
-
-.modal-content {
-    position: relative;
-    background-color: #333;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #555;
-    width: 80%; /* Could be more or less, depending on screen size */
-    border-radius: 8px;
-}
-
-.close-button {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.1em;
     font-weight: bold;
-}
-
-.close-button:hover,
-.close-button:focus {
-    color: #fff;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.video-container {
-    position: relative;
-    padding-top: 56.25%; /* 16:9 aspect ratio */
-    background-color: #000;
-    border-radius: 4px;
-    overflow: hidden;
     margin-bottom: 15px;
 }
 
-.video-container video {
-    position: absolute;
-    top: 0;
-    left: 0;
+.section-title > span {
+    cursor: pointer;
+}
+
+.movie-list {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+}
+
+.movie-card {
+    flex: 0 0 auto;
+    width: 150px; /* Adjust as needed */
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #222;
+}
+
+.movie-poster {
     width: 100%;
-    height: 100%;
+    height: auto;
 }
 
-#modal-title {
-    color: #eee;
-    margin-bottom: 10px;
+.movie-poster img {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
-.stream-info {
-    color: #aaa;
+.movie-info {
+    padding: 10px;
+}
+
+.movie-title {
     font-size: 0.9em;
+    font-weight: bold;
     margin-bottom: 5px;
 }
+
+.price-discount {
+    font-size: 0.8em;
+    color: #999;
+}
+
+.new-price {
+    color: #e0e0e0;
+    margin-right: 5px;
+}
+
+.old-price {
+    text-decoration: line-through;
+    margin-right: 5px;
+}
+
+.discount {
+    color: #00c853; /* Example green color */
+}
+
+.connect-button {
+    position: fixed;
+    bottom: 70px; /* Adjust based on bottom nav height */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #e0e0e0;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #181818;
+    border-top: 1px solid #222;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #999;
+    cursor: pointer;
+}
+
+.nav-item.active {
+    color: #e0e0e0;
+}
+
+.nav-icon {
+    font-size: 1.5em;
+    margin-bottom: 5px;
+}
+
+.nav-text {
+    font-size: 0.8em;
+    }
