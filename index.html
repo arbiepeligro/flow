@@ -5,6 +5,86 @@
     <title>Netflix-Style TV Streaming</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s, color 0.3s;
+}
+ 
+.dark-mode {
+  background-color: #141414;
+  color: #ffffff; 
+}
+
+header { 
+  display: flex;
+  align-items: center;
+  padding: 20px; background: black;
+}
+
+.logo { font-size: 28px;
+  font-weight: bold;
+  font-style: italic;
+  color: blue; 
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+video { width: 100%;
+  max-width: 600px;
+  display: block;
+  margin: 20px auto;
+}
+
+.categories, .favorite-list {
+  list-style: none;
+  padding: 0;
+}
+
+.categories li, .favorite-list li {
+  background: gray;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%; 
+  background: black;
+  padding: 10px 0; 
+}
+
+footer nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+footer nav ul li a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+#theme-toggle {
+  margin-left: 10px;
+}
+    
 <body>
     <header class="navbar">
         <div class="logo">Netflix IPTV</div>
