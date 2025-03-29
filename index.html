@@ -1,70 +1,152 @@
-<!DOCTYPE html><html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPTV Streaming Service</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-</head>
-<body>
-    <header>
-        <h1>IPTV Streaming</h1>
-    </header>
-    <main>
-        <div class="video-container">
-            <video id="video" controls></video>
-        </div>
-        <div class="channel-list">
-            <button onclick="loadChannel('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')">Channel 1</button>
-            <button onclick="loadChannel('https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8')">Channel 2</button>
-        </div>
-    </main>
-    <nav class="bottom-navigation">
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Live TV</a></li>
-            <li><a href="#">VOD</a></li>
-            <li><a href="#">Settings</a></li>
-        </ul>
-    </nav>
-    <script>
-        function loadChannel(url) {
-            var video = document.getElementById('video');
-            if (Hls.isSupported()) {
-                var hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = url;
-            }
-            video.play();
-        }
-    </script>
-    <style>
-        .bottom-navigation {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background-color: #333;
-            padding: 10px 0;
-            text-align: center;
-        }
-        .bottom-navigation ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            justify-content: space-around;
-        }
-        .bottom-navigation li {
-            display: inline;
-        }
-        .bottom-navigation a {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            display: block;
-        }
-    </style>
-</body>
-</html>
+import React from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Container,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  TextField,
+  Box,
+} from '@mui/material';
+import { styled } from '@mui/system';
+
+// Styled components for custom styling
+const HeroSection = styled('section')({
+  background: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(images/hero.jpg) center/cover no-repeat',
+  color: '#fff',
+  textAlign: 'center',
+  padding: '10rem 0',
+});
+
+const ServiceCard = styled(Card)({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+});
+
+const ServiceMedia = styled(CardMedia)({
+  paddingTop: '56.25%', // 16:9 aspect ratio
+});
+
+function App() {
+  return (
+    <div>
+      <AppBar position="sticky">
+        <Toolbar>
+          <Typography variant="h6" sx={{ flexGrow: 1 }}>
+            My Company
+          </Typography>
+          <Button color="inherit" href="#home">Home</Button>
+          <Button color="inherit" href="#services">Services</Button>
+          <Button color="inherit" href="#about">About</Button>
+          <Button color="inherit" href="#contact">Contact</Button>
+        </Toolbar>
+      </AppBar>
+
+      <HeroSection id="home">
+        <Container maxWidth="md">
+          <Typography variant="h2" gutterBottom>
+            Welcome to Our Innovative Solutions
+          </Typography>
+          <Typography variant="subtitle1" paragraph>
+            We provide cutting-edge services to help your business thrive.
+          </Typography>
+          <Button variant="contained" color="primary" href="#services">
+            Learn More
+          </Button>
+        </Container>
+      </HeroSection>
+
+      <section id="services" style={{ padding: '5rem 0', backgroundColor: '#f9f9f9' }}>
+        <Container maxWidth="lg">
+          <Typography variant="h4" align="center" gutterBottom>
+            Our Services
+          </Typography>
+          <Grid container spacing={4}>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard>
+                <ServiceMedia image="images/service1.jpg" title="Web Development" />
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Web Development
+                  </Typography>
+                  <Typography variant="body2">
+                    Building responsive and scalable websites.
+                  </Typography>
+                </CardContent>
+              </ServiceCard>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard>
+                <ServiceMedia image="images/service2.jpg" title="Digital Marketing" />
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Digital Marketing
+                  </Typography>
+                  <Typography variant="body2">
+                    Driving online growth through strategic campaigns.
+                  </Typography>
+                </CardContent>
+              </ServiceCard>
+            </Grid>
+            <Grid item xs={12} sm={6} md={4}>
+              <ServiceCard>
+                <ServiceMedia image="images/service3.jpg" title="Consulting" />
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Consulting
+                  </Typography>
+                  <Typography variant="body2">
+                    Providing expert advice for business optimization.
+                  </Typography>
+                </CardContent>
+              </ServiceCard>
+            </Grid>
+          </Grid>
+        </Container>
+      </section>
+
+      <section id="about" style={{ padding: '5rem 0' }}>
+        <Container maxWidth="md">
+          <Typography variant="h4" align="center" gutterBottom>
+            About Us
+          </Typography>
+          <Typography variant="body1" paragraph>
+            We are a team of passionate professionals dedicated to delivering exceptional results. Our mission is to empower businesses with innovative solutions and personalized service.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Our commitment to quality and customer satisfaction sets us apart. We believe in building long-term relationships based on trust and mutual success.
+          </Typography>
+        </Container>
+      </section>
+
+      <section id="contact" style={{ padding: '5rem 0', backgroundColor: '#f9f9f9' }}>
+        <Container maxWidth="sm">
+          <Typography variant="h4" align="center" gutterBottom>
+            Contact Us
+          </Typography>
+          <Box component="form" noValidate autoComplete="off">
+            <TextField fullWidth margin="normal" label="Your Name" required />
+            <TextField fullWidth margin="normal" label="Your Email" type="email" required />
+            <TextField fullWidth margin="normal" label="Your Message" multiline rows={4} required />
+            <Button variant="contained" color="primary" style={{ marginTop: '1rem' }}>
+              Send Message
+            </Button>
+          </Box>
+        </Container>
+      </section>
+
+      <footer style={{ backgroundColor: '#333', color: '#fff', textAlign: 'center', padding: '1rem 0' }}>
+        <Container maxWidth="lg">
+          <Typography variant="body2">
+            &copy; 2024 My Company. All rights reserved.
+          </Typography>
+        </Container>
+      </footer>
+    </div>
+  );
+}
