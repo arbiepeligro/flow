@@ -169,70 +169,78 @@ video, iframe {
 </div>
 
 <div id="footer">lingk STREAMING | ENHANCED BY GITHUB</div>
-
-  </div>  <!-- Navigation Bar -->  <div id="navbar">
-    <div class="nav-item" onclick="showSection('home')">
-      <span class="material-symbols-outlined">home</span>
-      <span>Home</span>
-    </div>
-    <div class="nav-item" onclick="showSection('search')">
-      <span class="material-symbols-outlined">search</span>
-      <span>Search</span>
-    </div>
-    <div class="nav-item" onclick="showSection('me')">
-      <span class="material-symbols-outlined">person</span>
-      <span>Me</span>
-    </div>
-  </div>  <script>
-    const homeWrapper = document.getElementById("categories");
-    const videoContainer = document.getElementById("video-container");
-    const searchSection = document.getElementById("search-section");
-    const meSection = document.getElementById("me-section");
-    const searchInput = document.getElementById("search-input");
-    const searchResults = document.getElementById("search-results");
-
-    const streams = [
-      { name: "TV5", logo: "https://i.imgur.com/Ddyfzrn.png" },
-      { name: "A2Z", logo: "https://i.imgur.com/43nZ2rv.png" },
-      { name: "GMA Pinoy TV", logo: "https://i.imgur.com/Eo0f51v.png" }
-      // ...more channels can be added
-    ];
-
-    searchInput.addEventListener("input", () => {
-      const term = searchInput.value.toLowerCase();
-      searchResults.innerHTML = "";
-      if (term.trim() === "") return;
-
-      const filtered = streams.filter(ch => ch.name.toLowerCase().includes(term));
-
-      filtered.forEach(ch => {
-        const div = document.createElement("div");
-        div.className = "channel-card";
-        div.innerHTML = `<span>${ch.name}</span><img src="${ch.logo}" alt="${ch.name}" class="channel-logo">`;
-        searchResults.appendChild(div);
-      });
-    });
-
-    function showSection(section) {
-      homeWrapper.style.display = section === 'home' ? 'block' : 'none';
-      videoContainer.style.display = section === 'home' ? 'block' : 'none';
-      searchSection.style.display = section === 'search' ? 'block' : 'none';
-      meSection.style.display = section === 'me' ? 'block' : 'none';
-    }
-
-    function toggleMode() {
-      document.body.classList.toggle("light-mode");
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      showSection('home');
-    });
-    </div>
+<!-- Navigation Bar -->
+<div id="navbar">
+  <div class="nav-item" onclick="showSection('home')">
+    <span class="material-symbols-outlined">home</span>
+    <span>Home</span>
   </div>
-    
-  <script>const streams = [
-      {
-        name: 'TV5',
+  <div class="nav-item" onclick="showSection('search')">
+    <span class="material-symbols-outlined">search</span>
+    <span>Search</span>
+  </div>
+  <div class="nav-item" onclick="showSection('me')">
+    <span class="material-symbols-outlined">person</span>
+    <span>Me</span>
+  </div>
+</div>
+
+<!-- Sections (you should make sure these exist in your HTML body) -->
+<div id="categories"></div>
+<div id="video-container"></div>
+<div id="search-section">
+  <input id="search-input" type="text" placeholder="Search..." />
+  <div id="search-results"></div>
+</div>
+<div id="me-section"></div>
+
+<script>
+  const homeWrapper = document.getElementById("categories");
+  const videoContainer = document.getElementById("video-container");
+  const searchSection = document.getElementById("search-section");
+  const meSection = document.getElementById("me-section");
+  const searchInput = document.getElementById("search-input");
+  const searchResults = document.getElementById("search-results");
+
+  const streams = window.streams || [];
+
+  // Search logic
+  searchInput.addEventListener("input", () => {
+    const term = searchInput.value.toLowerCase();
+    searchResults.innerHTML = "";
+    if (term.trim() === "") return;
+
+    const filtered = streams.filter(ch => ch.name.toLowerCase().includes(term));
+
+    filtered.forEach(ch => {
+      const div = document.createElement("div");
+      div.className = "channel-card";
+      div.innerHTML = `<span>${ch.name}</span><img src="${ch.logo}" alt="${ch.name}" class="channel-logo">`;
+      searchResults.appendChild(div);
+    });
+  });
+
+  // Section toggle logic
+  function showSection(section) {
+    homeWrapper.style.display = section === 'home' ? 'block' : 'none';
+    videoContainer.style.display = section === 'home' ? 'block' : 'none';
+    searchSection.style.display = section === 'search' ? 'block' : 'none';
+    meSection.style.display = section === 'me' ? 'block' : 'none';
+  }
+
+  // Theme toggle (optional button needs to be added in HTML)
+  function toggleMode() {
+    document.body.classList.toggle("light-mode");
+  }
+
+  // Initial section setup
+  document.addEventListener("DOMContentLoaded", () => {
+    showSection('home');
+  });
+</script>
+</html>
+ <script>   
+name: 'TV5',
         logo: 'https://i.imgur.com/Ddyfzrn.png',
         type: 'mpegdash',
         manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd',
