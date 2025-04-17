@@ -1,28 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>lingk</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <style>
-      @import url('https://fonts.cdnfonts.com/css/pluto-tv-sans-v10');body {
+    @import url('https://fonts.cdnfonts.com/css/pluto-tv-sans-v10');:root {
+  --bg-color: linear-gradient(blue, black, black, black, black, blue);
+  --text-color: white;
+}
+
+[data-theme="light"] {
+  --bg-color: white;
+  --text-color: black;
+}
+
+body {
   margin: 0;
   font-family: 'Pluto TV Sans V10', sans-serif;
-  background: linear-gradient(blue, black, black, black, black, blue);
-  color: #fff;
+  background: var(--bg-color);
+  color: var(--text-color);
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
+  padding-bottom: 70px;
   transition: background 0.3s, color 0.3s;
-}
-
-.light-mode {
-  background: linear-gradient(white, lightgray);
-  color: black;
 }
 
 #wrapper {
@@ -35,6 +39,29 @@
   font-size: 35px;
   font-weight: 900;
   margin: 20px 0;
+}
+
+#search-section {
+  margin: 20px;
+  text-align: center;
+  display: none;
+}
+
+#search-input {
+  padding: 10px;
+  width: 80%;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+}
+
+#search-info {
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+#search-results {
+  margin-top: 10px;
 }
 
 #video-container {
@@ -54,14 +81,51 @@ video, iframe {
   display: none;
 }
 
-.channel-card {
+.category {
+  margin: 15px 0;
+}
+
+.category-title {
+  font-size: 25px;
+  font-weight: black;
+  margin: 10px 0;
+  text-align: left;
+  padding-left: 10px;
+}
+
+.channel-slider-wrapper {
+  position: relative;
   display: flex;
+  align-items: 10;
+}
+
+.channel-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 5px;
+  scroll-behavior: smooth;
+  flex-grow: 1;
+}
+
+.channel-card {
+  flex: 0 0 auto;
+  width: 80px;
+  background: #00000;
+  border-radius: 8px;
+  text-align: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 10px;
-  border: 1px solid #444;
-  margin: 5px;
-  border-radius: 8px;
+  height: 50px;
+}
+
+.channel-card:hover {
+  transform: scale(1.05);
 }
 
 .channel-logo {
@@ -70,177 +134,131 @@ video, iframe {
   object-fit: contain;
 }
 
-#footer {
-  margin-top: 50px;
-  font-size: 10px;
-  font-weight: bolder;
-  margin-bottom: 50px;
+.channel-name {
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
-#navbar {
+#me-section {
+  border-radius: 50px;
+  padding: 20px;
+  margin: 30px 10px;
+  width: calc(100% - 40px);
+  max-width: 600px;
+  display: none;
+}
+
+#me-section h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+#theme-toggle {
+  cursor: pointer;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background: #f0f0f0;
+  display: inline-block;
+  color: black;
+}
+
+nav {
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
-  background-color: #000000cc;
+  background-color: #111;
   display: flex;
   justify-content: space-around;
-  align-items: center;
-  padding: 8px 0;
-  border-top: 1px solid #ffffff33;
+  padding: 10px 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
   z-index: 1000;
 }
 
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 10px;
-}
-
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-  font-size: 24px;
-  margin-bottom: 4px;
-}
-
-#search-section, #me-section {
-  display: none;
-  padding: 20px;
-  width: 100%;
-  max-width: 600px;
-}
-
-.setting-button {
-  background: none;
-  border: 1px solid #fff;
-  color: #fff;
-  padding: 8px 16px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
-}
-
-#search-results {
-  margin-top: 20px;
-}
-
-.social-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  color: black;
-  padding: 8px 12px;
-  border-radius: 50px;
+nav a {
+  color: white;
   text-decoration: none;
-  font-weight: bold;
+  text-align: center;
+  font-size: 12px;
 }
 
-.social-link img {
-  width: 20px;
-  height: 20px;
+nav svg {
+  width: 24px;
+  height: 24px;
+  fill: white;
+  display: block;
+  margin: 0 auto 4px;
 }
 
   </style>
 </head>
 <body>
   <div id="wrapper">
-    <div id="title">lingk tv</div><div id="video-container">
-  <iframe id="youtube-video" allowfullscreen></iframe>
-  <video id="video" controls></video>
-</div>
-
-<div id="categories"></div>
-
-<div id="search-section">
-  <input id="search-input" type="text" placeholder="Search channel..." style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
+    <div id="title">lingk tv</div>
+    <div id="video-container">
+      <iframe id="youtube-video" allowfullscreen></iframe>
+      <video id="video" controls></video>
+    </div>
+    <div id="categories"></div><div id="search-section">
+  <input type="text" id="search-input" placeholder="Search channels...">
+  <p id="search-info">If you search a channel, the result may appear below.</p>
   <div id="search-results"></div>
 </div>
 
 <div id="me-section">
-  <h3>About Us</h3>
-  <p>Lingk TV is a streaming platform featuring various live channels.</p>
-  <h3>Settings</h3>
-  <button class="setting-button" onclick="toggleMode()">Toggle Dark/Light Mode</button>
-  <h3>Follow Us</h3>
-  <a href="https://facebook.com/@lingktv" target="_blank" class="social-link">
-    <img src="https://img.icons8.com/ios-filled/50/000000/facebook--v1.png" alt="Facebook"> Facebook
+  <h2>Settings</h2>
+  <div id="theme-toggle">Toggle Light/Dark Mode</div>
+
+  <h2 style="margin-top:20px;">About Me</h2>
+  <p>This is lingk TV. Enjoy curated content across categories.</p>
+
+  <h2 style="margin-top:20px;">Follow Us</h2>
+  <a href="https://m.facebook.com/@lingktv" target="_blank">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.596 0 0 .596 0 1.325v21.351C0 23.404.596 24 1.325 24h11.497V14.706h-3.13v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.797.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.763v2.31h3.587l-.467 3.622h-3.12V24h6.116C23.404 24 24 23.404 24 22.675V1.325C24 .596 23.404 0 22.675 0z"/></svg>
   </a>
 </div>
 
-<div id="footer">lingk STREAMING | ENHANCED BY GITHUB</div>
-<!-- Navigation Bar -->
-<div id="navbar">
-  <div class="nav-item" onclick="showSection('home')">
-    <span class="material-symbols-outlined">home</span>
-    <span>Home</span>
-  </div>
-  <div class="nav-item" onclick="showSection('search')">
-    <span class="material-symbols-outlined">search</span>
-    <span>Search</span>
-  </div>
-  <div class="nav-item" onclick="showSection('me')">
-    <span class="material-symbols-outlined">person</span>
-    <span>Me</span>
-  </div>
+<div id="footer">
+  lingk STREAMING | ENHANCED BY GITHUB
 </div>
 
-<!-- Sections (you should make sure these exist in your HTML body) -->
-<div id="categories"></div>
-<div id="video-container"></div>
-<div id="search-section">
-  <input id="search-input" type="text" placeholder="Search..." />
-  <div id="search-results"></div>
-</div>
-<div id="me-section"></div>
-
-<script>
-  const homeWrapper = document.getElementById("categories");
-  const videoContainer = document.getElementById("video-container");
-  const searchSection = document.getElementById("search-section");
-  const meSection = document.getElementById("me-section");
-  const searchInput = document.getElementById("search-input");
-  const searchResults = document.getElementById("search-results");
-
-  const streams = window.streams || [];
-
-  // Search logic
-  searchInput.addEventListener("input", () => {
-    const term = searchInput.value.toLowerCase();
-    searchResults.innerHTML = "";
-    if (term.trim() === "") return;
-
-    const filtered = streams.filter(ch => ch.name.toLowerCase().includes(term));
-
-    filtered.forEach(ch => {
-      const div = document.createElement("div");
-      div.className = "channel-card";
-      div.innerHTML = `<span>${ch.name}</span><img src="${ch.logo}" alt="${ch.name}" class="channel-logo">`;
-      searchResults.appendChild(div);
+  </div>  <nav>
+    <a href="#" onclick="toggleSection('home')">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/></svg>
+      Home
+    </a>
+    <a href="#" onclick="toggleSection('search')">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M11 2a9 9 0 1 0 5.921 15.81l3.634 3.635a1 1 0 0 0 1.414-1.415l-3.634-3.635A9 9 0 0 0 11 2Zm-7 9a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z" clip-rule="evenodd"/></svg>
+      Search
+    </a>
+    <a href="#" onclick="toggleSection('me')">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4Z"/><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
+      Me
+    </a>
+  </nav>  <script>
+    document.getElementById("theme-toggle").addEventListener("click", function () {
+      const body = document.body;
+      const isLight = body.getAttribute("data-theme") === "light";
+      body.setAttribute("data-theme", isLight ? "dark" : "light");
     });
-  });
 
-  // Section toggle logic
-  function showSection(section) {
-    homeWrapper.style.display = section === 'home' ? 'block' : 'none';
-    videoContainer.style.display = section === 'home' ? 'block' : 'none';
-    searchSection.style.display = section === 'search' ? 'block' : 'none';
-    meSection.style.display = section === 'me' ? 'block' : 'none';
-  }
-
-  // Theme toggle (optional button needs to be added in HTML)
-  function toggleMode() {
-    document.body.classList.toggle("light-mode");
-  }
-
-  // Initial section setup
-  document.addEventListener("DOMContentLoaded", () => {
-    showSection('home');
-  });
-</script>
+    function toggleSection(section) {
+      document.getElementById("search-section").style.display = section === 'search' ? 'block' : 'none';
+      document.getElementById("me-section").style.display = section === 'me' ? 'block' : 'none';
+      document.getElementById("video-container").style.display = section === 'home' ? 'block' : 'none';
+      document.getElementById("categories").style.display = section === 'home' ? 'block' : 'none';
+    }
+  </script></body>
 </html>
- <script>   
-name: 'TV5',
+  <script>const streams = [
+      {
+        name: 'TV5',
         logo: 'https://i.imgur.com/Ddyfzrn.png',
         type: 'mpegdash',
         manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd',
@@ -1030,5 +1048,4 @@ name: 'TV5',
     document.addEventListener("DOMContentLoaded", initializeUI);
   </script>
 </body>
-</html>
-
+</html
