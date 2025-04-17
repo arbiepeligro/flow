@@ -6,160 +6,168 @@
   <title>lingk</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
   <style>
-      @import url('https://fonts.cdnfonts.com/css/pluto-tv-sans-v10');
-                
-    body {
-      margin: 0;
-      font-family: 'Pluto TV Sans V10', sans-serif;
-      background: linear-gradient(blue, black, black, black, black, blue);
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-    }
+      @import url('https://fonts.cdnfonts.com/css/pluto-tv-sans-v10');body {
+  margin: 0;
+  font-family: 'Pluto TV Sans V10', sans-serif;
+  background: linear-gradient(blue, black, black, black, black, blue);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  transition: background 0.3s, color 0.3s;
+}
 
-    #wrapper {
-      width: 100%;
-      max-width: 1200px;
-      text-align: center;
-    }
+.light-mode {
+  background: linear-gradient(white, lightgray);
+  color: black;
+}
 
-    #title {
-      font-size: 35px;
-      font-weight: 900;
-      margin: 20px 0;
-      color: #FFFFFF;
-    }
+#wrapper {
+  width: 100%;
+  max-width: 1200px;
+  text-align: center;
+}
 
-    #video-container {
-      position: relative;
-      width: 100%;
-      margin-bottom: 20px;
-      aspect-ratio: 16 / 9;
-    }
+#title {
+  font-size: 35px;
+  font-weight: 900;
+  margin: 20px 0;
+}
 
-    video, iframe {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      box-shadow: 0 4px 50px rgba(0, 0, 0, 0.7);
-      z-index: 2;
-      position: relative;
-      display: none;
-    }
+#video-container {
+  position: relative;
+  width: 100%;
+  margin-bottom: 20px;
+  aspect-ratio: 16 / 9;
+}
 
-    .category {
-      margin: 15px 0;
-    }
+video, iframe {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 50px rgba(0, 0, 0, 0.7);
+  z-index: 2;
+  position: relative;
+  display: none;
+}
 
-    .category-title {
-      font-size: 25px;
-      font-weight: black;
-      margin: 10px 0;
-      text-align: left;
-      padding-left: 10px;
-    }
+.category {
+  margin: 15px 0;
+}
 
-    .channel-slider-wrapper {
-      position: relative;
-      display: flex;
-      align-items: 10;
-    }
+.category-title {
+  font-size: 25px;
+  font-weight: black;
+  margin: 10px 0;
+  text-align: left;
+  padding-left: 10px;
+}
 
-    .channel-slider {
-      display: flex;
-      overflow-x: auto;
-      gap: 10px;
-      padding: 5px;
-      scroll-behavior: smooth;
-      flex-grow: 1;
-    }
+.channel-slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: 10;
+}
 
-    .channel-slider::-webkit-scrollbar {
-      height: 2px;
-    }
+.channel-slider {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 5px;
+  scroll-behavior: smooth;
+  flex-grow: 1;
+}
 
-    .channel-slider::-webkit-scrollbar-thumb {
-      background: #FFFFFF;
-      border-radius: 4px;
-    }
+.channel-slider::-webkit-scrollbar {
+  height: 2px;
+}
 
-    .arrow-button {
-      background: 0;
-      color: white;
-      border: none;
-      padding: 15px;
-      cursor: pointer;
-      z-index: 10;
-      font-size: 24px;
-      border-radius: 50%;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
+.channel-slider::-webkit-scrollbar-thumb {
+  background: #FFFFFF;
+  border-radius: 4px;
+}
 
-    .arrow-left {
-      margin-right: 10px;
-    }
+.arrow-button {
+  background: 0;
+  color: white;
+  border: none;
+  padding: 15px;
+  cursor: pointer;
+  z-index: 10;
+  font-size: 24px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
 
-    .arrow-right {
-      margin-left: 10px;
-    }
+.channel-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #444;
+  margin: 5px;
+  border-radius: 8px;
+}
 
-    .channel-card {
-      flex: 0 0 auto;
-      width: 80px;
-      background: #00000;
-      border-radius: 8px;
-      text-align: center;
-      padding: 10px;
-      cursor: pointer;
-      transition: transform 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-between;
-      height: 50px;
-    }
+.channel-logo {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
 
-    .channel-card:hover {
-      transform: scale(1.05);
-    }
+#footer {
+  margin-top: 50px;
+  font-size: 10px;
+  font-weight: bolder;
+  margin-bottom: 50px;
+}
 
-    .channel-logo {
-      width: 50px;
-      height: 50px;
-      object-fit: contain;
-      border-radius: 0px;
-    }
+#navbar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #000000cc;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  border-top: 1px solid #ffffff33;
+  z-index: 1000;
+}
 
-    .channel-name {
-      font-size: 12px;
-      font-weight: bold;
-      color: #FFFFFF;
-      text-align: center;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      width: 100%;
-    }
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 10px;
+}
 
-    #footer {
-      margin-top: 50px;
-      font-size: 10px;
-      font-weight: bolder;
-      color: #FFFFFF;
-      margin-bottom: 20px;
-    }
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  font-size: 24px;
+  margin-bottom: 4px;
+}
 
-    #footer a {
-      color: #FFFFFF;
-      text-decoration: none;
-    }
+#search-section, #me-section {
+  display: none;
+  padding: 20px;
+  width: 100%;
+  max-width: 600px;
+}
 
-    #footer a:hover {
-      text-decoration: underline;
-    }
+.setting-button {
+  background: none;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
   </style>
 </head>
 <body>
@@ -168,17 +176,61 @@
     <div id="video-container">
       <iframe id="youtube-video" allowfullscreen></iframe>
       <video id="video" controls></video>
-    </div>
+    </div><div id="categories"></div>
 
-    <div id="categories">
-      <!-- Categories will be generated dynamically -->
+<div id="search-section">
+  <input type="text" placeholder="Search channel..." style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
+  <div class="category">
+    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+      <div>FREE TV</div>
+      <img src="https://i.imgur.com/Ddyfzrn.png" alt="TV5" class="channel-logo">
     </div>
-
-    <div id="footer">
-      lingk STREAMING | ENHANCED BY GITHUB
-    </div>
+    <!-- Add more categories and logos here -->
   </div>
+</div>
 
+<div id="me-section">
+  <h3>About Us</h3>
+  <p>Lingk TV is a streaming platform featuring various live channels.</p>
+  <h3>Settings</h3>
+  <button class="setting-button" onclick="toggleMode()">Toggle Dark/Light Mode</button>
+</div>
+
+<div id="footer">lingk STREAMING | ENHANCED BY GITHUB</div>
+
+  </div>  <!-- Navigation Bar -->  <div id="navbar">
+    <div class="nav-item" onclick="showSection('home')">
+      <span class="material-symbols-outlined">home</span>
+      <span>Home</span>
+    </div>
+    <div class="nav-item" onclick="showSection('search')">
+      <span class="material-symbols-outlined">search</span>
+      <span>Search</span>
+    </div>
+    <div class="nav-item" onclick="showSection('me')">
+      <span class="material-symbols-outlined">person</span>
+      <span>Me</span>
+    </div>
+  </div>  <script>
+    const homeWrapper = document.getElementById("categories");
+    const searchSection = document.getElementById("search-section");
+    const meSection = document.getElementById("me-section");
+
+    function showSection(section) {
+      homeWrapper.style.display = section === 'home' ? 'block' : 'none';
+      searchSection.style.display = section === 'search' ? 'block' : 'none';
+      meSection.style.display = section === 'me' ? 'block' : 'none';
+    }
+
+    function toggleMode() {
+      document.body.classList.toggle("light-mode");
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      showSection('home');
+    });
+  </script></body>
+</html>
   <script>const streams = [
       {
         name: 'TV5',
@@ -972,3 +1024,4 @@
   </script>
 </body>
 </html>
+
