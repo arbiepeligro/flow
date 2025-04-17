@@ -54,54 +54,6 @@ video, iframe {
   display: none;
 }
 
-.category {
-  margin: 15px 0;
-}
-
-.category-title {
-  font-size: 25px;
-  font-weight: black;
-  margin: 10px 0;
-  text-align: left;
-  padding-left: 10px;
-}
-
-.channel-slider-wrapper {
-  position: relative;
-  display: flex;
-  align-items: 10;
-}
-
-.channel-slider {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 5px;
-  scroll-behavior: smooth;
-  flex-grow: 1;
-}
-
-.channel-slider::-webkit-scrollbar {
-  height: 2px;
-}
-
-.channel-slider::-webkit-scrollbar-thumb {
-  background: #FFFFFF;
-  border-radius: 4px;
-}
-
-.arrow-button {
-  background: 0;
-  color: white;
-  border: none;
-  padding: 15px;
-  cursor: pointer;
-  z-index: 10;
-  font-size: 24px;
-  border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-}
-
 .channel-card {
   display: flex;
   align-items: center;
@@ -168,25 +120,41 @@ video, iframe {
   margin-top: 10px;
 }
 
+#search-results {
+  margin-top: 20px;
+}
+
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  color: black;
+  padding: 8px 12px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.social-link img {
+  width: 20px;
+  height: 20px;
+}
+
   </style>
 </head>
 <body>
   <div id="wrapper">
-    <div id="title">lingk tv</div>
-    <div id="video-container">
-      <iframe id="youtube-video" allowfullscreen></iframe>
-      <video id="video" controls></video>
-    </div><div id="categories"></div>
+    <div id="title">lingk tv</div><div id="video-container">
+  <iframe id="youtube-video" allowfullscreen></iframe>
+  <video id="video" controls></video>
+</div>
+
+<div id="categories"></div>
 
 <div id="search-section">
-  <input type="text" placeholder="Search channel..." style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
-  <div class="category">
-    <div style="display: flex; justify-content: space-between; margin-top: 20px;">
-      <div>FREE TV</div>
-      <img src="https://i.imgur.com/Ddyfzrn.png" alt="TV5" class="channel-logo">
-    </div>
-    <!-- Add more categories and logos here -->
-  </div>
+  <input id="search-input" type="text" placeholder="Search channel..." style="width: 100%; padding: 10px; border-radius: 5px; border: none;">
+  <div id="search-results"></div>
 </div>
 
 <div id="me-section">
@@ -194,6 +162,10 @@ video, iframe {
   <p>Lingk TV is a streaming platform featuring various live channels.</p>
   <h3>Settings</h3>
   <button class="setting-button" onclick="toggleMode()">Toggle Dark/Light Mode</button>
+  <h3>Follow Us</h3>
+  <a href="https://facebook.com/@lingktv" target="_blank" class="social-link">
+    <img src="https://img.icons8.com/ios-filled/50/000000/facebook--v1.png" alt="Facebook"> Facebook
+  </a>
 </div>
 
 <div id="footer">lingk STREAMING | ENHANCED BY GITHUB</div>
@@ -213,11 +185,37 @@ video, iframe {
     </div>
   </div>  <script>
     const homeWrapper = document.getElementById("categories");
+    const videoContainer = document.getElementById("video-container");
     const searchSection = document.getElementById("search-section");
     const meSection = document.getElementById("me-section");
+    const searchInput = document.getElementById("search-input");
+    const searchResults = document.getElementById("search-results");
+
+    const streams = [
+      { name: "TV5", logo: "https://i.imgur.com/Ddyfzrn.png" },
+      { name: "A2Z", logo: "https://i.imgur.com/43nZ2rv.png" },
+      { name: "GMA Pinoy TV", logo: "https://i.imgur.com/Eo0f51v.png" }
+      // ...more channels can be added
+    ];
+
+    searchInput.addEventListener("input", () => {
+      const term = searchInput.value.toLowerCase();
+      searchResults.innerHTML = "";
+      if (term.trim() === "") return;
+
+      const filtered = streams.filter(ch => ch.name.toLowerCase().includes(term));
+
+      filtered.forEach(ch => {
+        const div = document.createElement("div");
+        div.className = "channel-card";
+        div.innerHTML = `<span>${ch.name}</span><img src="${ch.logo}" alt="${ch.name}" class="channel-logo">`;
+        searchResults.appendChild(div);
+      });
+    });
 
     function showSection(section) {
       homeWrapper.style.display = section === 'home' ? 'block' : 'none';
+      videoContainer.style.display = section === 'home' ? 'block' : 'none';
       searchSection.style.display = section === 'search' ? 'block' : 'none';
       meSection.style.display = section === 'me' ? 'block' : 'none';
     }
