@@ -86,7 +86,7 @@ video, iframe {
 
 .category-title {
   font-size: 25px;
-  font-weight: black;
+  font-weight: 200;
   margin: 10px 0;
   text-align: left;
   padding-left: 10px;
@@ -109,11 +109,9 @@ video, iframe {
 
 .channel-card {
   flex: 0 0 auto;
-  width: 90px;
-  border-width: 2px
-  border-style: solid;
-  border-color: white:
-  border-radius: 8px;
+  width: 60px;
+  border: 2px solid #fff;
+  border-radius: 60px;
   text-align: center;
   padding: 10px;
   cursor: pointer;
@@ -137,9 +135,9 @@ video, iframe {
 
 .channel-name {
   font-size: 10px;
-  font-weight: 900;
+  font-weight: 500;
   text-align: center;
-  white-space: nowrap;
+  white-space: pre-wrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
@@ -223,7 +221,7 @@ nav svg {
 
 <div id="footer"> 
   <footer style= "font-size: 9px;" </footer>
-  © 2025. lingk Streaming Service . All Right Reserved
+  © 2025 lingk Streaming . All Right Reserved
 </div>
 
   </div>  <nav>
@@ -318,25 +316,11 @@ nav svg {
         manifestUri: 'https://cinemaone-abscbn-ono.amagi.tv/index.m3u8',
         category: "ENTERTAINMENT"
       },
-  {
-        name: 'HallyPop',
-        logo: 'https://i.imgur.com/moSPpuJ.png',
-        type: 'hls',
-        manifestUri: 'https://jungotvstream-chanall.akamaized.net/jungotv/hallypop/stream.m3u8',
-        category: "ENTERTAINMENT"
-      },
                    {
         name: 'CineMo!',
         logo: 'https://i.imgur.com/2Jn7QHG.png',
         type: 'hls',
         manifestUri: 'https://cinemo-abscbn-ono.amagi.tv/playlist.m3u8',
-        category: "MOVIES"
-      },
-                     {
-        name: 'Jungo Pinoy TV',
-        logo: 'https://i.imgur.com/2Jn7QHG.png',
-        type: 'hls',
-        manifestUri: 'https://jungotvstream-chanall.akamaized.net/jungotv/jungopinoytv/stream.m3u8',
         category: "MOVIES"
       },
       {
@@ -379,13 +363,6 @@ nav svg {
         clearKey: { 'a2d1f552ff9541558b3296b5a932136b': 'cdd48fa884dc0c3a3f85aeebca13d444' },
         category: "KIDS"
       },
-                   {
-        name: 'Disney Channel',
-        logo: 'https://i.imgur.com/NVRbZfJ.png',
-        type: 'hls',
-        manifestUri: 'https://disney-channel.13l.link/live/Disney/index.m3u8',
-        category: "KIDS"
-      },
 {
         name: 'DreamWorks Tagalized',
         logo: 'https://i.imgur.com/fh1Lg7b.png',
@@ -400,13 +377,6 @@ nav svg {
         type: 'mpegdash',
         manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_dreamworks_hd1.mpd',
         clearKey: { '4ab9645a2a0a47edbd65e8479c2b9669': '8cb209f1828431ce9b50b593d1f44079' },
-        category: "KIDS"
-      },
-                         {
-        name: 'PBS Kids',
-        logo: 'https://imgur.com/RNtLJ3S.png',
-        type: 'hls',
-        manifestUri: 'https://2-fss-2.streamhoster.com/pl_140/amlst:200914-1298290/chunklist_b2000000.m3u8',
         category: "KIDS"
       },
 {
@@ -647,14 +617,6 @@ nav svg {
         manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cnn_rptv_prod_hd.mpd',
         clearKey: { '1917f4caf2364e6d9b1507326a85ead6': 'a1340a251a5aa63a9b0ea5d9d7f67595' },
         category: "FREE TV" 
-      },
-{
-        name: 'MPTV',
-        logo: 'https://i.imgur.com/BMCnoRn.png',
-        type: 'mpegdash',
-        manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_mptv.mpd',
-        clearKey: { '6aab8f40536f4ea98e7c97b8f3aa7d4e': '139aa5a55ade471faaddacc4f4de8807' },
-        category: "SPORTS"
       },
 {
         name: 'UAAP Varsity',
