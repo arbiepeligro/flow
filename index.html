@@ -86,7 +86,7 @@ video, iframe {
 
 .category-title {
   font-size: 25px;
-  font-weight: 200;
+  font-weight: 500;
   margin: 10px 0;
   text-align: left;
   padding-left: 10px;
@@ -110,7 +110,7 @@ video, iframe {
 .channel-card {
   flex: 0 0 auto;
   width: 60px;
-  border: 2px solid #fff;
+  border: 1px solid #fff;
   border-radius: 60px;
   text-align: center;
   padding: 10px;
@@ -141,6 +141,36 @@ video, iframe {
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+
+.connection-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+  font-size: 0.85rem;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  animation: fadeNotice 3s ease-in-out forwards;
+  z-index: 9999;
+}
+
+.emoji {
+  font-size: 1.4rem;
+  margin-bottom: 4px;
+}
+
+@keyframes fadeNotice {
+  0% { opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { opacity: 0; }
 }
 
 #me-section {
@@ -250,7 +280,37 @@ nav svg {
       document.getElementById("video-container").style.display = section === 'home' ? 'block' : 'none';
       document.getElementById("categories").style.display = section === 'home' ? 'block' : 'none';
     }
-  </script></body>
+    
+    const connectionMessage = document.getElementById("connectionMessage");
+    const emojiIcon = document.getElementById("emojiIcon");
+    const messageText = document.getElementById("messageText");
+    let wasOffline = false;
+
+    function showMessage(online) {
+      if (online && wasOffline) {
+        emojiIcon.innerText = "🤩";
+        messageText.innerText = "You're back online";
+        showNotice();
+        wasOffline = false;
+      } else if (!online) {
+        emojiIcon.innerText = "🙁";
+        messageText.innerText = "Please check your internet connection";
+        showNotice();
+        wasOffline = true;
+      }
+    }
+
+    function showNotice() {
+      connectionMessage.style.display = "flex";
+      setTimeout(() => {
+        connectionMessage.style.display = "none";
+      }, 3000);
+    }
+
+    window.addEventListener('online', () => showMessage(true));
+    window.addEventListener('offline', () => showMessage(false));
+  </script>
+</body>
 </html>
   <script>const streams = [
       {
