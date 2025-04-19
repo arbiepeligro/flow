@@ -1,260 +1,252 @@
-<!DOCTYPE html><html lang="en">  
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>lingk tv</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <link href="https://fonts.cdnfonts.com/css/pluto-tv-sans-v10" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css" />
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js"></script>
+  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+  <script>
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+      if (isAvailable) {
+        cast.framework.CastContext.getInstance().setOptions({
+          receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+          autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+        });
+      }
+    };
+  </script>
   <style>
-    @import url('https://fonts.cdnfonts.com/css/pluto-tv-sans-v10');:root {
-  --bg-color: linear-gradient(blue, black, black, black, black, blue);
-  --text-color: white;
-}
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: 'Pluto TV Sans V10', sans-serif;
+      color: #ffff00;
+      padding-bottom: 140px;
+    }
 
-[data-theme="light"] {
-  --bg-color: white;
-  --text-color: black;
-}
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      padding: 10px 20px;
+    }
 
-body {
-  margin: 0;
-  font-family: 'Pluto TV Sans V10', sans-serif;
-  background: var(--bg-color);
-  color: var(--text-color);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding-bottom: 70px;
-  transition: background 0.3s, color 0.3s;
-}
+    google-cast-button {
+      --cast-button-color: #ffff00;
+    }
 
-#wrapper {
-  width: 100%;
-  max-width: 1200px;
-  text-align: center;
-}
+    .profile-menu {
+      position: relative;
+      cursor: pointer;
+    }
 
-#title {
-  font-size: 35px;
-  font-weight: 900;
-  margin: 20px 0;
-}
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #222;
+      padding: 10px;
+      border-radius: 10px;
+      top: 40px;
+      width: 180px;
+      font-size: 14px;
+      z-index: 999;
+    }
 
-#search-section {
-  margin: 20px;
-  text-align: center;
-  display: none;
-}
+    .profile-dropdown a {
+      display: block;
+      padding: 6px 0;
+      color: #ffff00;
+      text-decoration: none;
+    }
 
-#search-input {
-  padding: 10px;
-  width: 80%;
-  border-radius: 50px;
-  border: none;
-  font-size: 16px;
-}
+    .profile-menu:hover .profile-dropdown {
+      display: block;
+    }
 
-#search-info {
-  font-size: 12px;
-  margin-top: 5px;
-}
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1;
+      vertical-align: middle;
+    }
 
-#search-results {
-  margin-top: 10px;
-}
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
 
-#video-container {
-  position: relative;
-  width: 100%;
-  margin-bottom: 20px;
-  aspect-ratio: 16 / 9;
-}
+    .logo {
+      font-size: 40px;
+      font-weight: 1000;
+    }
 
-video, iframe {
-  width: 100%;
-  height: 100%;
-  border-radius: 10px;
-  box-shadow: 0 4px 50px rgba(0, 0, 0, 0.7);
-  z-index: 2;
-  position: relative;
-  display: none;
-}
+    .category-section {
+      padding: 10px 20px;
+    }
 
-.category {
-  margin: 15px 0;
-}
+    .category-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ffff00;
+      padding-bottom: 4px;
+    }
 
-.category-title {
-  font-size: 25px;
-  font-weight: 500;
-  margin: 10px 0;
-  text-align: left;
-  padding-left: 10px;
-}
+    .channel-slider-wrapper {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
 
-.channel-slider-wrapper {
-  position: relative;
-  display: flex;
-  align-items: 10;
-}
+    .channel-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 10px;
+      padding: 10px 0;
+    }
 
-.channel-slider {
-  display: flex;
-  overflow-x: auto;
-  gap: 10px;
-  padding: 5px;
-  scroll-behavior: smooth;
-  flex-grow: 1;
-}
+    .channel-slider::-webkit-scrollbar {
+      height: 6px;
+    }
 
-.channel-card {
-  flex: 0 0 auto;
-  width: 60px;
-  border: 1px solid #fff;
-  border-radius: 60px;
-  text-align: center;
-  padding: 10px;
-  cursor: pointer;
-  transition: transform 0.2s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 60px;
-}
+    .channel-slider::-webkit-scrollbar-thumb {
+      background: #ffff00;
+      border-radius: 3px;
+    }
 
-.channel-card:hover {
-  transform: scale(1.05);
-}
+    .channel-logo {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #ffff00;
+      border-radius: 50%;
+      object-fit: contain;
+      background-color: #222;
+      padding: 8px;
+      cursor: pointer;
+    }
 
-.channel-logo {
-  width: 40px;
-  height: 40px;
-  object-fit: contain;
-}
+    #video-container {
+      width: 100%;
+      max-width: 960px;
+      margin: 20px auto;
+      display: none;
+    }
 
-.channel-name {
-  font-size: 10px;
-  font-weight: 500;
-  text-align: center;
-  white-space: pre-wrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-}
+    video {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #000;
+    }
+.footer-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #111;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0;
+      border-top: 1px solid #333;
+      z-index: 1000;
+    }
 
-#me-section {
-  margin: 20px;
-  display: none;
-  text-align: center;
-}
+    .footer-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffff00;
+      font-size: 14px;
+      cursor: pointer;
+    }
 
-#me-section h2 {
-  font-size: 20px;
-  text-align: center;
-}
+    .footer-item .material-symbols-outlined {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
 
-#theme-toggle {
-  cursor: pointer;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  background: #f0f0f0;
-  display: inline-block;
-  color: black;
-}
+    .footer-search-box {
+      display: none;
+      padding: 10px 20px;
+      background-color: #111;
+    }
 
-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background-color: #111;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  box-shadow: 0 -2px 10px rgba(0,0,0,0.5);
-  z-index: 1000;
-}
+    .footer-search-box.active {
+      display: block;
+    }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  text-align: center;
-  font-size: 12px;
-}
+    .footer-search-input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      background-color: #222;
+      color: #ffff00;
+      outline: none;
+    }
 
-nav svg {
-  width: 24px;
-  height: 24px;
-  fill: white;
-  display: block;
-  margin: 0 auto 4px;
-}
+    .search-results {
+      padding: 10px 20px;
+    }
 
+    .search-result {
+      padding: 8px 10px;
+      border-bottom: 1px solid #333;
+      color: #ffff00;
+      cursor: pointer;
+    }
+
+    .search-result:hover {
+      background-color: #222;
+    }
   </style>
 </head>
 <body>
-  <div id="wrapper">
-    <div id="title">lingk tv</div>
-    <div id="video-container">
-      <iframe id="youtube-video" allowfullscreen></iframe>
-      <video id="video" controls></video>
+  <nav class="navbar">
+    <div class="logo">lingk tv</div>
+    <google-cast-button style="height: 24px; width: 24px; margin-right: 15px;"></google-cast-button>
+    <div class="profile-menu">
+      <span class="material-symbols-outlined" style="font-size: 30px;">account_circle</span>
+      <div class="profile-dropdown">
+        <a href="#">Sign In / Log In</a>
+        <a href="#">About Us</a>
+        <a href="https://facebook.com" target="_blank">
+          <span class="material-symbols-outlined" style="font-size: 16px;">thumb_up</span> Follow Us on Facebook
+        </a>
+      </div>
     </div>
-    <div id="categories"></div><div id="search-section">
-  <input type="text" id="search-input" placeholder="Search channels...">
-  <p id="search-info">If you search a channel, the result may appear below.</p>
-  <div id="search-results"></div>
-</div>
+  </nav>
 
-<div id="me-section">
-  <h2>Settings</h2>
-  <div id="theme-toggle">Toggle Light/Dark Mode</div>
+  <div class="footer-search-box" id="footerSearchBox">
+    <input type="text" id="searchInput" class="footer-search-input" placeholder="Search channels..." />
+  </div>
 
-  <h2 style="margin-top:20px;">About Me</h2>
-  <p>Lingk TV is a free-to-watch streaming platform operated by Lingk Streaming Service Limited. Created with the mission of making global content accessible to everyone, Lingk TV curates channels from not only the Philippines but also from international broadcasters, offering a rich mix of entertainment, news, documentaries, and lifestyle programming.</p>
-  <h2 style="margin-top:20px;">Follow Us</h2>
-  <a href="https://m.facebook.com/@lingktv" target="_blank">
-    <svg xmlns ="https://uxwing.com/facebook-app-round-white-icon/" width="30" height="30" fill="white" viewBox="0 0 24 24"><path d="M22.675 0h-21.35C.596 0 0 .596 0 1.325v21.351C0 23.404.596 24 1.325 24h11.497V14.706h-3.13v-3.622h3.13V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.464.099 2.797.143v3.24l-1.918.001c-1.504 0-1.796.715-1.796 1.763v2.31h3.587l-.467 3.622h-3.12V24h6.116C23.404 24 24 23.404 24 22.675V1.325C24 .596 23.404 0 22.675 0z"/></svg>
-  </a>
-</div>
+  <div class="search-results" id="searchResults"></div>
+  <div id="video-container">
+    <video id="video" controls autoplay></video>
+  </div>
+  <div id="channel-container"></div>
 
-<div id="footer"> 
-  <footer style= "font-size: 9px;" </footer>
-  © 2025 lingk Streaming . All Right Reserved
-</div>
-
-  </div>  <nav>
-    <a href="#" onclick="toggleSection('home')">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M11.293 3.293a1 1 0 0 1 1.414 0l6 6 2 2a1 1 0 0 1-1.414 1.414L19 12.414V19a2 2 0 0 1-2 2h-3a1 1 0 0 1-1-1v-3h-2v3a1 1 0 0 1-1 1H7a2 2 0 0 1-2-2v-6.586l-.293.293a1 1 0 0 1-1.414-1.414l2-2 6-6Z" clip-rule="evenodd"/></svg>
-      Home
-    </a>
-    <a href="#" onclick="toggleSection('search')">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M11 2a9 9 0 1 0 5.921 15.81l3.634 3.635a1 1 0 0 0 1.414-1.415l-3.634-3.635A9 9 0 0 0 11 2Zm-7 9a7 7 0 1 1 14 0 7 7 0 0 1-14 0Z" clip-rule="evenodd"/></svg>
-      Search
-    </a>
-    <a href="#" onclick="toggleSection('me')">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12 14c-4.418 0-8 1.79-8 4v2h16v-2c0-2.21-3.582-4-8-4Z"/><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/></svg>
-      Me
-    </a>
-  </nav>  <script>
-    document.getElementById("theme-toggle").addEventListener("click", function () {
-      const body = document.body;
-      const isLight = body.getAttribute("data-theme") === "light";
-      body.setAttribute("data-theme", isLight ? "dark" : "light");
-    });
-
-    function toggleSection(section) {
-      document.getElementById("search-section").style.display = section === 'search' ? 'block' : 'none';
-      document.getElementById("me-section").style.display = section === 'me' ? 'block' : 'none';
-      document.getElementById("video-container").style.display = section === 'home' ? 'block' : 'none';
-      document.getElementById("categories").style.display = section === 'home' ? 'block' : 'none';
-    }
-  </script>
-</body>
-</html>
-  <script>const streams = [
-      {
+  <footer class="footer-nav">
+    <div class="footer-item">
+      <span class="material-symbols-outlined">tv_gen</span>
+      <span class="footer-label">On Stream</span>
+    </div>
+    <div class="footer-item" onclick="toggleSearch()">
+      <span class="material-symbols-outlined">search</span>
+      <span class="footer-label">Search</span>
+    </div>
+  </footer>
+<script>
+  const streams = [
+    {
         name: 'TV5',
         logo: 'https://i.imgur.com/Ddyfzrn.png',
         type: 'mpegdash',
@@ -691,7 +683,7 @@ nav svg {
         clearKey: { '0f854034412b11edb8780242ac120002': 'af8ad1c5e3f2e1b751a4f64608f24275' },
         category: "MOVIES"
       },
-{
+      {
         name: 'Tap Sports',
         logo: 'https://i.imgur.com/EEDMg6S.png',
         type: 'mpegdash',
@@ -923,90 +915,72 @@ nav svg {
         clearKey: { 'ef7d9dcfb99b406cb79fb9f675cba426': 'b24094f6ca136af25600e44df5987af4' },
         category: "NEWS"
       },
+  ];
 
-    
-    ];
+  let player;
+  const video = document.getElementById("video");
+  const videoContainer = document.getElementById("video-container");
 
-    const categories = [
-      "FREE TV", "SPORTS", "NEWS", "MOVIES", "KIDS", "ENTERTAINMENT", 
-      "LIFESTYLE", "EDUCATIONAL", "MUSIC", "TRAVEL & NATURE", "OVERSEAS", "RELIGION"
-    ];
-
-    let player;
-
-    function initializeUI() {
-      const categoriesContainer = document.getElementById("categories");
-
-      categories.forEach(category => {
-        const categoryElement = document.createElement("div");
-        categoryElement.classList.add("category");
-        categoryElement.id = `category-${category.toLowerCase().replace(/\s/g, '-')}`;
-        categoryElement.innerHTML = `
-          <div class="category-title">${category}</div>
-          <div class="channel-slider-wrapper">
-            <button class="arrow-button arrow-left" onclick="scrollSlider('${categoryElement.id}', 'left')">&#8249;</button>
-            <div class="channel-slider"></div>
-            <button class="arrow-button arrow-right" onclick="scrollSlider('${categoryElement.id}', 'right')">&#8250;</button>
-          </div>
-        `;
-        categoriesContainer.appendChild(categoryElement);
-
-        // Populate channels in each category
-        const slider = categoryElement.querySelector(".channel-slider");
-        const categoryChannels = streams.filter(stream => stream.category === category);
-        categoryChannels.forEach(channel => {
-          const card = document.createElement("div");
-          card.classList.add("channel-card");
-          card.onclick = () => loadStream(channel);
-          card.innerHTML = `
-            <img src="${channel.logo}" alt="${channel.name}" class="channel-logo">
-            <div class="channel-name">${channel.name}</div>
-          `;
-          slider.appendChild(card);
-        });
-      });
-
-      loadStream(streams[0]); // Autoplay the first channel
-    }
-
-    async function loadStream(channel) {
-      const videoElement = document.getElementById("video");
-      const youtubeElement = document.getElementById("youtube-video");
-
-      stopCurrentStream();
-
-      if (channel.type === "mpegdash") {
-        if (!player) player = new shaka.Player(videoElement);
+  async function loadStream(channel) {
+    videoContainer.style.display = "block";
+    if (!player) player = new shaka.Player(video);
+    try {
+      if (channel.clearKey) {
         player.configure({ drm: { clearKeys: channel.clearKey } });
-        await player.load(channel.manifestUri);
-        videoElement.style.display = "block";
-      } else if (channel.type === "hls") {
-        if (!player) player = new shaka.Player(videoElement);
-        await player.load(channel.manifestUri);
-        videoElement.style.display = "block";
-      } else if (channel.type === "youtube") {
-        youtubeElement.src = channel.embedUrl;
-        youtubeElement.style.display = "block";
       }
+      await player.load(channel.manifestUri);
+    } catch (e) {
+      console.error("Error loading stream", e);
     }
-
-    function stopCurrentStream() {
-      const videoElement = document.getElementById("video");
-      const youtubeElement = document.getElementById("youtube-video");
-
-      if (player) player.unload();
-      videoElement.style.display = "none";
-      youtubeElement.style.display = "none";
-      youtubeElement.src = "";
+  }
+function toggleSearch() {
+    const box = document.getElementById("footerSearchBox");
+    const input = document.getElementById("searchInput");
+    const results = document.getElementById("searchResults");
+    box.classList.toggle("active");
+    if (!box.classList.contains("active")) {
+      input.value = "";
+      results.innerHTML = "";
+    } else {
+      input.focus();
     }
+  }
 
-    function scrollSlider(categoryId, direction) {
-      const slider = document.querySelector(`#${categoryId} .channel-slider`);
-      const scrollAmount = direction === "left" ? -300 : 300;
-      slider.scrollBy({ left: scrollAmount, behavior: "smooth" });
-    }
+  document.getElementById("searchInput").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    const results = streams.filter(s => s.name.toLowerCase().includes(query));
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "";
+    results.forEach(ch => {
+      const div = document.createElement("div");
+      div.className = "search-result";
+      div.innerHTML = `<img src="${ch.logo}" style="height: 24px; width: 24px; margin-right: 10px;"> ${ch.name}`;
+      div.onclick = () => loadStream(ch);
+      container.appendChild(div);
+    });
+  });
 
-    document.addEventListener("DOMContentLoaded", initializeUI);
-  </script>
+  function renderChannels() {
+    const container = document.getElementById("channel-container");
+    const categories = [...new Set(streams.map(c => c.category))];
+    categories.forEach(cat => {
+      const section = document.createElement("div");
+      section.className = "category-section";
+      section.innerHTML = `<div class='category-title'>${cat}</div><div class='channel-slider-wrapper'><div class='channel-slider'></div></div>`;
+      const row = section.querySelector(".channel-slider");
+      streams.filter(s => s.category === cat).forEach(ch => {
+        const img = document.createElement("img");
+        img.src = ch.logo;
+        img.alt = ch.name;
+        img.className = "channel-logo";
+        img.onclick = () => loadStream(ch);
+        row.appendChild(img);
+      });
+      container.appendChild(section);
+    });
+  }
+
+  renderChannels();
+</script>
 </body>
-</html
+</html>
