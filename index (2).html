@@ -1,0 +1,670 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>lingk tv</title>
+  <link href="https://fonts.cdnfonts.com/css/pluto-tv-sans-v10" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css">
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js"></script>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000000;
+      font-family: 'Pluto TV Sans V10', sans-serif;
+      color: #ff4d00;
+    }header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+
+.logo {
+  font-size: 40px;
+  font-weight: 1000;
+}
+
+.profile-pic {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.category-section {
+  padding: 10px 20px;
+}
+
+.category-title {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.channels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.channel-logo {
+  width: 60px;
+  height: 60px;
+  border: 2px solid #ff4d00;
+  border-radius: 50%;
+  object-fit: contain;
+  background-color: #222;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.feature-slider {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  border-color: linear-gradient( bottom transparent);
+  max-width: 100vw;
+  overflow: hidden;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  position: relative;
+}
+
+.slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.6, 1), transparent);
+}
+
+.dots {
+  text-align: center;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+
+.dot {
+  height: 12px;
+  width: 12px;
+  margin: 0 5px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.dot.active {
+  background-color: #ff4d00;
+}
+
+#video-container {
+  width: 100%;
+  max-width: 960px;
+  margin: 20px auto;
+  display: none;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">lingk tv</div>
+    <img class="profile-pic" src="https://m.facebook.com" alt="Profile">
+  </header>  <div class="feature-slider">
+    <div class="slides">
+      <div class="slide"><img src="https://i.imgur.com/1XVoNW2.jpeg" alt="Sing Galing"></div>
+      <div class="slide"><img src="https://i.imgur.com/keUclAC.jpeg" alt="FPJ's Batang Quiapo"></div>
+      <div class="slide"><img src="https://i.imgur.com/xflvjUX.jpeg" alt="Pilipinas Got Talent"></div>
+      <div class="slide"><img src="https://i.imgur.com/BMyyP7F.jpeg" alt="HBO Show 1"></div>
+      <div class="slide"><img src="https://i.imgur.com/Fn7o3cm.jpeg" alt="HBO Show 2"></div>
+    </div>
+    <div class="dots">
+      <span class="dot active"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+  </div>  <div id="video-container">
+    <video id="video" controls autoplay></video>
+  </div>  <div id="channel-container"></div>  <script>
+    const slides = document.querySelector('.slides');
+    const dots = document.querySelectorAll('.dot');
+    let currentIndex = 0;
+
+    function showSlide(index) {
+      slides.style.transform = `translateX(-${index * 100}%)`;
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[index].classList.add('active');
+    }
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        currentIndex = i;
+        showSlide(currentIndex);
+      });
+    });
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % dots.length;
+      showSlide(currentIndex);
+    }, 5000);
+
+    showSlide(currentIndex);
+
+    const streams = [
+{
+        name: 'TV5',
+        logo: 'https://i.imgur.com/Ddyfzrn.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd',
+        clearKey: { '2615129ef2c846a9bbd43a641c7303ef': '07c7f996b1734ea288641a68e1cfdc4d' },
+        category: "FREE TV"
+      },
+      {
+        name: 'A2Z',
+        logo: 'https://i.imgur.com/43nZ2rv.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
+        clearKey: { 'f703e4c8ec9041eeb5028ab4248fa094': 'c22f2162e176eee6273a5d0b68d19530' },
+        category: "FREE TV"
+      },
+      {
+        name: 'GMA Pinoy TV',
+        logo: 'https://i.imgur.com/Eo0f51v.png',
+        type: 'mpegdash',
+        manifestUri: 'https://cdn-uw2-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-abscbn-gma-x7-dash-abscbnono/7c693236-e0c1-40a3-8bd0-bb25e43f5bfc/index.mpd',
+        clearKey: { 'c95ed4c44b0b4f7fa1c6ebbbbaab21a1': '47635b8e885e19f2ccbdff078c207058' },
+        category: "OVERSEAS"
+      },
+      {
+        name: 'TFC',
+        logo: 'https://i.imgur.com/zZWj5vn.png',
+        type: 'mpegdash',
+        manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-tfcasia-dash-abscbnono/7045bc3c-9492-42d4-974e-a3b217776e57/index.mpd',
+        clearKey: { '9568cc84e1d944f38eac304517eab6fd': 'f12142af8f39b3bab79d3679d3665ebe' },
+        category: "OVERSEAS"
+      },
+            {
+        name: 'PBO',
+        logo: 'https://i.imgur.com/buOVATz.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/pbo_sd.mpd',
+        clearKey: { 'dcbdaaa6662d4188bdf97f9f0ca5e830': '31e752b441bd2972f2b98a4b1bc1c7a1' },
+        category: "MOVIES"
+      },
+      {
+        name: 'Sari-Sari',
+        logo: 'https://i.imgur.com/MXxN1UO.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_sari_sari_sd.mpd',
+        clearKey: { '0a7ab3612f434335aa6e895016d8cd2d': 'b21654621230ae21714a5cab52daeb9d' },
+        category: "ENTERTAINMENT"
+      },
+      {
+        name: 'Viva Cinema',
+        logo: 'https://i.imgur.com/51RWtvd.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/viva_sd.mpd',
+        clearKey: { '07aa813bf2c147748046edd930f7736e': '3bd6688b8b44e96201e753224adfc8fb' },
+        category: "MOVIES"
+      },
+             {
+        name: 'Cinema One',
+        logo: 'https://i.imgur.com/moSPpuJ.png',
+        type: 'hls',
+        manifestUri: 'https://cinemaone-abscbn-ono.amagi.tv/index.m3u8',
+        category: "ENTERTAINMENT"
+      },
+                   {
+        name: 'CineMo!',
+        logo: 'https://i.imgur.com/2Jn7QHG.png',
+        type: 'hls',
+        manifestUri: 'https://cinemo-abscbn-ono.amagi.tv/playlist.m3u8',
+        category: "MOVIES"
+      },
+      {
+        name: 'ANC',
+        logo: 'https://i.imgur.com/Bcu69bU.png',
+        type: 'mpegdash',
+        manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-anc-global-dash-abscbnono/index.mpd',
+        clearKey: { '4bbdc78024a54662854b412d01fafa16': '6039ec9b213aca913821677a28bd78ae' },
+        category: "NEWS"
+      },
+      {
+        name: 'TVN Movies Pinoy',
+        logo: 'https://imgur.com/12f0Qk8.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_tvnmovie.mpd',
+        clearKey: { '2e53f8d8a5e94bca8f9a1e16ce67df33': '3471b2464b5c7b033a03bb8307d9fa35' },
+        category: "MOVIES"
+      },
+  {
+        name: 'TMC',
+        logo: 'https://i.imgur.com/6mNCite.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_tagalogmovie.mpd',
+        clearKey: { '96701d297d1241e492d41c397631d857': 'ca2931211c1a261f082a3a2c4fd9f91b' },
+        category: "MOVIES"
+      },
+{
+        name: 'Animax',
+        logo: 'https://i.imgur.com/iYRTs2n.png',
+        type: 'mpegdash',
+        manifestUri: 'https://tglmp01.akamaized.net/out/v1/de55fad9216e4fe7ad8d2eed456ba1ec/manifest.mpd',
+        clearKey: { 'edf1a715de9748638dd2fad75a419af2': '2f5a3199b26e9b693ae881af7ff864cf' },
+        category: "KIDS"
+      },
+{
+        name: 'Cartoon Network',
+        logo: 'https://i.imgur.com/R1fV2uY.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-12-prod.akamaized.net/out/u/dr_cartoonnetworkhd.mpd',
+        clearKey: { 'a2d1f552ff9541558b3296b5a932136b': 'cdd48fa884dc0c3a3f85aeebca13d444' },
+        category: "KIDS"
+      },
+{
+        name: 'DreamWorks Tagalized',
+        logo: 'https://i.imgur.com/fh1Lg7b.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_dreamworktag.mpd',
+        clearKey: { '564b3b1c781043c19242c66e348699c5': 'd3ad27d7fe1f14fb1a2cd5688549fbab' },
+        category: "KIDS"
+      },
+{
+        name: 'DreamWorks',
+        logo: 'https://i.imgur.com/fh1Lg7b.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_dreamworks_hd1.mpd',
+        clearKey: { '4ab9645a2a0a47edbd65e8479c2b9669': '8cb209f1828431ce9b50b593d1f44079' },
+        category: "KIDS"
+      },
+{
+        name: 'Moonbug Kids',
+        logo: 'https://i.imgur.com/H5Ha3ll.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_moonbug_kids_sd.mpd',
+        clearKey: { '0bf00921bec94a65a124fba1ef52b1cd': '0f1488487cbe05e2badc3db53ae0f29f' },
+        category: "KIDS"
+      },
+  {
+        name: 'Nickelodeon',
+        logo: 'https://i.imgur.com/tIRSRoR.png',
+        type: 'mpegdash',
+        manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/2511/default_primary.mpd',
+        clearKey: { 'd8520e96a1283ab6e5be538474bfa810': 'bda5f7bbc1e44096f779a0619fe9881f' },
+        category: "KIDS"
+      },
+{
+        name: 'Nick Jr',
+        logo: 'https://i.imgur.com/nliH2PY.png',
+        type: 'mpegdash',
+        manifestUri: 'https://linearjitp-playback.astro.com.my/dash-wv/linear/9982/default_primary.mpd',
+        clearKey: { 'fa65220c9f76e424173899df533a6d10': 'b4abbee95b69b3e80a0d141272c870db' },
+        category: "KIDS"
+      },
+{
+        name: 'HBO',
+        logo: 'https://i.imgur.com/fHBIgs6.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cg_hbohd.mpd',
+        clearKey: { 'd47ebabf7a21430b83a8c4b82d9ef6b1': '54c213b2b5f885f1e0290ee4131d425b' },
+        category: "MOVIES"
+      },
+{
+        name: 'HBO Family',
+        logo: 'https://i.imgur.com/WANpEkc.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cg_hbofam.mpd',
+        clearKey: { '872910c843294319800d85f9a0940607': 'f79fd895b79c590708cf5e8b5c6263be' },
+        category: "MOVIES"
+      },
+      {
+        name: 'HBO Signature',
+        logo: 'https://i.imgur.com/Q2ki7HC.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_hbosign.mpd',
+        clearKey: { 'a06ca6c275744151895762e0346380f5': '559da1b63eec77b5a942018f14d3f56f' },
+        category: "MOVIES"
+      },
+      {
+        name: 'HBO Hits',
+        logo: 'https://i.imgur.com/iCnfJS0.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_hbohits.mpd',
+        clearKey: { 'b04ae8017b5b4601a5a0c9060f6d5b7d': 'a8795f3bdb8a4778b7e888ee484cc7a1' },
+        category: "MOVIES"
+      },
+{
+        name: 'Cinemax',
+        logo: 'https://i.imgur.com/r8qzNiy.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_cinemax.mpd',
+        clearKey: { 'b207c44332844523a3a3b0469e5652d7': 'fe71aea346db08f8c6fbf0592209f955' },
+        category: "MOVIES"
+      },
+{
+        name: 'Hits Now',
+        logo: 'https://i.imgur.com/S3pNx8G.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_hitsnow.mpd',
+        clearKey: { '14439a1b7afc4527bb0ebc51cf11cbc1': '92b0287c7042f271b266cc11ab7541f1' },
+        category: "MOVIES"
+      },
+        {
+        name: 'Hits',
+        logo: 'https://i.imgur.com/jghDgUJ.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/hits_hd1.mpd',
+        clearKey: { 'dac605bc197e442c93f4f08595a95100': '975e27ffc1b7949721ee3ccb4b7fd3e5' },
+        category: "MOVIES"
+      },
+{
+        name: 'Hits Movies',
+        logo: 'https://i.imgur.com/zzdj40q.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-12-prod.akamaized.net/out/u/dr_hitsmovies.mpd',
+        clearKey: { 'f56b57b32d7e4b2cb21748c0b56761a7': '3df06a89aa01b32655a77d93e09e266f' },
+        category: "MOVIES"
+      },
+{
+        name: 'AXN',
+        logo: 'https://i.imgur.com/Dj6tVaG.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_axn_sd.mpd',
+        clearKey: { 'fd5d928f5d974ca4983f6e9295dfe410': '3aaa001ddc142fedbb9d5557be43792f' },
+        category: "ENTERTAINMENT"
+      },
+      {
+        name: 'Warner TV',
+        logo: 'https://i.imgur.com/vGEL2Ne.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-11-prod.akamaized.net/out/u/dr_warnertvhd.mpd',
+        clearKey: { '4503cf86bca3494ab95a77ed913619a0': 'afc9c8f627fb3fb255dee8e3b0fe1d71' },
+        category: "ACTION"
+      },
+{
+        name: 'Rock Action',
+        logo: 'https://i.imgur.com/PJZmoyW.png',
+        type: 'mpegdash',
+        manifestUri: 'https://tglmp04.akamaized.net/out/v1/421a3cd3bdcd492f8f4b5efb2363ed2c/manifest.mpd',
+        clearKey: { '2341c2ecd3cf4865881bb0fa1287de8f': 'ad45202e64f66ef36b3f60fac93cc47f' },
+        category: "ACTION"
+      },
+{
+        name: 'Rock Entertainment',
+        logo: 'https://i.imgur.com/DP36vpY.png',
+        type: 'mpegdash',
+        manifestUri: 'https://tglmp02.akamaized.net/out/v1/621a7089e63144e4be7891cd9bfb10e2/manifest.mpd',
+        clearKey: { '9229814c629b406f8de98d2f23c968a0': '40b9f250455b43b3b2ea6845ab81abca' },
+        category: "ENTERTAINMENT"
+      },
+{
+        name: 'Thrill',
+        logo: 'https://i.imgur.com/Szf7VBM.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_thrill_sd.mpd',
+        clearKey: { '928114ffb2394d14b5585258f70ed183': 'a82edc340bc73447bac16cdfed0a4c62' },
+        category: "MOVIES"
+      },
+      {
+        name: 'Lotus Macau',
+        logo: 'https://i.imgur.com/sKfzEuf.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/lotusmacau_prd.mpd',
+        clearKey: { '60dc692e64ea443a8fb5ac186c865a9b': '01bdbe22d59b2a4504b53adc2f606cc1' },
+        category: "MOVIES"
+      },
+{
+        name: 'IBC13',
+        logo: 'https://i.imgur.com/Org4yTu.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/ibc13_sd.mpd',
+        clearKey: { '04e292bc99bd4ccba89e778651914254': 'ff0a62bdf8920ce453fe680330b563a5' },
+        category: "NEWS"
+      },
+{
+        name: 'PTV4',
+        logo: 'https://i.imgur.com/Ktl7qZt.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_ptv4_sd.mpd',
+        clearKey: { '71a130a851b9484bb47141c8966fb4a3': 'ad1f003b4f0b31b75ea4593844435600' },
+        category: "NEWS"
+      },
+      {
+        name: 'DepEd Channel',
+        logo: 'https://i.imgur.com/TyFFBWn.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/depedch_sd.mpd',
+        clearKey: { '0f853706412b11edb8780242ac120002': '2157d6529d80a760f60a8b5350dbc4df' },
+        category: "EDUCATIONAL"
+      },
+{
+        name: 'Buko Channel',
+        logo: 'https://i.imgur.com/Wv0K5Yc.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_buko_sd.mpd',
+        clearKey: { 'd273c085f2ab4a248e7bfc375229007d': '7932354c3a84f7fc1b80efa6bcea0615' },
+        category: "ENTERTAINMENT"
+      },
+{
+        name: 'Knowledge Channel',
+        logo: 'https://i.imgur.com/UIqEr2y.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-13-prod.akamaized.net/out/u/dr_knowledgechannel.mpd',
+        clearKey: { '0f856fa0412b11edb8780242ac120002': '783374273ef97ad3bc992c1d63e091e7' },
+        category: "EDUCATIONAL"
+      },
+{
+        name: 'Bilyonaryo Channel',
+        logo: 'https://i.imgur.com/Z5ZyJ8c.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-05-prod.akamaized.net/out/u/bilyonaryoch.mpd',
+        clearKey: { '227ffaf09bec4a889e0e0988704d52a2': 'b2d0dce5c486891997c1c92ddaca2cd2' },
+        category: "NEWS"
+      },
+{
+        name: 'TVUP',
+        logo: 'https://i.imgur.com/P0UNHfH.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/tvup_prd.mpd',
+        clearKey: { '83e813ccd4ca4837afd611037af02f63': 'a97c515dbcb5dcbc432bbd09d15afd41' },
+        category: "EDUCATIONAL"
+      },
+      {
+        name: 'TV Maria',
+        logo: 'https://i.imgur.com/G3kbHMQ.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/tvmaria_prd.mpd',
+        clearKey: { 'fa3998b9a4de40659725ebc5151250d6': '998f1294b122bbf1a96c1ddc0cbb229f' },
+        category: "RELIGION"
+      },
+{
+        name: 'True FM TV',
+        logo: 'https://i.imgur.com/zPOYiLs.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-08-prod.akamaized.net/out/u/truefm_tv.mpd',
+        clearKey: { '0559c95496d44fadb94105b9176c3579': '40d8bb2a46ffd03540e0c6210ece57ce' },
+        category: "NEWS"
+      },
+{
+        name: 'Teleradyo',
+        logo: 'https://i.imgur.com/G36wUtQ.png',
+        type: 'mpegdash',
+        manifestUri: 'https://cdn-ue1-prod.tsv2.amagi.tv/linear/amg01006-abs-cbn-teleradyo-dash-abscbnono/index.mpd',
+        clearKey: { '47c093e0c9fd4f80839a0337da3dd876': '50547394045b3d047dc7d92f57b5fb33' },
+        category: "NEWS"
+      },
+                         {
+        name: 'MYX',
+        logo: 'https://i.imgur.com/VkYFPIe.png',
+        type: 'hls',
+        manifestUri: 'https://myxnola-abscbn-ono.amagi.tv/index.m3u8',
+        category: "MUSIC"
+      },
+{
+        name: 'TVN',
+        logo: 'https://i.imgur.com/gmM3ncL.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-09-prod.akamaized.net/out/u/cg_tvnpre.mpd',
+        clearKey: { 'e1bde543e8a140b38d3f84ace746553e': 'b712c4ec307300043333a6899a402c10' },
+        category: "ENTERTAINMENT"
+      },
+      {
+        name: 'RPTV',
+        logo: 'https://i.imgur.com/GjQEEvq.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cnn_rptv_prod_hd.mpd',
+        clearKey: { '1917f4caf2364e6d9b1507326a85ead6': 'a1340a251a5aa63a9b0ea5d9d7f67595' },
+        category: "FREE TV" 
+      },
+{
+        name: 'UAAP Varsity',
+        logo: 'https://i.imgur.com/rifinVV.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/cg_uaap_cplay_sd.mpd',
+        clearKey: { '95588338ee37423e99358a6d431324b9': '6e0f50a12f36599a55073868f814e81e' },
+        category: "SPORTS"
+      },
+{
+        name: 'PBA Rush',
+        logo: 'https://i.imgur.com/J4QCDLG.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-01-prod.akamaized.net/out/u/cg_pbarush_hd1.mpd',
+        clearKey: { '76dc29dd87a244aeab9e8b7c5da1e5f3': '95b2f2ffd4e14073620506213b62ac82' },
+        category: "SPORTS"
+      },
+      {
+        name: 'NBA TV Philippines',
+        logo: 'https://i.imgur.com/sG7zuX0.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/pl_nba.mpd',
+        clearKey: { 'f36eed9e95f140fabbc88a08abbeafff': '0125600d0eb13359c28bdab4a2ebe75a' },
+        category: "SPORTS"
+      },
+      {
+        name: 'One Sports Plus',
+        logo: 'https://i.imgur.com/rKCkaHh.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-03-prod.akamaized.net/out/u/cg_onesportsplus_hd1.mpd',
+        clearKey: { '322d06e9326f4753a7ec0908030c13d8': '1e3e0ca32d421fbfec86feced0efefda' },
+        category: "SPORTS"
+      },
+      {
+        name: 'One PH',
+        logo: 'https://i.imgur.com/syEhuvH.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/oneph_sd.mpd',
+        clearKey: { '92834ab4a7e1499b90886c5d49220e46': 'a7108d9a6cfcc1b7939eb111daf09ab3' },
+        category: "NEWS"
+      },
+{
+        name: 'One Sports',
+        logo: 'https://i.imgur.com/iyBXXpU.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-07-prod.akamaized.net/out/u/cg_onesports_hd.mpd',
+        clearKey: { '53c3bf2eba574f639aa21f2d4409ff11': '3de28411cf08a64ea935b9578f6d0edd' },
+        category: "SPORTS"
+      },
+{
+        name: 'One News',
+        logo: 'https://i.imgur.com/bpRiu54.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-04-prod.akamaized.net/out/u/onenews_hd1.mpd',
+        clearKey: { 'd39eb201ae494a0b98583df4d110e8dd': '6797066880d344422abd3f5eda41f45f' },
+        category: "NEWS"
+      },
+{
+        name: 'TAP TV',
+        logo: 'https://i.imgur.com/KJaSftF.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-06-prod.akamaized.net/out/u/cg_taptv_sd.mpd',
+        clearKey: { 'f6804251e90b4966889b7df94fdc621e': '55c3c014f2bd12d6bd62349658f24566' },
+        category: "ENTERTAINMENT"
+      },
+{
+        name: 'Tap Edge',
+        logo: 'https://i.imgur.com/EKt9NGv.png',
+        type: 'mpegdash',
+        manifestUri: 'https://qp-pldt-live-grp-12-prod.akamaized.net/out/u/dr_tapedge.mpd',
+        clearKey: { '0f854034412b11edb8780242ac120002': 'af8ad1c5e3f2e1b751a4f64608f24275' },
+        category: "MOVIES"
+      },
+      ]; // placeholder, insert stream list here
+
+    const categories = [
+      "FREE TV", "OVERSEAS", "MOVIES", "ENTERTAINMENT", "NEWS", "KIDS",
+      "EDUCATIONAL", "MUSIC", "RELIGION", "SPORTS", "ACTION",
+      "LIFESTYLE", "TRAVEL & NATURE"
+    ];
+
+    const container = document.getElementById("channel-container");
+
+    categories.forEach(category => {
+      const section = document.createElement("div");
+      section.className = "category-section";
+      section.innerHTML = `<div class='category-title'>${category}</div><div class='channels'></div>`;
+
+      const channelRow = section.querySelector(".channels");
+      streams.filter(s => s.category === category).forEach(channel => {
+        const img = document.createElement("img");
+        img.src = channel.logo;
+        img.alt = channel.name;
+        img.className = "channel-logo";
+        img.addEventListener('click', () => loadStream(channel));
+        channelRow.appendChild(img);
+      });
+
+      container.appendChild(section);
+    });
+
+    let player;
+
+    async function loadStream(channel) {
+      const videoContainer = document.getElementById("video-container");
+      const video = document.getElementById("video");
+
+      videoContainer.style.display = "block";
+
+      if (!player) {
+        player = new shaka.Player(video);
+      }
+
+      try {
+        if (channel.clearKey) {
+          player.configure({ drm: { clearKeys: channel.clearKey } });
+        }
+        await player.load(channel.manifestUri);
+      } catch (error) {
+        console.error("Error loading stream:", error);
+      }
+    }
+  </script></body>
+</html>
