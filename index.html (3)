@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lingk TV</title>
+  <link href="https://fonts.cdnfonts.com/css/pluto-tv-sans-v10" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css" />
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js"></script>
+  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
+  <script>
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+      if (isAvailable) {
+        cast.framework.CastContext.getInstance().setOptions({
+          receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
+          autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+        });
+      }
+    };
+  </script>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      font-family: 'Pluto TV Sans V10', sans-serif;
+      color: #ffff00;
+      padding-bottom: 140px;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #111;
+      padding: 10px 20px;
+    }
+
+    google-cast-button {
+      --cast-button-color: #ffff00;
+    }
+
+    .profile-menu {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      right: 0;
+      background-color: #222;
+      padding: 10px;
+      border-radius: 10px;
+      top: 40px;
+      width: 180px;
+      font-size: 14px;
+      z-index: 999;
+    }
+
+    .profile-dropdown a {
+      display: block;
+      padding: 6px 0;
+      color: #ffff00;
+      text-decoration: none;
+    }
+
+    .profile-menu:hover .profile-dropdown {
+      display: block;
+    }
+
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 1;
+      vertical-align: middle;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .logo {
+      font-size: 40px;
+      font-weight: 1000;
+    }
+
+    .category-section {
+      padding: 10px 20px;
+    }
+
+    .category-title {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #ffff00;
+      padding-bottom: 4px;
+    }
+
+    .channel-slider-wrapper {
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .channel-slider {
+      display: flex;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      gap: 10px;
+      padding: 10px 0;
+    }
+
+    .channel-slider::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .channel-slider::-webkit-scrollbar-thumb {
+      background: #ffff00;
+      border-radius: 3px;
+    }
+
+    .channel-logo {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #ffff00;
+      border-radius: 50%;
+      object-fit: contain;
+      background-color: #222;
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    #video-container {
+      width: 100%;
+      max-width: 960px;
+      margin: 20px auto;
+      display: none;
+    }
+
+    video {
+      width: 100%;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #000;
+    }
+.footer-nav {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: #111;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 8px 0;
+      border-top: 1px solid #333;
+      z-index: 1000;
+    }
+
+    .footer-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #ffff00;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .footer-item .material-symbols-outlined {
+      font-size: 26px;
+      margin-bottom: 4px;
+    }
+
+    .footer-search-box {
+      display: none;
+      padding: 10px 20px;
+      background-color: #111;
+    }
+
+    .footer-search-box.active {
+      display: block;
+    }
+
+    .footer-search-input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 20px;
+      background-color: #222;
+      color: #ffff00;
+      outline: none;
+    }
+
+    .search-results {
+      padding: 10px 20px;
+    }
+
+    .search-result {
+      padding: 8px 10px;
+      border-bottom: 1px solid #333;
+      color: #ffff00;
+      cursor: pointer;
+    }
+
+    .search-result:hover {
+      background-color: #222;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">lingk tv</div>
+    <google-cast-button style="height: 24px; width: 24px; margin-right: 15px;"></google-cast-button>
+    <div class="profile-menu">
+      <span class="material-symbols-outlined" style="font-size: 30px;">account_circle</span>
+      <div class="profile-dropdown">
+        <a href="#">Sign In / Log In</a>
+        <a href="#">About Us</a>
+        <a href="https://facebook.com" target="_blank">
+          <span class="material-symbols-outlined" style="font-size: 16px;">thumb_up</span> Follow Us on Facebook
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="footer-search-box" id="footerSearchBox">
+    <input type="text" id="searchInput" class="footer-search-input" placeholder="Search channels..." />
+  </div>
+
+  <div class="search-results" id="searchResults"></div>
+  <div id="video-container">
+    <video id="video" controls autoplay></video>
+  </div>
+  <div id="channel-container"></div>
+
+  <footer class="footer-nav">
+    <div class="footer-item">
+      <span class="material-symbols-outlined">tv_gen</span>
+      <span class="footer-label">On Stream</span>
+    </div>
+    <div class="footer-item" onclick="toggleSearch()">
+      <span class="material-symbols-outlined">search</span>
+      <span class="footer-label">Search</span>
+    </div>
+  </footer>
+<script>
+  const streams = [
+    {
+      name: 'TV5',
+      logo: 'https://i.imgur.com/Ddyfzrn.png',
+      type: 'mpegdash',
+      manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/tv5_hd.mpd',
+      clearKey: { '2615129ef2c846a9bbd43a641c7303ef': '07c7f996b1734ea288641a68e1cfdc4d' },
+      category: 'FREE TV'
+    },
+    {
+      name: 'A2Z',
+      logo: 'https://i.imgur.com/43nZ2rv.png',
+      type: 'mpegdash',
+      manifestUri: 'https://qp-pldt-live-grp-02-prod.akamaized.net/out/u/cg_a2z.mpd',
+      clearKey: { 'f703e4c8ec9041eeb5028ab4248fa094': 'c22f2162e176eee6273a5d0b68d19530' },
+      category: 'FREE TV'
+    },
+    {
+      name: 'GMA Pinoy TV',
+      logo: 'https://i.imgur.com/Eo0f51v.png',
+      type: 'mpegdash',
+      manifestUri: 'https://example.com/gma.mpd',
+      clearKey: { 'aaaa1111bbbb2222cccc3333dddd4444': 'eeeeffffgggghhhhiiii0000jjjj1111' },
+      category: 'OVERSEAS'
+    },
+    {
+      name: 'TFC',
+      logo: 'https://i.imgur.com/zZWj5vn.png',
+      type: 'mpegdash',
+      manifestUri: 'https://example.com/tfc.mpd',
+      clearKey: { '11112222333344445555666677778888': '9999aaaabbbbccccdddd111122223333' },
+      category: 'OVERSEAS'
+    },
+    {
+      name: 'PBO',
+      logo: 'https://i.imgur.com/buOVATz.png',
+      type: 'mpegdash',
+      manifestUri: 'https://example.com/pbo.mpd',
+      clearKey: { 'deadbeefdeadbeefdeadbeefdeadbeef': 'cafebabecafebabecafebabecafebabe' },
+      category: 'MOVIES'
+    },
+    {
+      name: 'CineMo!',
+      logo: 'https://i.imgur.com/2Jn7QHG.png',
+      type: 'mpegdash',
+      manifestUri: 'https://example.com/cinemo.mpd',
+      clearKey: { '99887766554433221100ffeeddccbbaa': 'aabbccddeeff00112233445566778899' },
+      category: 'MOVIES'
+    },
+    {
+      name: 'Animax',
+      logo: 'https://i.imgur.com/iYRTs2n.png',
+      type: 'mpegdash',
+      manifestUri: 'https://example.com/animax.mpd',
+      clearKey: { 'abcdabcdabcdabcdabcdabcdabcdabcd': '12341234123412341234123412341234' },
+      category: 'KIDS'
+    },
+    {
+      name: 'Nick Jr',
+      logo: 'https://i.imgur.com/nliH2PY.png',
+      type: 'mpegdash',
+      manifestUri: 'https://example.com/nickjr.mpd',
+      clearKey: { 'beefbeefbeefbeefbeefbeefbeefbeef': 'facefacefacefacefacefacefaceface' },
+      category: 'KIDS'
+    }
+  ];
+
+  let player;
+  const video = document.getElementById("video");
+  const videoContainer = document.getElementById("video-container");
+
+  async function loadStream(channel) {
+    videoContainer.style.display = "block";
+    if (!player) player = new shaka.Player(video);
+    try {
+      if (channel.clearKey) {
+        player.configure({ drm: { clearKeys: channel.clearKey } });
+      }
+      await player.load(channel.manifestUri);
+    } catch (e) {
+      console.error("Error loading stream", e);
+    }
+  }
+function toggleSearch() {
+    const box = document.getElementById("footerSearchBox");
+    const input = document.getElementById("searchInput");
+    const results = document.getElementById("searchResults");
+    box.classList.toggle("active");
+    if (!box.classList.contains("active")) {
+      input.value = "";
+      results.innerHTML = "";
+    } else {
+      input.focus();
+    }
+  }
+
+  document.getElementById("searchInput").addEventListener("input", function () {
+    const query = this.value.toLowerCase();
+    const results = streams.filter(s => s.name.toLowerCase().includes(query));
+    const container = document.getElementById("searchResults");
+    container.innerHTML = "";
+    results.forEach(ch => {
+      const div = document.createElement("div");
+      div.className = "search-result";
+      div.innerHTML = `<img src="${ch.logo}" style="height: 24px; width: 24px; margin-right: 10px;"> ${ch.name}`;
+      div.onclick = () => loadStream(ch);
+      container.appendChild(div);
+    });
+  });
+
+  function renderChannels() {
+    const container = document.getElementById("channel-container");
+    const categories = [...new Set(streams.map(c => c.category))];
+    categories.forEach(cat => {
+      const section = document.createElement("div");
+      section.className = "category-section";
+      section.innerHTML = `<div class='category-title'>${cat}</div><div class='channel-slider-wrapper'><div class='channel-slider'></div></div>`;
+      const row = section.querySelector(".channel-slider");
+      streams.filter(s => s.category === cat).forEach(ch => {
+        const img = document.createElement("img");
+        img.src = ch.logo;
+        img.alt = ch.name;
+        img.className = "channel-logo";
+        img.onclick = () => loadStream(ch);
+        row.appendChild(img);
+      });
+      container.appendChild(section);
+    });
+  }
+
+  renderChannels();
+</script>
+</body>
+</html>
