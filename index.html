@@ -7,14 +7,8 @@
   <link href="https://fonts.cdnfonts.com/css/max-sans" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css" />
-  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js"></script>
-  <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-  <script>
-    window['__onGCastApiAvailable'] = function(isAvailable) {
-      if (isAvailable) {
-        cast.framework.CastContext.getInstance().setOptions({
-          receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID,
-          autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED
+  <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js">
+  </script>
         });
       }
     };
@@ -228,7 +222,6 @@
 <body>
   <nav class="navbar">
     <div class="logo">flow</div>
-    <google-cast-button style="height: 24px; width: 24px; margin-right: 15px;"></google-cast-button>
     <div class="profile-menu">
       <span class="material-symbols-outlined" style="font-size: 30px;">account_circle</span>
       <div class="profile-dropdown">
