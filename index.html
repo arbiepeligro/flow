@@ -24,7 +24,7 @@
       justify-content: space-between;
       align-items: center;
       background-color: transparent;
-      padding: 10px 20px;
+      padding: 10px 20px
     }
 
     .profile-menu {
@@ -66,7 +66,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px;
+      padding: 20px;
     }
 
     .logo {
@@ -142,7 +142,7 @@
     video {
       width: 100%;
       border-radius: 20px;
-      box-shadow: 0 0 20px #000;
+      box-shadow: 0 0 20px #ff4d00;
     }
     .footer-nav {
       position: fixed;
@@ -214,7 +214,7 @@
   position: relative;
   height: 55vh;
   overflow: hidden;
-  margin-top: 0px;
+  margin-top: 20px;
   border-radius: 20px;
 }
 
@@ -235,7 +235,7 @@
 
 .overlay {
   position: absolute;
-  bottom: 10%;
+  bottom: 15%;
   left: 5%;
   color: white;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
@@ -252,6 +252,52 @@
   margin-top: 0.5em;
 }
 
+
+#video-container {
+  width: 100%;
+  max-width: 960px;
+  margin: 20px auto;
+  display: none;
+  position: relative;
+  transition: all 0.3s ease-in-out;
+}
+#video-container.mini {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  width: 300px;
+  z-index: 999;
+}
+#video-container.mini video {
+  height: auto;
+  border-radius: 14px;
+}
+#video-info {
+  padding: 10px;
+  background: #111;
+  border-radius: 0 0 14px 14px;
+  color: white;
+}
+#channel-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+#channel-description {
+  margin-top: 5px;
+  font-size: 14px;
+}
+#live-indicator {
+  background: red;
+  color: white;
+  font-size: 10px;
+  font-family: 'Max Sans', San Serif;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
 </style>
 </head>
 <body>
@@ -262,7 +308,7 @@
       <div class="profile-dropdown">
         <a href="#">Sign In / Log In</a>
         <a href="https://raw.githubusercontent.com/arbiepeligro/lingk.tv/refs/heads/main/README.md">About Us</a>
-        <a href="https://m.facebook.com/flowph" target="_blank">
+        <a href="https://facebook.com" target="_blank">
           <span class="material-symbols-outlined" style="font-size: 16px;">thumb_up</span> Follow Us on Facebook
         </a>
       </div>
@@ -310,9 +356,16 @@
 </section>
 
 
-<div id="video-container">
+
+<div id="video-container" class="video-expanded">
   <video id="video" controls autoplay></video>
+  <div id="video-info">
+    <span id="live-indicator">LIVE</span>
+    <h2 id="channel-title">Channel Name</h2>
+    <p id="channel-description">Description will appear here when a channel is playing.</p>
+  </div>
 </div>
+
 
 <div id="channel-container"></div>
 
@@ -1066,15 +1119,47 @@ function toggleSearch() {
 </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const slides = document.querySelectorAll('.slide');
-    let currentSlide = 0;
-    setInterval(() => {
-      slides[currentSlide].classList.remove('active');
-      currentSlide = (currentSlide + 1) % slides.length;
-      slides[currentSlide].classList.add('active');
-    }, 5000);
+document.addEventListener("DOMContentLoaded", function () {
+  const slides = document.querySelectorAll('.slide');
+  let currentSlide = 0;
+  setInterval(() => {
+    slides[currentSlide].classList.remove('active');
+    currentSlide = (currentSlide + 1) % slides.length;
+    slides[currentSlide].classList.add('active');
+  }, 5000);
+
+  // Mini player behavior
+  const videoContainer = document.getElementById("video-container");
+  document.addEventListener("scroll", () => {
+    if (videoContainer.style.display === "block") {
+      if (window.scrollY > 300) {
+        videoContainer.classList.add("mini");
+      } else {
+        videoContainer.classList.remove("mini");
+      }
+    }
   });
+});
+
+function loadStream(channel) {
+  const videoContainer = document.getElementById("video-container");
+  const titleEl = document.getElementById("channel-title");
+  const descEl = document.getElementById("channel-description");
+
+  videoContainer.style.display = "block";
+  titleEl.textContent = channel.name;
+  descEl.textContent = "Now streaming: " + channel.name;
+
+  if (!player) player = new shaka.Player(video);
+  try {
+    if (channel.clearKey) {
+      player.configure({ drm: { clearKeys: channel.clearKey } });
+    }
+    player.load(channel.manifestUri);
+  } catch (e) {
+    console.error("Error loading stream", e);
+  }
+}
 </script>
 
 </body>
