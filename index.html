@@ -16,7 +16,7 @@
       border-radius: 100px;
       font-family: 'Max Sans', sans-serif;
       color: #ff4d00;
-      padding-bottom: 140px;
+      padding-bottom: 250px;
       user-select: none;
     }
 
@@ -73,8 +73,9 @@
     }
 
     .logo {
-      font-size: 40px;
+      font-size: 50px;
       font-weight: 1000;
+      vertical-align: middle;
       
       background:
         linear-gradient(135deg, #ffffff, #ffffff, #ffffff, #ff4d00);
@@ -257,7 +258,7 @@
 
 .overlay p {
   font-size: 1.2em;
-  margin-top: 0.5em;
+  margin-top: 0.3em;
 }
 
 
@@ -273,7 +274,7 @@
   position: fixed;
   bottom: 50px;
   right: 20px;
-  width: 300px;
+  width: 200px;
   z-index: 999;
 }
 #video-container.mini video {
@@ -282,8 +283,9 @@
 }
 #video-info {
   padding: 10px;
+  padding-bottom: 3px;
   background: #111;
-  border-radius: 0 0 14px 14px;
+  border-radius: 14px;
   color: white;
   user-select: none;
 }
@@ -1156,7 +1158,7 @@ function loadStream(channel) {
 
   videoContainer.style.display = "block";
   titleEl.textContent = channel.name;
-  descEl.textContent = "Now streaming: " + channel.name;
+  descEl.textContent = "Now Streaming: " + channel.name ;
 
   if (!player) player = new shaka.Player(video);
   try {
