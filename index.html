@@ -138,7 +138,7 @@
       cursor: pointer;
       user-select: none;
     }
-    
+
     #video-container {
       width: 100%;
       max-width: 960px;
@@ -220,68 +220,46 @@
       background-color: #222;
     }
   
-    .slider {
-      position: relative;
-      height: 45vh;
-      overflow: hidden;
-      margin-top: 20px;
-      border-radius: 20px;
-    }
+.slider {
+  position: relative;
+  height: 45vh;
+  overflow: hidden;
+  margin-top: 20px;
+  border-radius: 20px;
+}
 
-    .slide {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-size: cover;
-      background-position: center;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
 
-    .slide.active {
-      opacity: 1;
-      z-index: 1;
-    }
-    
-    .overlay {
-      position: absolute;
-      bottom: 15%;
-      left: 5%;
-      color: white;
-      font-family: 'Max Sans', sans-serif;
-    }
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
 
-    .overlay h1 {
-      font-size: 2.5em;
-      margin: 0;
-    }
+.overlay {
+  position: absolute;
+  bottom: 15%;
+  left: 5%;
+  color: white;
+  font-family: 'Max Sans', sans-serif;
+}
 
-    .overlay p {
-      font-size: 1.2em;
-      margin-top: 0.3em;
-    }
+.overlay h1 {
+  font-size: 2.5em;
+  margin: 0;
+}
 
-    .slider-dots {
-      position: absolute;
-      bottom: 30px;
-      left: 15%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 5px;
-      z-index: 999;
-    }
-
-    .slider-dots .dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background-color: #fff;
-      cursor: pointer;
-    }
-
-    .slider-dots .dot.active {
-      background-color: #ff4d00; /* Active dot color */
-    }
+.overlay p {
+  font-size: 1.2em;
+  margin-top: 0.3em;
+}
 
 
 #video-container {
@@ -387,6 +365,7 @@
     </div>
   </div>
 </section>
+
 
 
 <div id="video-container" class="video-expanded">
