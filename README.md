@@ -1,6 +1,6 @@
 ![](https://raw.githubusercontent.com/arbiepeligro/flow.ph/refs/heads/main/63782cf0-385d-40f3-ace4-46dca502691d.png)
 
-## **Flow** is a free-to-watch streaming service, also known as an IPTV platform, owned and operated by **Flow Technology Inc.**. Built with accessibility and variety in mind, **Flow** offers a wide array of live channels across genres including movies, news, entertainment, sports, kids, and more — all without requiring a subscription. With a fresh-look UI experience and absolutely no ads, **Flow** focuses on delivering a smooth, uninterrupted viewing experience for everyone.
+## **Flow** ### is a free-to-watch streaming service, also known as an IPTV platform, owned and operated by **Flow Technology Inc.**. Built with accessibility and variety in mind, **Flow** offers a wide array of live channels across genres including movies, news, entertainment, sports, kids, and more — all without requiring a subscription. With a fresh-look UI experience and absolutely no ads, **Flow** focuses on delivering a smooth, uninterrupted viewing experience for everyone.
 
 ## **Possibilities for Flow:**
 
@@ -26,16 +26,16 @@ The platform could expand into exclusive or original content, such as local show
 
 ## **How to Access Flow (Step-by-Step)**
 
-# **Step 1:**
+### **Step 1:**
 Open your web browser — make sure it’s updated to the latest version for the best performance.
 
-# **Step 2:**
+### **Step 2:**
 Scan the QR code or manually enter this link:
 **arbiepeligro.github.io/flow.ph**
 Then hit Enter.
 
-# **Step 3:**
+### **Step 3:**
 Wahhh lahhh! You’re in! You now have full access to **flow** — enjoy free live streaming with no ads and a fresh, easy-to-use interface.
 
-#**Available Now:**
+### **Available Now:**
 Available now the **flow** app in APK file — download now so you can stream on the go even easier!
