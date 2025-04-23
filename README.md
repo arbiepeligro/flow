@@ -1,4 +1,4 @@
-**Flow** is a free-to-watch streaming service, also known as an IPTV platform, owned and operated by **Flow Developes Inc.**. Built with accessibility and variety in mind, **Flow** offers a wide array of live channels across genres including movies, news, entertainment, sports, kids, and more — all without requiring a subscription. With a fresh-look UI experience and absolutely no ads, Lingk TV focuses on delivering a smooth, uninterrupted viewing experience for everyone.
+**Flow** is a free-to-watch streaming service, also known as an IPTV platform, owned and operated by **Flow Technology Inc.**. Built with accessibility and variety in mind, **Flow** offers a wide array of live channels across genres including movies, news, entertainment, sports, kids, and more — all without requiring a subscription. With a fresh-look UI experience and absolutely no ads, **Flow** focuses on delivering a smooth, uninterrupted viewing experience for everyone.
 
 **Possibilities for Flow:**
 
