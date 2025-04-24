@@ -12,7 +12,7 @@
   <style>
     body {
       margin: 0;
-      background: linear-gradient( #ff4d00, #000000, #000000, #000000, #000000, #000000, #000000);
+      background: linear-gradient( #ff4d00, #ff4d00, #000000, #000000, #000000, #000000, #000000, #000000);
       border-radius: 100px;
       font-family: 'Jeko-Black', sans-serif;
       color: #ff4d00;
@@ -33,6 +33,7 @@
       cursor: pointer;
       color: #fff;
       user-select: none;
+      z-index: 999;
     }
 
     .profile-dropdown {
@@ -69,7 +70,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px
+      padding: 10px;
     }
 
     .logo {
@@ -78,10 +79,11 @@
       vertical-align: middle;
       
       background:
-        linear-gradient(135deg, #ffffff, #ffffff, #ffffff, #ff4d00);
+        linear-gradient(135deg, #ffffff, #ffffff, #ff4d00);
     -webkit-background-clip: text;
       color: transparent;
       display: inline-block;
+      z-index: 999;
       user-select: none;
     }
 
@@ -142,13 +144,13 @@
     #video-container {
       width: 100%;
       max-width: 960px;
-      margin: 20px auto;
+      margin: 10px auto;
       display: none;
     }
 
     video {
       width: 100%;
-      border-radius: 20px;
+      border-radius: 20px 20px 0 0;
       box-shadow: 0 0 20px #000;
       background-color: #000;
     }
@@ -222,10 +224,10 @@
   
     .slider {
       position: relative;
-      height: 40vh;
+      height: 50vh;
       overflow: hidden;
-      margin-top: -20px;
-      border-radius: 20px;
+      margin-top: -100px;
+      border-radius: 0 0 20px 20px;
     }
 
     .slide {
@@ -285,14 +287,25 @@
       background-color: #fff;
     }
     
+    .fade-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 60px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+      pointer-events: none;
+      z-index: 999;
+    }
+    
     #video-container {
-      border-radius: 14px 14px 0 0;
+      border-radius: 20px 20px 0 0;
       width: 100%;
       max-width: 960px;
       margin: 20px auto;
       display: none;
       position: relative;
-      transition: all 0.3s ease-in-out;
+      transition: all 0.5s ease-in-out;
     }
     #video-container.mini {
       position: fixed;
@@ -366,13 +379,13 @@
     <div class="slide" style="background-image: url('https://imgur.com/SWxs9jm.png');">
       <div class="overlay">
         <h1>TV5</h1>
-        <p>News and entertainment for every Kapatid.</p>
+        <p>News and entertainment for every Filipino.</p>
       </div>
     </div>
     <div class="slide" style="background-image: url('https://imgur.com/N18w6Uw.png');">
       <div class="overlay">
         <h1>RPTV</h1>
-        <p>News, service, entertainment, and sports — "Para sa Pinoy!".</p>
+        <p>News, service, entertainment, and sports — for every Filipino.</p>
       </div>
     </div>
     <div class="slide" style="background-image: url('https://imgur.com/fB5XkzT.png');">
@@ -390,7 +403,7 @@
     <div class="slide" style="background-image: url('https://imgur.com/gd6lKtu.png');">
       <div class="overlay">
         <h1>Nickelodeon</h1>
-        <p>Cartoons, fun, and creativity — for kids.</p>
+        <p>Cartoons, craziness, and creativity — for every kids.</p>
       </div>
     </div>
 
