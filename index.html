@@ -4,7 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>flow</title>
-  <link href="https://db.onlinewebfonts.com/c/1b00126f47f218854469ef412399b752?family=Jeko-Black" rel="stylesheet" />
+  <link rel="icon" href="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gfg_200X200.png"
+        type="image/x-icon" />
+  <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css" />
   <script src="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/shaka-player.ui.debug.js">
@@ -14,10 +16,11 @@
       margin: 0;
       background: linear-gradient( #ff4d00, #ff4d00, #000000, #000000, #000000, #000000, #000000, #000000);
       border-radius: 100px;
-      font-family: 'Jeko-Black', sans-serif;
+      font-family: 'gilroy-bold', sans-serif;
       color: #ff4d00;
       padding-bottom: 250px;
       user-select: none;
+      u
     }
 
     .navbar {
@@ -30,6 +33,7 @@
 
     .profile-menu {
       position: relative;
+      margin-top: 10px;
       cursor: pointer;
       color: #fff;
       user-select: none;
@@ -46,6 +50,7 @@
       top: 40px;
       width: 180px;
       font-size: 14px;
+      font-weight: 700;
       z-index: 999;
     }
 
@@ -74,12 +79,13 @@
     }
 
     .logo {
-      font-size: 50px;
-      font-weight: 1000;
+      font-size: 60px;
+      font-weight: 900;
+      margin-top: 10px;
       vertical-align: middle;
       
       background:
-        linear-gradient(135deg, #ffffff, #ffffff, #ff4d00);
+        linear-gradient(135deg, #ffffff, #ffffff, #ffffff, #ff4d00);
     -webkit-background-clip: text;
       color: transparent;
       display: inline-block;
@@ -92,8 +98,8 @@
     }
 
     .category-title {
-      font-size: 19px ;
-      font-weight: 650;
+      font-size: 25px ;
+      font-weight: 800;
       margin-bottom: 8px;
       border-bottom: 0px solid #ff4d00;
       padding-bottom: 4px;
@@ -144,7 +150,7 @@
     #video-container {
       width: 100%;
       max-width: 960px;
-      margin: 10px auto;
+      margin: 10px;
       display: none;
     }
 
@@ -174,13 +180,14 @@
       align-items: center;
       color: #fff;
       font-size: 14px;
+      font-weight: 800;
       cursor: pointer;
       user-select: none;
     }
 
     .footer-item .material-symbols-outlined {
       font-size: 26px;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .footer-search-box {
@@ -192,22 +199,26 @@
 
     .footer-search-box.active {
       display: flex;
+      margin-bottom: -10px;
     }
 
     .footer-search-input {
       width: 100%;
       padding: 10px 14px;
       font-size: 16px;
-      font-family: 'Jeko-Black', sans-serif;
+      font-weight: 700;
+      font-family: 'gilroy-bold', sans-serif;
       border: none;
       border-radius: 20px;
       background-color: #222;
       color: #fff;
       outline: none;
+      z-index: 2;
     }
 
     .search-results {
       padding: 10px 20px;
+      z-index: 999;;
     }
 
     .search-result {
@@ -215,6 +226,7 @@
       border-bottom: 1px solid #333;
       object-fit: contain;
       color: #fff;
+      font-weight: 700;
       cursor: pointer;
     }
 
@@ -226,8 +238,8 @@
       position: relative;
       height: 50vh;
       overflow: hidden;
-      margin-top: -105px;
-      border-radius: 0 0 20px 20px;
+      margin-top: -10px;
+      border-radius:20px;
     }
 
     .slide {
@@ -250,24 +262,25 @@
       bottom: 40px;
       left: 5%;
       color: white;
-      font-family: 'Jeko-Black', sans-serif;
+      font-family: 'gilroy-bold', sans-serif;
     }
 
     .overlay h1 {
       font-size: 2.5em;
+      font-weight: 800;
       margin: 0;
     }
 
     .overlay p {
       font-size: 1.0em;
+      font-weight: 400;
       margin-top: 0.3em;
     }
 
     .slider-dots {
       position: absolute;
-      left: 86px;
+      left: 5%;
       bottom: 25px;
-      transform: translateX(-50%);
       display: flex;
       gap: 8px;
       z-index: 2;
@@ -305,7 +318,7 @@
       margin: 20px auto;
       display: none;
       position: relative;
-      transition: all 0.5s ease-in-out;
+      transition: all 0.1s ease-in-out;
     }
     #video-container.mini {
       position: fixed;
@@ -320,29 +333,40 @@
 }
     #video-info {
       padding: 10px;
-      padding-bottom: 3px;
+      padding-bottom: 2px;
       background: #111;
       border-radius: 0 0 14px 14px;
       color: white;
       user-select: none;
     }
     #channel-title {
-      margin: 0;
+      margin-top: 10px;
       font-size: 18px;
-      font-weight: bold;
+      font-weight: 800;
     }
     #channel-description {
-      margin-top: 5px;
+      margin-top: -10px;
       font-size: 14px;
+      font-weight: 400;
     }
     #live-indicator {
+      margin-top: 10px;
       background: red;
       color: white;
       font-size: 10px;
+      font-weight: 900;
       padding: 2px 6px;
       border-radius: 4px;
       margin-right: 8px;
       vertical-align: middle;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 0px 0;
+      text-align: center;
+      color: #fff;
+      font-size: 14px;
+      width: 100%;
     }
 
 </style>
@@ -379,19 +403,19 @@
     <div class="slide" style="background-image: url('https://imgur.com/SWxs9jm.png');">
       <div class="overlay">
         <h1>TV5</h1>
-        <p>News and entertainment for every Kapatid.</p>
+        <p>News and entertainment for every Filipino.</p>
       </div>
     </div>
     <div class="slide" style="background-image: url('https://imgur.com/N18w6Uw.png');">
       <div class="overlay">
         <h1>RPTV</h1>
-        <p>News, service, entertainment, and sports — "Para sa Pinoy!"</p>
+        <p>News, service, entertainment, and sports — for every Filipino.</p>
       </div>
     </div>
     <div class="slide" style="background-image: url('https://imgur.com/fB5XkzT.png');">
       <div class="overlay">
         <h1>NBA TV Philippines</h1>
-        <p>24/7 basketball action for every Filipino sports fan.</p>
+        <p>24/7 basketball action for every Filipino.</p>
       </div>
     </div>
     <div class="slide" style="background-image: url('https://imgur.com/IjuxIoP.png');">
@@ -403,7 +427,7 @@
     <div class="slide" style="background-image: url('https://imgur.com/gd6lKtu.png');">
       <div class="overlay">
         <h1>Nickelodeon</h1>
-        <p>Cartoons, fun, and creativity — for kids.</p>
+        <p>Cartoons, craziness, and creativity — for every kids.</p>
       </div>
     </div>
 
@@ -441,6 +465,9 @@
       <span class="footer-label">Search</span>
     </div>
   </footer>
+  <footer>
+  <p>&copy; 2025 Flow Developers. All rights reserved.</p>
+</footer>
 <script>
   const streams = [
     {
