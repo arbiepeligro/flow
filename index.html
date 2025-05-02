@@ -12,7 +12,7 @@
   <style>
     body {
       margin: 0;
-      background: #181818;
+      background: linear-gradient(135deg, #ff4d00, #000, #000);
       font-family: 'gilroy-bold', sans-serif;
       color: #fff;
       padding-bottom: 110px;
@@ -20,9 +20,31 @@
     }
     .topbar {
       display: flex;
-      justify-content: flex-end;
       align-items: center;
-      padding: 16px 16px 0 0;
+      justify-content: space-between;
+      padding: 16px 18px 0 18px;
+      gap: 16px;
+    }
+    .logo {
+      font-size: 2em;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, #fff, #ff4d00);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 0px;
+      user-select: none;
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      height: 40px;
+    }
+    .topbar-icons {
+      display: flex;
+      align-items: center;
       gap: 16px;
     }
     .topbar .material-symbols-outlined {
@@ -31,66 +53,68 @@
       cursor: pointer;
       background: none;
     }
-    .logo {
-      font-size: 2em;
-      font-weight: 800;
-      margin: 1px 0 16px 24px;
-      background: linear-gradient(135deg, #ff4d00, #ff4d00, #000);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      color: transparent;
-      letter-spacing: 1px;
-      user-select: none;
-    }
     .main-content { padding: 0 18px 0 18px; max-width: 100vw; }
     .slider-section { margin-bottom: 24px;}
     .slider-title { font-size: 1.2em; font-weight: 700; margin-bottom: 12px; margin-left: 4px;}
-    .slider { display: flex; overflow-x: auto; gap: 16px; scrollbar-width: none;}
-    .slider::-webkit-scrollbar{ display: none;}
-    .slider-card {
-      min-width: 160px;
-      background: #222;
-      border-radius: 18px;
+    .slider-bar {
+      position: relative;
+      height: 180px;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
-      cursor: pointer;
-      transition: transform 0.14s;
+      margin-bottom: 28px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #ff4d00, #ff4d00, #000,#000);
+      box-shadow: 0 4px 24px #0005;
     }
-    .slider-card:hover { transform: translateY(-4px) scale(1.03);}
-    .slider-card img {
-      width: 100%;
-      height: 100px;
-      object-fit: contain;
-      display: block;
-      background: #181818;
-      border-bottom: 2px solid #181818;
+    .slider-bar-inner {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(.9,0,.25,1);
+      height: 100%;
     }
-    .slider-card .card-content { padding: 10px 12px 12px 12px;}
-    .slider-card .card-title { font-size: 1em; font-weight: 700; color: #fff;}
-    .slider-card .card-sub { font-size: 0.88em; color: #ff4d00; font-weight: 600; margin-top: 2px;}
-    .platform-badge {
-      display: inline-block;
-      background: #ff4d00;
-      color: #fff;
-      border-radius: 8px;
-      font-size: 0.82em;
-      font-weight: 700;
-      padding: 2px 7px;
-      margin-top: 7px;
+    .slide-bar {
+      min-width: 100%;
+      height: 100%;
+      flex: 1 0 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 32px;
+      padding: 0 28px;
+      box-sizing: border-box;
     }
-    .live-badge {
-      display: inline-block;
-      background: red;
-      color: #fff;
-      border-radius: 6px;
-      font-size: 0.78em;
-      font-weight: 900;
-      padding: 1px 8px;
-      margin-left: 0;
-      vertical-align: middle;
-      letter-spacing: 1px;
-      margin-top: 4px;
+    .slide-bar-img {
+      width: 110px; height: 110px; border-radius: 60px;
+      object-fit: contain; background: #181818; box-shadow: 0 4px 18px #0008;
+      border: 3px solid #ff4d00;
+    }
+    .slide-bar-content {
+      display: flex; flex-direction: column; justify-content: center; min-width: 0;
+    }
+    .slide-bar-title {
+      font-size: 1.35em; font-weight: 800; color: #fff; letter-spacing: 1px; margin-bottom: 5px; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis; max-width: 320px;
+    }
+    .slide-bar-desc {
+      font-size: 1em; color: #ff4d00; font-weight: 500; margin-bottom: 6px; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis; max-width: 340px;
+    }
+    .slide-bar-btn {
+      background: #ff4d00; color:#fff; border:none; font-size:1em; font-weight:700; border-radius: 8px; padding:6px 19px; cursor:pointer;
+      margin-top: 2px;
+      box-shadow:0 2px 8px #0003;
+      transition: background 0.12s;
+    }
+    .slide-bar-btn:hover { background: #fff; color: #ff4d00; }
+    .slider-bar-dots {
+      position: relative; justify-content: center; bottom: 15px; display: flex; gap: 5px; z-index: 2;
+    }
+    .slider-bar-dot {
+      height: 3px; width: 15px; background-color: #555;
+      border-radius: 8px; display: inline-block; opacity:.7; cursor:pointer;
+      transition: opacity 0.3s, background-color 0.3s;
+    }
+    .slider-bar-dot.active {
+      background-color: #ff4d00;
+      opacity: 1;
     }
     .section-title { font-size: 2em; font-weight: 800; margin: 30px 0 14px 4px;
       letter-spacing: 0.3px; background: linear-gradient(135deg, #fff, #ff4d00 70%);
@@ -106,37 +130,106 @@
       padding-left: 2px;
     }
     .horizontal-list::-webkit-scrollbar { display: none;}
-    .channel-card, .movie-card {
-      min-width: 88px;
-      background: #222;
-      border-radius: 15px;
-      padding: 10px 50px 8px 6px;
+    .channel-card {
+      min-width: 120px;
+      width: 140px;
+      background: #232323;
+      border-radius: 16px;
+      padding: 12px 8px 10px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
       box-shadow: 0 2px 8px rgba(0,0,0,0.13);
       cursor: pointer;
-      transition: transform 0.13s;
+      transition: transform 0.13s, box-shadow 0.13s;
       margin-bottom: 6px;
+      border: 2.5px solid #ff4d00;
     }
-    .channel-card:hover, .movie-card:hover { transform: translateY(-2px) scale(1.04);}
-    .channel-card img, .movie-card img {
-      width: 60px; height: 60px;
-      border-radius: 50%;
+    .channel-card:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 4px 18px #ff4d0033;
+      border-color: #fff;
+    }
+    .channel-card img {
+      width: 64px; height: 64px;
+      border-radius: 50px;
       object-fit: contain;
       background: #222;
-      border: 2px solid #222;
-    }
-    .movie-card img {
-      border-radius: 12px; width: 65px; height: 97px; border: none;
+      border: none;
+      margin-bottom: 8px;
     }
     .channel-title {
-      font-size: 0em; color: #fff; font-weight: 700; margin-top: 6px; text-align: left;
-      max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: 1em; color: #fff; font-weight: 700; margin-top: 2px; text-align: center;
+      max-width: 90%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .live-badge {
+      display: inline-block;
+      background: red;
+      color: #fff;
+      border-radius: 6px;
+      font-size: 0.78em;
+      font-weight: 900;
+      padding: 1px 8px;
+      margin-left: 0;
+      vertical-align: middle;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+    .movie-card {
+      min-width: 150px;
+      width: 170px;
+      background: #232323;
+      border-radius: 18px;
+      padding: 12px 8px 12px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.13);
+      cursor: pointer;
+      transition: transform 0.13s, box-shadow 0.13s;
+      margin-bottom: 6px;
+      border: 3.5px solid #ff4d00;
+      position: relative;
+    }
+    .movie-card:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 18px #ff4d0033;
+      border-color: #fff;
+    }
+    .movie-card img {
+      border-radius: 18px;
+      width: 100px; height: 150px;
+      object-fit: cover;
+      background: #111;
+      box-shadow: 0 2px 10px #0008;
+      border: none;
     }
     .movie-title {
-      font-size: 0.9em; color: #fff; font-weight: 700; margin-top: 6px; text-align: left;
-      max-width: 90px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      font-size: 1.03em; color: #fff; font-weight: 700; margin-top: 7px; text-align: center;
+      max-width: 95%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .movie-top-label {
+      position: absolute;
+      left: 0; top: 0;
+      background: linear-gradient(90deg,#ff4d00 80%,#fff 180%);
+      color: #fff;
+      font-size: 1.12em;
+      font-weight: 900;
+      border-radius: 13px 0 22px 0;
+      padding: 5px 18px 5px 12px;
+      z-index: 2;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 10px #0007;
+    }
+    .platform-badge {
+      display: inline-block;
+      background: #ff4d00;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 0.82em;
+      font-weight: 700;
+      padding: 2px 7px;
+      margin-top: 7px;
     }
     .footer-nav {
       position: fixed; bottom: 0; width: 100vw; background: #1b1b1b; border-radius: 0;
@@ -157,27 +250,27 @@
       -webkit-text-fill-color: transparent;
       color: transparent; font-size: 32px;
     }
-    .footer-item.selected .footer-label { color: #ff4d00;}
+    .footer-item.selected { color: #ff4d00;}
     .footer-label {font-size: 14px;}
     .categories-page, .plus-page { display: none; padding: 30px 18px 18px 18px;}
     .categories-header { font-size: 1.1em; font-weight: 900; margin-bottom: 14px; letter-spacing: 0.5px;}
     .category-group { margin-bottom: 24px;}
-    .category-title { font-size: 1em; font-weight: 800; color: #ff4d00; margin-bottom: 6px; margin-left: 2px;}
+    .category-title { font-size: 1.5em; font-weight: 800; color: #fff; margin-bottom: 6px; margin-left: 2px;}
     .category-channels { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none;}
     .category-channels::-webkit-scrollbar { display: none;}
     .plus-header { font-size: 1.15em; font-weight: 900; margin-bottom: 16px; letter-spacing: 0.5px;}
     .services-row { display: flex; gap: 20px; overflow-x: auto; margin-bottom: 24px; scrollbar-width: none;}
     .services-row::-webkit-scrollbar { display: none;}
     .service-card {
-      min-width: 90px; background: #232323; border-radius: 12px; padding: 13px 7px 8px 7px;
-      text-align: center; cursor: pointer; box-shadow: 0 2px 7px rgba(0,0,0,0.10); border: 2px solid #232323;
+      min-width: 90px; background: transparent; border-radius: 12px; padding: 13px 7px 8px 7px;
+      text-align: center; cursor: pointer; box-shadow: 0 2px 7px rgba(0,0,0,0.10); border: 0px solid #232323;
       transition: transform 0.13s;
     }
     .service-card:hover { transform: translateY(-2px) scale(1.06);}
-    .service-card img { width: 48px; height: 48px; border-radius: 7px; margin-bottom: 7px; background: #fff; object-fit: contain;}
+    .service-card img { width: 48px; height: 48px; border-radius: 50px; margin-bottom: 7px; background: #fff; object-fit: contain;}
     .service-card .service-title { font-size: 0.95em; color: #fff; font-weight: 700; margin-bottom: 2px;}
     .service-card .service-label { font-size: 0.7em; color: #ff4d00; font-weight: 800;}
-    .plus-section-title { font-size: 1em; font-weight: 800; color: #ff4d00; margin-bottom: 8px; margin-left: 2px;}
+    .plus-section-title { font-size: 1.5em; font-weight: 800; color: #fff; margin-bottom: 8px; margin-left: 2px;}
     .plus-movies-row { display: flex; gap: 13px; overflow-x: auto; margin-bottom: 16px; scrollbar-width: none;}
     .plus-movies-row::-webkit-scrollbar { display: none;}
     /* Search Modal */
@@ -224,7 +317,10 @@
     .player-title { font-size: 1.1em; font-weight: 800; margin-top: 8px; color: #fff;}
     .player-sub { font-size: 0.92em; color: #ff4d00; font-weight: 600; margin-top: 2px;}
     @media (max-width: 600px) {
-      .channel-card, .movie-card { min-width: 68px;}
+      .channel-card, .movie-card {
+        min-width: 115px !important;
+        width: 120px !important;
+      }
       .logo { font-size: 2em; margin-left: 10px;}
       #shaka-player-container { width: 95vw; height: 43vw;}
     }
@@ -232,15 +328,20 @@
 </head>
 <body>
   <div class="topbar">
-    <span class="material-symbols-outlined" id="searchBtn" title="Search">search</span>
-    <span class="material-symbols-outlined" title="Profile">account_circle</span>
+    <div class="logo">flow+</div>
+    <div class="topbar-icons">
+      <span class="material-symbols-outlined" id="searchBtn" title="Search">search</span>
+      <span class="material-symbols-outlined" title="Profile">account_circle</span>
+    </div>
   </div>
-  <div class="logo">flow+</div>
   <main>
     <div class="main-content" id="homeSection">
       <div class="slider-section">
-        <div class="slider-title">Suggestions for You</div>
-        <div class="slider" id="suggestionSlider"></div>
+        <div class="slider-title">Suggested for You</div>
+        <div class="slider-bar" id="sliderBar">
+          <div class="slider-bar-inner" id="sliderBarInner"></div>
+          <div class="slider-bar-dots" id="sliderBarDots"></div>
+        </div>
       </div>
       <div class="section-title">TOP CHANNELS</div>
       <div class="horizontal-list" id="topChannelsRow"></div>
@@ -252,7 +353,7 @@
       <div class="services-row" id="servicesRow"></div>
       <div class="plus-section-title">Popular on Netflix</div>
       <div class="plus-movies-row" id="plusNetflixRow"></div>
-      <div class="plus-section-title">Popular on HBO</div>
+      <div class="plus-section-title">Popular on Max</div>
       <div class="plus-movies-row" id="plusHBORow"></div>
     </div>
     <div class="categories-page" id="categoriesPage">
@@ -976,20 +1077,20 @@
     const demoMovies = [
       {
         id: 'mv1',
-        title: 'Nosferatu',
-        img: 'https://i.imgur.com/3pT7gFp.jpg',
+        title: 'Havoc',
+        img: 'https://imgur.com/lKiwSjT.png',
         platform: 'Netflix',
         price: '₱560.00',
-        rating: '84%',
+        rating: '64%',
         type: 'movie',
         description: 'A classic horror movie available on Netflix.',
-        url: 'https://www.netflix.com/title/81436969'
+        url: 'https://www.netflix.com/ph-en/title/81709663?preventIntent=true'
       },
       {
         id: 'mv2',
         title: 'Novocaine',
         img: 'https://i.imgur.com/MWkm5mH.jpg',
-        platform: 'HBO',
+        platform: 'Max',
         price: '₱600.00',
         rating: '81%',
         type: 'movie',
@@ -998,8 +1099,8 @@
       }
     ];
     const streamingServices = [
-      { name: 'Netflix', img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg', label: 'Originals', url: 'https://www.netflix.com/' },
-      { name: 'HBO', img: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg', label: 'Series', url: 'https://www.hbomax.com/' }
+      { name: 'Netflix', img: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg', label: '', url: 'https://www.netflix.com/' },
+      { name: 'Max', img: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/Max_logo.svg', label: '', url: 'https://www.max.com/' }
     ];
     // --- Build categories from channel data ---
     function buildCategories() {
@@ -1010,40 +1111,73 @@
       }
       return cats;
     }
-    // --- Render Home Sections ---
-    function renderSlider() {
-      const slider = document.getElementById('suggestionSlider');
-      slider.innerHTML = '';
-      // Show demo movies as suggestions
-      for (const movie of demoMovies) {
-        slider.innerHTML += `
-        <div class="slider-card" onclick="window.open('${movie.url}', '_blank')">
-          <img src="${movie.img}" alt="${movie.title}" />
-          <div class="card-content">
-            <div class="card-title">${movie.title}</div>
-            <div class="card-sub">${movie.price}&nbsp;<span class="material-symbols-outlined" style="font-size:1em;vertical-align:middle;color:#ff4d00;">local_activity</span> <span class="rating">${movie.rating}</span></div>
-            <div class="platform-badge">${movie.platform}</div>
-          </div>
-        </div>`;
-      }
-      // Add a channel suggestion as well
-      if (streams.length > 0) {
-        const ch = streams[0];
-        slider.innerHTML += `
-        <div class="slider-card" onclick="openPlayerChannel(streams[0])">
-          <img src="${ch.logo}" alt="${ch.name}" />
-          <div class="card-content">
-            <div class="card-title">${ch.name}</div>
-            <div class="card-sub"><span class="live-badge">LIVE</span></div>
-            <div class="platform-badge">Channel</div>
-          </div>
-        </div>`;
-      }
+    // --- Slider Bar (Suggestions) ---
+    const suggestionSlides = [
+      // Use a mix of your best channels and movies/series for the slider
+      ...streams.slice(0, 4),
+      ...demoMovies.slice(0, 3),
+      ...streams.slice(4, 8),
+    ];
+    function renderSliderBar() {
+      const sliderBarInner = document.getElementById("sliderBarInner");
+      const dots = document.getElementById("sliderBarDots");
+      sliderBarInner.innerHTML = "";
+      dots.innerHTML = "";
+      suggestionSlides.forEach((item, idx) => {
+        if(item.platform) {
+          // Movie/series
+          sliderBarInner.innerHTML += `
+            <div class="slide-bar">
+              <img class="slide-bar-img" src="${item.img}" alt="${item.title}" />
+              <div class="slide-bar-content">
+                <div class="slide-bar-title">${item.title}</div>
+                <div class="slide-bar-desc">${item.platform}</div>
+                <button class="slide-bar-btn" onclick="window.open('${item.url}','_blank');event.stopPropagation();">Watch Now</button>
+              </div>
+            </div>
+          `;
+        } else {
+          // Channel
+          sliderBarInner.innerHTML += `
+            <div class="slide-bar">
+              <img class="slide-bar-img" src="${item.logo}" alt="${item.name}" />
+              <div class="slide-bar-content">
+                <div class="slide-bar-title">${item.name}</div>
+                <div class="slide-bar-desc">${item.category || ""}</div>
+                <button class="slide-bar-btn" onclick="openPlayerChannel(streams[${streams.indexOf(item)}]);event.stopPropagation();">Watch Live</button>
+              </div>
+            </div>
+          `;
+        }
+        dots.innerHTML += `<div class="slider-bar-dot${idx === 0 ? " active" : ""}" onclick="goToSlideBar(${idx})"></div>`;
+      });
+      sliderBarCurrent = 0;
+      updateSliderBar();
     }
+    let sliderBarCurrent = 0;
+    function goToSlideBar(idx) {
+      sliderBarCurrent = idx;
+      updateSliderBar();
+    }
+    function updateSliderBar() {
+      const sliderBarInner = document.getElementById("sliderBarInner");
+      sliderBarInner.style.transform = `translateX(-${sliderBarCurrent * 100}%)`;
+      Array.from(document.getElementsByClassName("slider-bar-dot")).forEach((dot, i) => {
+        dot.classList.toggle("active", i === sliderBarCurrent);
+      });
+    }
+    setInterval(() => {
+      if(document.getElementById("sliderBarInner")) {
+        sliderBarCurrent = (sliderBarCurrent + 1) % suggestionSlides.length;
+        updateSliderBar();
+      }
+    }, 5000);
+
+    // --- Top Channels ---
     function renderTopChannels() {
       const row = document.getElementById('topChannelsRow');
       row.innerHTML = '';
-      for (const ch of streams.slice(0, 5)) {
+      for (const ch of streams.slice(0, 8)) {
         row.innerHTML += `
         <div class="channel-card" onclick="openPlayerChannel(streams[${streams.indexOf(ch)}])">
           <img src="${ch.logo}" alt="${ch.name}" />
@@ -1052,27 +1186,29 @@
         </div>`;
       }
     }
+    // --- Top Movies/Series ---
     function renderTopMovies() {
       const row = document.getElementById('topMoviesRow');
       row.innerHTML = '';
-      for (const movie of demoMovies) {
+      demoMovies.forEach((movie, idx) => {
         row.innerHTML += `
-        <div class="movie-card" onclick="window.open('${movie.url}', '_blank')">
+        <div class="movie-card" onclick="window.open('${movie.url}','_blank')">
+          <div class="movie-top-label">TOP ${idx + 1}</div>
           <img src="${movie.img}" alt="${movie.title}" />
           <div class="movie-title">${movie.title}</div>
           <div class="platform-badge">${movie.platform}</div>
-          <div class="price">${movie.price}</div>
-          <div class="rating"><span class="material-symbols-outlined" style="font-size:1em;vertical-align:middle;color:#ff4d00;">local_activity</span> ${movie.rating}</div>
+          <div class="price">${movie.price || ""}</div>
+          <div class="rating"><span class="material-symbols-outlined" style="font-size:1em;vertical-align:middle;color:#ff4d00;">local_activity</span> ${movie.rating || ""}</div>
         </div>`;
-      }
+      });
     }
-    // --- Plus Tab ---
+    // --- Plus Tab (Streaming Services, Netflix, HBO Demos) ---
     function renderServicesRow() {
       const row = document.getElementById('servicesRow');
       row.innerHTML = '';
       for (const svc of streamingServices) {
         row.innerHTML += `
-        <div class="service-card" onclick="window.open('${svc.url}', '_blank')">
+        <div class="service-card" onclick="window.open('${svc.url}','_blank')">
           <img src="${svc.img}" alt="${svc.name}" />
           <div class="service-title">${svc.name}</div>
           <div class="service-label">${svc.label}</div>
@@ -1085,11 +1221,12 @@
       for (const movie of demoMovies.filter(m=>m.platform==='Netflix')) {
         netflixRow.innerHTML += `
         <div class="movie-card" onclick="window.open('${movie.url}', '_blank')">
+          <div class="movie-top-label">TOP 1</div>
           <img src="${movie.img}" alt="${movie.title}" />
           <div class="movie-title">${movie.title}</div>
           <div class="platform-badge">${movie.platform}</div>
-          <div class="price">${movie.price}</div>
-          <div class="rating"><span class="material-symbols-outlined" style="font-size:1em;vertical-align:middle;color:#ff4d00;">local_activity</span> ${movie.rating}</div>
+          <div class="price">${movie.price || ""}</div>
+          <div class="rating"><span class="material-symbols-outlined" style="font-size:1em;vertical-align:middle;color:#ff4d00;">local_activity</span> ${movie.rating || ""}</div>
         </div>`;
       }
       const hboRow = document.getElementById('plusHBORow');
@@ -1097,15 +1234,24 @@
       for (const movie of demoMovies.filter(m=>m.platform==='HBO')) {
         hboRow.innerHTML += `
         <div class="movie-card" onclick="window.open('${movie.url}', '_blank')">
+          <div class="movie-top-label">TOP 1</div>
           <img src="${movie.img}" alt="${movie.title}" />
           <div class="movie-title">${movie.title}</div>
           <div class="platform-badge">${movie.platform}</div>
-          <div class="price">${movie.price}</div>
-          <div class="rating"><span class="material-symbols-outlined" style="font-size:1em;vertical-align:middle;color:#ff4d00;">local_activity</span> ${movie.rating}</div>
+          <div class="price">${movie.price || ""}</div>
+          <div class="rating"><span class="material-symbols-outlined" style="font-size:1em;vertical-align:middle;color:#ff4d00;">local_activity</span> ${movie.rating || ""}</div>
         </div>`;
       }
     }
-    // --- Categories ---
+    // --- Categories Tab ---
+    function buildCategories() {
+      const cats = {};
+      for (const ch of streams) {
+        if (!cats[ch.category]) cats[ch.category] = [];
+        cats[ch.category].push(ch);
+      }
+      return cats;
+    }
     function renderChannelCategories() {
       const cats = buildCategories();
       const groupsElem = document.getElementById('categoryGroups');
@@ -1132,7 +1278,7 @@
     function openPlayerChannel(channel) {
       document.getElementById('playerModal').classList.add('active');
       document.getElementById('playerTitle').innerText = channel.name || '';
-      document.getElementById('playerSub').innerText = channel.desc || '';
+      document.getElementById('playerSub').innerText = channel.category || '';
       setTimeout(() => {
         initializeShakaPlayer(channel);
       }, 220);
@@ -1240,7 +1386,7 @@
       }
     }
     // --- Initial Render ---
-    renderSlider();
+    renderSliderBar();
     renderTopChannels();
     renderTopMovies();
     renderServicesRow();
