@@ -227,7 +227,7 @@
       border: 2px solid var(--card-border);
     }
     .channel-card img {
-      width: 60px; height: 60px; /* Slightly smaller */
+      width: 100px; height: 60px; /* Slightly smaller */
       border-radius: none;
       object-fit: contain;
       background: transparent; /* Darker background */
@@ -382,7 +382,7 @@
     .service-card .service-title { font-size: 0.9em; color: var(--text-primary); font-weight: 700; margin-bottom: 3px; transition: color 0.3s ease;}
     .service-card .service-label { font-size: 0.75em; color: var(--accent-primary); font-weight: 700;}
     .plus-section-title { font-size: 1.4em; font-weight: 700; color: var(--text-primary); margin-bottom: 10px; margin-left: 2px; transition: color 0.3s ease;}
-    .plus-movies-row { display: flex; gap: 14px; overflow-x: auto; margin-bottom: 20px; scrollbar-width: none; padding-bottom: 10px;}
+    .plus-movies-row { display: flex; gap: 10px; overflow-x: auto; margin-bottom: 20px; scrollbar-width: none; padding-bottom: 20px;}
     .plus-movies-row::-webkit-scrollbar { display: none;}
 
     /* --- Search Modal --- */
@@ -512,7 +512,7 @@
     .feature-slide.active { opacity: 1; }
     .feature-overlay { /* ... keep as before ... */ position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.9) 100%); z-index: 2; }
     .feature-content { /* ... keep as before ... */ position: relative; z-index: 3; color: var(--text-primary); padding: 20px; max-width: 90%; width: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; margin-bottom: 45px; gap: 4px; text-align: center; box-sizing: border-box; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
-    .feature-logo img { /* ... keep as before ... */ height: 50px; margin-bottom: 12px; max-width: 150px; object-fit: contain;}
+    .feature-logo img { /* ... keep as before ... */ height: 30px; margin-bottom: 12px; max-width: 150px; object-fit: contain;}
     .feature-title { /* ... keep as before ... */ font-size: 1.8em; font-weight: 800; line-height: 1.2;}
     .feature-desc { /* ... keep as before ... */ font-size: 1.05em; color: #eee; font-weight: 500; opacity: 0.95;}
     .feature-actions { /* ... keep as before ... */ display: flex; gap: 12px; justify-content: center; margin-top: 10px;}
@@ -698,19 +698,19 @@
     // --- DATA (Ensure these arrays are fully populated) ---
     // ======================================================
     const services = [
-      { title: "Netflix", label: "Subscription", img: "https://i.imgur.com/nYwWf6V.png", url: "https://netflix.com" },
-      { title: "Max", label: "Subscription", img: "https://i.imgur.com/1V7v2QF.jpg", url: "https://max.com" },
-      { title: "iWantTFC", label: "Free/Premium", img: "https://i.imgur.com/zZWj5vn.png", url: "https://iwanttfc.com" },
-      { title: "Prime Video", label: "Subscription", img: "https://i.imgur.com/9ghXzL6.png", url:"https://primevideo.com"},
-      { title: "Disney+", label: "Subscription", img: "https://i.imgur.com/eL9zKHF.png", url:"https://disneyplus.com"},
+      { title: "Netflix", label: "Subscription", img: "https://imgur.com/euY2Jff.png", url: "https://netflix.com" },
+      { title: "Max", label: "Subscription", img: "https://imgur.com/Yhg56xK.png", url: "https://max.com" },
+      { title: "iWantTFC", label: "Free/Premium", img: "https://imgur.com/o8BsYvW.png", url: "https://iwanttfc.com" },
+      { title: "Prime Video", label: "Subscription", img: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Amazon_Prime_Video_logo_%282024%29.svg", url:"https://primevideo.com"},
+      { title: "Disney+", label: "Subscription", img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Disney_plus_icon.png", url:"https://disneyplus.com"},
     ];
     const movies = [
-      { title: "Dune: Part Two", img: "https://i.imgur.com/sUkB0m5.jpg", platform: "Max", url: "https://www.max.com/movies/dune-part-two" },
-      { title: "Extraction 2", img: "https://i.imgur.com/V2Hq9K8.jpg", platform: "Netflix", url: "https://www.netflix.com/title/81277950" },
-      { title: "The Batman", img: "https://i.imgur.com/lZ3hLuw.jpg", platform: "Max", url: "https://www.max.com/movies/the-batman" },
-      { title: "Money Heist", img: "https://i.imgur.com/aU9nS7g.jpg", platform: "Netflix", url: "https://www.netflix.com/title/80192098" },
-      { title: "The Bear", img: "https://i.imgur.com/i8kR8Jc.jpg", platform: "Disney+", url: "https://www.disneyplus.com/series/the-bear/52mNklhFZA7k" },
-      { title: "Reacher", img: "https://i.imgur.com/7T5tQYv.jpg", platform: "Prime Video", url: "https://www.primevideo.com/detail/0RT178HE948RK6PG90Q8UDCS04/" },
+      { title: "The White Lotus", img: "https://imgur.com/ACmOyja.png", platform: "Max", url: "https://www.max.com/movies/dune-part-two" },
+      { title: "When Life Gives You Tangerines", img: "https://imgur.com/FxIVHoq.png", platform: "Netflix", url: "https://www.netflix.com/title/81277950" },
+      { title: "The Batman", img: "https://imgur.com/BQnedrX.png", platform: "Max", url: "https://www.max.com/movies/the-batman" },
+      { title: "Incognito", img: "https://imgur.com/a6ciZoP.png", platform: "Netflix", url: "https://www.netflix.com/title/80192098" },
+      { title: "Star Wars: Ancor", img: "https://imgur.com/l9Ke0cl.png", platform: "Disney+", url: "https://www.disneyplus.com/series/the-bear/52mNklhFZA7k" },
+      { title: "Another Simple Thing", img: "https://imgur.com/H3kTigz.png", platform: "Prime Video", url: "https://www.primevideo.com/detail/0RT178HE948RK6PG90Q8UDCS04/" },
     ];
     const streams = [
        {
@@ -1392,12 +1392,11 @@
       },
     ];
     const features = [
-       { bg: "https://imgur.com/dkFBXKf.png", logo: '<img src="https://imgur.com/dkFBXKf.png" alt="Kapamilya Channel Logo"/>', title: "Kapamilya Channel", desc: "Your home for Filipino entertainment, live 24/7.", stream: streams.find(s => s.name === "Kapamilya Channel")},
-       { bg: "https://i.imgur.com/sUkB0m5.jpg", logo: '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Max_%28streaming_service%29_logo.svg/300px-Max_%28streaming_service%29_logo.svg.png" alt="Max Logo" style="background: #fff; padding: 5px; border-radius: 8px;"/>', title: "Dune: Part Two", desc: "The epic saga continues. Stream now on Max.", urlInfo: movies.find(m => m.title === "Dune: Part Two") },
-       { bg: "https://i.imgur.com/Ddyfzrn.png", logo: '<img src="https://i.imgur.com/Ddyfzrn.png" alt="TV5 Logo"/>', title: "TV5", desc: "News, sports, and entertainment live.", stream: streams.find(s => s.name === "TV5") },
-       { bg: "https://i.imgur.com/V2Hq9K8.jpg", logo: '<img src="https://i.imgur.com/nYwWf6V.png" alt="Netflix Logo"/>', title: "Extraction 2", desc: "Tyler Rake is back. Watch the action on Netflix.", urlInfo: movies.find(m => m.title === "Extraction 2") },
-       { bg: "https://i.imgur.com/43nZ2rv.png", logo: '<img src="https://i.imgur.com/43nZ2rv.png" alt="A2Z Logo"/>', title: "A2Z", desc: "Wholesome Filipino shows for the family.", stream: streams.find(s => s.name === "A2Z") },
-       { bg: "https://i.imgur.com/7T5tQYv.jpg", logo: '<img src="https://i.imgur.com/9ghXzL6.png" alt="Prime Video Logo" style="background: #fff; padding: 5px; border-radius: 8px;"/>', title: "Reacher", desc: "Don't mess with Jack Reacher. Streaming on Prime Video.", urlInfo: movies.find(m => m.title === "Reacher") }
+       { bg: "https://imgur.com/Ayn1PyD.png", logo: '<img src="https://imgur.com/8F3eguF.png" alt="Kapamilya Channel Logo"/>', title: "FPJ's Batang Quiapo", desc: "Weeknights 8PM", stream: streams.find(s => s.name === "Kapamilya Channel")},
+       { bg: "https://imgur.com/devPlDV.png", logo: '<img src="https://imgur.com/BZx7oSp.png" alt="Max Logo"/>', title: "The White Lotus", desc: "Now Streaming on Max", urlInfo: movies.find(m => m.title === "The White Lotus") },
+       { bg: "https://imgur.com/yJwTMGg.png", logo: '<img src="https://i.imgur.com/Ddyfzrn.png" alt="TV5 Logo"/>', title: "Eat Bulaga!", desc: "Mon-Sat 11:30AM", stream: streams.find(s => s.name === "TV5") },
+       { bg: "https://imgur.com/FxIVHoq.png", logo: '<img src="https://imgur.com/Y6Tvp4P.png" alt="Netflix Logo"/>', title: "When Life Gives You Tangerines", desc: "Now Streaming on Netflix", urlInfo: movies.find(m => m.title === "When Life Gives You Tangirines") },
+       { bg: "https://imgur.com/lX9vorK.png", logo: '<img src="https://imgur.com/1CS1WYG.png" alt="Prime Video Logo"/>', title: "Another Simple Favor", desc: "Now Streaming on Prime Video", urlInfo: movies.find(m => m.title === "Another Simple Favor") }
     ];
     // ======================================================
     // --- END DATA ---
