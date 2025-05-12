@@ -1,12 +1,12 @@
-![](https://raw.githubusercontent.com/arbiepeligro/flow.ph/refs/heads/main/flowdev-logo.png)
+![](https://raw.githubusercontent.com/arbiepeligro/flow.ph/refs/heads/main/flow-streaming.png)
 
 ## **Flow**
-is a free-to-watch streaming service, also known as an IPTV platform, owned and operated by **Flow Developers**. Built with accessibility and variety in mind, **Flow** offers a wide array of live channels across genres including movies, news, entertainment, sports, kids, and more — all without requiring a subscription. With a fresh-look UI experience and absolutely no ads, **Flow** focuses on delivering a smooth, uninterrupted viewing experience for everyone.
+is a free-to-watch streaming service, also known as an IPTV platform, owned and operated by **Flow Streaming**. Built with accessibility and variety in mind, **Flow** offers a wide array of live channels across genres including movies, news, entertainment, sports, kids, and more — all without requiring a subscription. With a fresh-look UI experience and absolutely no ads, **Flow** focuses on delivering a smooth, uninterrupted viewing experience for everyone.
 
 ## **Possibilities for Flow:**
 
 Future Integration with Smart TVs and Devices
-Flow could soon become available on platforms like Android TV, Roku, or other smart home devices — bringing live streaming directly to living rooms with seamless navigation.
+Flow could soon become available on platforms like Google TV, Android TV, WebOS, or other smart home devices — bringing live streaming directly to living rooms with seamless navigation.
 
 ## **Offline Viewing Features**
 
