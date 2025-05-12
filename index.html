@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0"/>
   <title>flow+</title>
-  <link rel="icon" href="https://imgur.com/ZCslJnW.png" type="image/x-icon" />
+  <link rel="icon" href="https://media-hosting.imagekit.io/050a454fa5914b57/Adobe%20Express%20-%20file.png?Expires=1841661202&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=vyVi7SltNr6i3ibsTgWAsDrXzew8DviGAnBkHBfX6vsMSmT09h06YRIEYvQ6y-17ZAeNHAMaAT67PIN9vykmKuo8C98oVdaGsL4CNzoLRiXdn4lozGi~gO-kuXJ21Z8i4o07ijKmHCVHCF2xGMOSQmiIP59hXrvyYOyO~y-k3XzNCA01f0aPVi32WfPKYoLYQCnaQCUUp1a0s8ClsMkeNWL5VKVHVo8AdKizPftDHPGWi8bWIMxz2HfGNrlZnsAQKVwiYdlqnZHQhpnnkWcsZc6bClaWn38aiLP5Xb2ufWlKnRSoAHOObqICOKmkXgmtHmPlofHwu0H67jiUfI6enA__" type="image/x-icon" />
   <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/shaka-player@latest/dist/controls.css" />
@@ -62,7 +62,27 @@
 
     body { margin: 0; background: var(--bg-gradient-end); font-family: 'gilroy-bold', sans-serif; color: var(--text-primary); padding-bottom: var(--footer-height); -webkit-tap-highlight-color: transparent; transition: background 0.3s ease, color 0.3s ease, padding-bottom 0.3s ease-out; }
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 0 18px; gap: 16px; position: relative; }
-    a.logo { font-size: 3em; font-weight: 800; color: #fff; letter-spacing: 0px; user-select: none; margin: 0; padding: 0; line-height: 1; display: flex; align-items: center; height: 50px; z-index: 999; transition: background 0.3s ease; text-decoration: none; cursor: pointer; }
+    
+    a.logo {
+        /* font-size, font-weight, letter-spacing, line-height removed as image handles visuals */
+        color: #fff; /* Fallback or if other elements were ever added */
+        user-select: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        height: 50px; /* Defines clickable area and vertical boundary */
+        z-index: 999;
+        transition: background 0.3s ease;
+        text-decoration: none;
+        cursor: pointer;
+    }
+    a.logo img {
+        height: 35px; /* Default height for the logo image */
+        width: auto;   /* Maintain aspect ratio */
+        display: block; /* Removes extra space if any */
+    }
+
     .desktop-nav-links { display: none; } /* Hidden on mobile by default */
     .topbar-icons { display: flex; align-items: center; gap: 16px; z-index: 999; position: relative; }
     .topbar .material-symbols-outlined { font-size: 28px; color: var(--text-primary); cursor: pointer; background: none; padding: 4px; border-radius: 50%; transition: background-color 0.2s, color 0.3s ease, font-variation-settings 0.2s ease; font-variation-settings: 'FILL' 0; }
@@ -157,7 +177,10 @@
        .feature-dots { bottom: 10px; gap: 6px; }
        .feature-dot { width: 7px; height: 7px; }
        .profile-menu { top: 55px; min-width: 180px; }
-       a.logo { font-size: 2.5em; }
+       /* a.logo { font-size: 2.5em; } REMOVED text specific style */
+       a.logo img {
+           height: 30px; /* Slightly smaller logo on small screens */
+       }
        .topbar .material-symbols-outlined { font-size: 26px; }
        .section-title, .plus-section-title, .category-title { font-size: 1.6em; }
        .channel-card { width: calc(var(--channel-card-width) * 0.85); }
@@ -196,22 +219,20 @@
     /* --- Desktop Styles (Netflix-like enhancements) --- */
     @media (min-width: 1024px) {
         :root {
-            /* Override card sizes for desktop */
             --movie-poster-width: 180px;
             --ranked-poster-width: 180px;
             --channel-card-width: 220px;
-            /* Adjust scrollbar for desktop */
             --scrollbar-thumb: #666;
             --scrollbar-track: #333;
         }
 
         body {
-            padding-bottom: 20px !important; /* Remove footer nav space, add some general bottom margin */
-            background: var(--bg-gradient-start); /* Ensure full background coverage */
+            padding-bottom: 20px !important; 
+            background: var(--bg-gradient-start);
         }
 
         .footer-nav {
-            display: none !important; /* Hide mobile footer navigation */
+            display: none !important;
         }
 
         .topbar {
@@ -225,10 +246,14 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
-        .logo {
-            font-size: 2.5em; /* Adjusted for balance */
+        a.logo { /* Selector changed from .logo to a.logo for specificity */
+            /* font-size: 2.5em; REMOVED text specific style */
             margin-right: 25px;
         }
+        a.logo img { /* Style for the image within a.logo */
+             height: 40px; /* Slightly larger logo on desktop */
+        }
+
 
         .desktop-nav-links {
             display: flex;
@@ -261,32 +286,31 @@
             gap: 20px;
         }
         .topbar .material-symbols-outlined {
-            font-size: 28px; /* Slightly larger icons */
+            font-size: 28px;
         }
         .profile-menu {
-            top: calc(100% + 10px); /* Adjust dropdown position due to fixed topbar */
+            top: calc(100% + 10px);
         }
 
         #mainContainer {
-            padding-top: 75px; /* Account for fixed topbar height (approx 60-70px) */
+            padding-top: 80px; /* Adjusted for topbar with image logo if needed */
             max-width: 100%;
         }
 
         .main-content, .plus-page, .categories-page {
             padding: 25px 40px;
-            max-width: 1600px; /* Max width for content, centered */
+            max-width: 1600px; 
             margin: 0 auto;
         }
 
-        /* Feature Slider - Netflix Hero Style */
         .feature-slider-section {
             margin-bottom: 40px;
             width: 100%;
             height: 60vh; 
             max-height: 550px;
             min-height: 400px;
-            margin-top: 0; /* Reset mobile margin */
-            display: block; /* Changed from flex for positioning context */
+            margin-top: 0; 
+            display: block;
         }
 
         .feature-slider {
@@ -300,7 +324,7 @@
         }
 
         .feature-slide {
-            padding: 0; /* Padding handled by feature-content */
+            padding: 0; 
             justify-content: center; 
             align-items: flex-start; 
         }
@@ -315,16 +339,16 @@
             max-width: 40%; 
             margin-left: 5%; 
             gap: 15px;
-            position: absolute; /* Position within the slide */
-            bottom: 15%; /* Adjust vertical positioning */
-            left: 0; /* Align to the left margin defined by margin-left */
-            padding: 20px; /* Ensure some padding */
+            position: absolute;
+            bottom: 15%; 
+            left: 0; 
+            padding: 20px; 
             box-sizing: border-box;
         }
 
         .feature-logo {
           justify-content: flex-start;
-          min-height: auto; /* Reset min-height */
+          min-height: auto; 
           margin-bottom: 15px;
         }
         .feature-logo img {
@@ -344,9 +368,9 @@
 
         .feature-dots {
             bottom: 25px;
-            left: auto; /* Reset mobile left */
-            right: 5%; /* Position to the right */
-            transform: none; /* Reset mobile transform */
+            left: auto; 
+            right: 5%; 
+            transform: none; 
             width: auto;
             justify-content: flex-end;
         }
@@ -355,29 +379,27 @@
             background: rgba(255,255,255,0.4);
         }
         .feature-dot.active {
-            background-color: #fff; /* Brighter active dot for hero */
+            background-color: #fff; 
         }
 
-
-        /* Horizontal Lists and Cards */
         .section-title-container {
             margin: 35px 0 20px 0;
             padding: 0;
         }
         .section-title, .plus-section-title, .category-title {
-            font-size: 1.6em; /* Slightly smaller for better balance with content */
+            font-size: 1.6em;
         }
 
         .horizontal-list, .plus-movies-row, .category-channels {
             gap: 18px; 
             padding-bottom: 15px;
-            scrollbar-width: thin; /* For Firefox */
-            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); /* For Firefox */
+            scrollbar-width: thin; 
+            scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
         }
         .horizontal-list::-webkit-scrollbar,
         .plus-movies-row::-webkit-scrollbar,
         .category-channels::-webkit-scrollbar {
-            display: block; /* Show scrollbar on desktop */
+            display: block; 
             height: 8px;
         }
         .horizontal-list::-webkit-scrollbar-track,
@@ -412,7 +434,7 @@
         }
 
         .ranked-trending-card {
-            min-width: calc(var(--ranked-poster-width) + 60px); /* Adjusted based on new var */
+            min-width: calc(var(--ranked-poster-width) + 60px); 
             height: calc(var(--ranked-poster-width) * 1.5);
         }
         .rank-number {
@@ -450,16 +472,16 @@
         }
         .player-minimized-bar {
             bottom: 0 !important;
-            /* Optional: make it a floating bar on desktop */
-            /* left: auto; width: 400px; right: 20px; bottom: 20px !important; border-radius: 8px; */
         }
     }
   </style>
 </head>
 <body>
   <div class="topbar">
-    <a href="#" class="logo" onclick="location.reload(); return false;" title="Reload flow+">flow+</a>
-    <div class="desktop-nav-links"> <!-- ADDED FOR DESKTOP -->
+    <a href="#" class="logo" onclick="location.reload(); return false;" title="Reload flow+">
+        <img src="https://media-hosting.imagekit.io/65ba828a967b413d/Adobe Express - file (2) (1).png?Expires=1841659838&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ASjHfhrmwHgwGl0cjH~Dni8EbrpNaQHn9TcRk6iBE4XNlkALfCWd0z8ohPHs5C8uGClaGahHr9ffxfE0GkHNWsS67XlTySz9oo~Tq-V7MZz40HFG3uFuG-FeA5mieop~fnLeYuhqnQSKjsifC8a82K9OoA36vZ5TBhiA6pqTc5FqFr9~hakVmf5ShYdc2VgscVO8CQWmA-NiToapdvuyPfCHNctLY-Ntp9TKBjZ5mpOitHYpUkxtQwlnznZ5OvyOZFWeeCyy~jT7gbyf~by~VeFrrlbu9Kwg5IJwmUpwv-ARM3jj3DQsyMRXt2cLAhz97bODIuOH8GmFrYpZ0zRrfQ__" alt="flow+ Logo" id="logoImage">
+    </a>
+    <div class="desktop-nav-links">
         <span class="desktop-nav-item active" id="navHomeDesktop" onclick="switchTab('home', this)" data-target-page="homeSection">Home</span>
         <span class="desktop-nav-item" id="navStreamDesktop" onclick="switchTab('stream', this)" data-target-page="plusPage">Stream</span>
         <span class="desktop-nav-item" id="navCategoriesDesktop" onclick="switchTab('categories', this)" data-target-page="categoriesPage">Live TV</span>
@@ -567,11 +589,9 @@
             targetPanel.classList.add('active');
         } else {
             console.error("Target panel not found for tab:", tabName, "targetPageId:", targetPageId);
-            // Fallback to home if target panel is not found, and it's not already home
             if (homeSection && targetPageId !== homeSection.id) {
                 homeSection.hidden = false;
                 homeSection.classList.add('active');
-                // Also update navs to reflect home
                 footerItems.forEach(item => {
                     item.classList.toggle('selected', item.id === 'navHome');
                     item.setAttribute('aria-selected', (item.id === 'navHome').toString() );
@@ -582,7 +602,6 @@
             }
         }
 
-        // Update footer nav active states
         footerItems.forEach(item => {
             item.classList.remove('selected');
             item.setAttribute('aria-selected', 'false');
@@ -592,7 +611,6 @@
             }
         });
 
-        // Update desktop nav active states
         const desktopNavItems = document.querySelectorAll('.desktop-nav-item');
         if (desktopNavItems.length > 0) {
             desktopNavItems.forEach(item => {
@@ -628,14 +646,13 @@
     let searchDebounceTimer; const DEBOUNCE_DELAY = 400; async function searchTMDb(query) { const url = `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false&language=en-US&page=1`; try { const response = await fetch(url); if (!response.ok) throw new Error(`TMDb Search HTTP error! status: ${response.status}`); const data = await response.json(); return (data.results || []) .filter(item => (item.media_type === 'movie' || item.media_type === 'tv') && (item.poster_path || item.backdrop_path)) .map(item => ({ resultType: 'TMDb', title: item.title || item.name, img: item.poster_path || item.backdrop_path, id: item.id, media_type: item.media_type })); } catch (error) { console.error("Failed to search TMDb:", error); return []; } } function openSearchModal() { if (!searchModal || !searchInput || !searchResultsModal) return; searchModal.classList.add("active"); searchInput.value = ""; searchResultsModal.innerHTML = ""; searchLoadingIndicator.style.display = 'none'; setTimeout(() => searchInput.focus(), 150); searchModal.addEventListener('keydown', trapFocusInSearch); closeProfileMenu(); } function closeSearchModal() { if (!searchModal) return; searchModal.classList.remove("active"); searchResultsModal.innerHTML = ""; searchModal.removeEventListener('keydown', trapFocusInSearch); } function trapFocusInSearch(event) { if (event.key === 'Escape') { closeSearchModal(); return; } if (event.key !== 'Tab') return; const focusableElements = searchModal.querySelectorAll('input, button, [onclick], .search-result-card'); if (!focusableElements.length) return; const firstElement = focusableElements[0]; const lastElement = focusableElements[focusableElements.length - 1]; if (event.shiftKey) { if (document.activeElement === firstElement) { lastElement.focus(); event.preventDefault(); } } else { if (document.activeElement === lastElement) { firstElement.focus(); event.preventDefault(); } } } function handleSearchInput() { clearTimeout(searchDebounceTimer); const query = searchInput.value.trim().toLowerCase(); if (!query) { searchResultsModal.innerHTML = ""; searchLoadingIndicator.style.display = 'none'; return; } searchResultsModal.innerHTML = ""; searchLoadingIndicator.style.display = 'block'; searchDebounceTimer = setTimeout(async () => { let streamResults = streams .filter(s => s.name && s.name.toLowerCase().includes(query)) .map(s => ({ ...s, resultType: "Channel" })); let tmdbResults = await searchTMDb(query); let combinedResults = [...streamResults, ...tmdbResults].slice(0, 15); searchLoadingIndicator.style.display = 'none'; if (combinedResults.length === 0) { searchResultsModal.innerHTML = `<p class="loading-text">No results found for "${searchInput.value}".</p>`; return; } searchResultsModal.innerHTML = ""; combinedResults.forEach(r => { let cardHTML = '', onclickAction = null; const cardDiv = document.createElement('div'); cardDiv.className = 'search-result-card'; cardDiv.tabIndex = 0; switch (r.resultType) { case "Channel": const streamData = streams.find(s => s.name === r.name && s.logo === r.logo); if (streamData) { onclickAction = () => { openPlayerChannel(streamData); closeSearchModal(); }; } cardHTML = `<img src="${r.logo || 'https://via.placeholder.com/50?text=No+Logo'}" alt="${r.name}"/><div class="search-result-info"><div class="search-result-title">${r.name}</div><div class="search-result-type">${r.resultType}</div></div>`; break; case "TMDb": const tmdbImageUrl = r.img ? TMDB_IMAGE_BASE_URL + 'w92' + r.img : 'https://via.placeholder.com/50x75/1a1a1a/444444?text=N/A'; const tmdbUrl = `https://www.themoviedb.org/${r.media_type}/${r.id}`; onclickAction = () => { window.open(tmdbUrl, '_blank'); closeSearchModal(); closeProfileMenu(); }; cardHTML = `<img src="${tmdbImageUrl}" alt="${r.title}" style="height:75px; width:50px; object-fit:cover;"/><div class="search-result-info"><div class="search-result-title">${r.title}</div><div class="search-result-type">${r.media_type === 'tv' ? 'TV Series' : 'Movie'} (TMDb)</div></div>`; break; default: cardHTML = `<div>Unknown result type</div>`; } cardDiv.innerHTML = cardHTML; if (onclickAction) { cardDiv.onclick = onclickAction; cardDiv.onkeydown = (e) => { if (e.key === 'Enter') onclickAction(); }; } searchResultsModal.appendChild(cardDiv); }); }, DEBOUNCE_DELAY); }
     function toggleProfileMenu() { if (profileMenu && profileBtn) { profileMenu.classList.toggle('active'); profileBtn.classList.toggle('menu-active', profileMenu.classList.contains('active')); } }
     function closeProfileMenu() { if (profileMenu && profileBtn) { profileMenu.classList.remove('active'); profileBtn.classList.remove('menu-active'); } }
-    function setupProfileMenuActions() { if (profileBtn) profileBtn.onclick = toggleProfileMenu; if (signInBtn) signInBtn.onclick = () => { alert('Sign In / Log In feature coming soon!'); closeProfileMenu(); }; if (facebookLink) facebookLink.onclick = () => { window.open('https://www.facebook.com/profile.php?id=61575808937225', '_blank'); closeProfileMenu(); }; if (aboutBtn) aboutBtn.onclick = () => { alert('flow+\n\nYour simplified hub for live channels and streaming links.\n\nVersion: 2.5\nCreated by: flxw'); closeProfileMenu(); }; document.addEventListener('click', (event) => { if (!profileMenu || !profileBtn) return; const isClickInsideMenu = profileMenu.contains(event.target); const isClickOnProfileBtn = profileBtn.contains(event.target); if (!isClickInsideMenu && !isClickOnProfileBtn && profileMenu.classList.contains('active')) { closeProfileMenu(); } }); }
+    function setupProfileMenuActions() { if (profileBtn) profileBtn.onclick = toggleProfileMenu; if (signInBtn) signInBtn.onclick = () => { alert('Sign In / Log In feature coming soon!'); closeProfileMenu(); }; if (facebookLink) facebookLink.onclick = () => { window.open('https://www.facebook.com/profile.php?id=61560926960219', '_blank'); closeProfileMenu(); }; if (aboutBtn) aboutBtn.onclick = () => { alert('flow+\n\nYour simplified hub for live channels and streaming links.\n\nVersion: 2.5\nCreated by: flxw'); closeProfileMenu(); }; document.addEventListener('click', (event) => { if (!profileMenu || !profileBtn) return; const isClickInsideMenu = profileMenu.contains(event.target); const isClickOnProfileBtn = profileBtn.contains(event.target); if (!isClickInsideMenu && !isClickOnProfileBtn && profileMenu.classList.contains('active')) { closeProfileMenu(); } }); }
     async function fetchTMDbData(endpoint, containerElement, limit = 12, cardType = 'standard') { if (!containerElement) { return; } const url = `${TMDB_BASE_URL}${endpoint}?api_key=${TMDB_API_KEY}&language=en-US&page=1`; containerElement.innerHTML = `<p class="loading-text">Loading...</p>`; try { const response = await fetch(url); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status} for ${endpoint}`); } const data = await response.json(); const results = data.results; containerElement.innerHTML = ''; if (results && results.length > 0) { const limitedResults = results.slice(0, limit); let itemsAdded = 0; limitedResults.forEach((item, index) => { const imagePath = item.poster_path || item.backdrop_path; if (imagePath) { const cardData = { title: item.title || item.name, img: imagePath, id: item.id, media_type: item.media_type || (item.title ? 'movie' : 'tv'), linkUrl: `https://www.themoviedb.org/${item.media_type || (item.title ? 'movie' : 'tv')}/${item.id}` }; if (cardType === 'ranked') { containerElement.appendChild(createRankedTrendingCard(cardData, index + 1)); } else { containerElement.appendChild(createMovieCard(cardData)); } itemsAdded++; } }); if (itemsAdded === 0) { containerElement.innerHTML = `<p class="loading-text">No items with images found.</p>`; } } else { containerElement.innerHTML = `<p class="loading-text">No results found.</p>`; } } catch (error) { console.error(`Failed to fetch TMDb data for ${endpoint}:`, error); containerElement.innerHTML = `<p class="loading-text">Could not load data.</p>`; } }
 
     // --- Initialization ---
     document.addEventListener('DOMContentLoaded', () => {
         if (typeof shaka !== 'undefined') { shaka.polyfill.installAll(); if (!shaka.Player.isBrowserSupported()) { console.warn('Browser not supported by Shaka Player.'); } } else { console.error("Shaka Player library not found!"); }
         
-        // Initial tab setup based on current active elements
         const initialActiveFooterItem = document.querySelector('.footer-item.selected');
         if (initialActiveFooterItem) {
             const initialTargetPageId = initialActiveFooterItem.getAttribute('aria-controls');
@@ -657,7 +674,7 @@
         try { if(searchBtn) searchBtn.onclick = openSearchModal; if(searchInput) searchInput.oninput = handleSearchInput; } catch (e) { console.error("Error attaching search listeners:", e); }
         try { setupProfileMenuActions(); } catch (e) { console.error("Error setting up profile menu:", e); }
         window.switchTab = switchTab; window.expandPlayer = expandPlayer; window.minimizePlayer = minimizePlayer; window.closePlayerCompletely = closePlayerCompletely; window.closeSearchModal = closeSearchModal; window.goToSlide = goToSlide; window.closeProfileMenu = closeProfileMenu; window.showTMDbDetails = showTMDbDetails;
-        console.log("Initialization complete. Desktop styles added. Full streams list included, viewport updated, Stream tab content changed, Channel card aspect ratio adjusted.");
+        console.log("Initialization complete. Desktop styles added. Full streams list included, viewport updated, Stream tab content changed, Channel card aspect ratio adjusted. Logo changed to image.");
     });
   </script>
 </body>
