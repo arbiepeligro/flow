@@ -71,7 +71,7 @@
         display: flex;
         align-items: center;
         height: 50px; 
-        z-index: 999; /* Keep logo above feature slider fade */
+        z-index: 999; 
         transition: background 0.3s ease;
         text-decoration: none;
         cursor: pointer;
@@ -83,7 +83,7 @@
     }
 
     .desktop-nav-links { display: none; } 
-    .desktop-vertical-nav { display: none; } /* Hidden by default, shown on desktop */
+    .desktop-vertical-nav { display: none; } 
     .topbar-icons { display: flex; align-items: center; gap: 16px; z-index: 999; position: relative; }
     .topbar .material-symbols-outlined { font-size: 28px; color: var(--text-primary); cursor: pointer; background: none; padding: 4px; border-radius: 50%; transition: background-color 0.2s, color 0.3s ease, font-variation-settings 0.2s ease; font-variation-settings: 'FILL' 0; }
     .topbar .material-symbols-outlined:hover { background-color: rgba(255, 255, 255, 0.1); }
@@ -182,7 +182,7 @@
        }
        .topbar .material-symbols-outlined { font-size: 26px; }
        .section-title, .plus-section-title, .category-title { font-size: 1.6em; }
-       .channel-card { width: calc(var(--channel-card-width) * 0.85); } /* Uses mobile --channel-card-width (160px) */
+       .channel-card { width: calc(var(--channel-card-width) * 0.85); } 
        .channel-live-icon { font-size: 16px; top: 4px; right: 4px; }
        .movie-card { width: 115px; }
        .footer-item .footer-icon { font-size: 22px; }
@@ -220,12 +220,10 @@
         :root {
             --movie-poster-width: 180px;
             --ranked-poster-width: 180px;
-            /* --channel-card-width: 220px; /* Width for desktop channel cards */
-            /* Let's define a slightly smaller width for better 16:9 appearance or adjust as needed */
             --channel-card-width: 200px; 
             --scrollbar-thumb: #666;
             --scrollbar-track: #333;
-            --desktop-nav-width: 70px; /* Approximate width of vertical nav */
+            --desktop-nav-width: 70px; 
         }
 
         body {
@@ -242,28 +240,28 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px; /* Space between icons */
+            gap: 20px; 
             position: fixed;
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            padding: 20px 0; /* Vertical padding */
+            padding: 20px 0; 
             width: var(--desktop-nav-width);
-            z-index: 1200; /* Above content, potentially below modals */
+            z-index: 1200; 
             background: transparent;
         }
         .desktop-vertical-nav-item {
             cursor: pointer;
             color: var(--text-secondary);
             position: relative;
-            padding: 8px 12px; /* Padding around the icon itself */
+            padding: 8px 12px; 
             display: flex;
             justify-content: center;
             align-items: center;
             transition: color 0.2s ease, transform 0.2s ease;
         }
         .desktop-vertical-nav-item .material-symbols-outlined {
-            font-size: 28px; /* Icon size */
+            font-size: 28px; 
             font-variation-settings: 'FILL' 0;
             transition: font-variation-settings 0.3s ease;
             display: block;
@@ -273,7 +271,7 @@
             transform: scale(1.1);
         }
         .desktop-vertical-nav-item.active {
-            color: #fff; /* Active icon color */
+            color: #fff; 
         }
         .desktop-vertical-nav-item.active .material-symbols-outlined {
             font-variation-settings: 'FILL' 1;
@@ -281,59 +279,62 @@
         .desktop-vertical-nav-item.active::after {
             content: '';
             position: absolute;
-            bottom: -2px; /* Position underline slightly below icon */
+            bottom: -2px; 
             left: 50%;
             transform: translateX(-50%);
-            width: 60%; /* Width of underline relative to item padding */
+            width: 60%; 
             height: 3px;
             background-color: #fff;
             border-radius: 1.5px;
             transition: width 0.2s ease-in-out;
         }
-        /* Container for profile button to position its menu */
         .desktop-vertical-nav .profile-button-wrapper {
             position: relative;
         }
-        /* Profile menu specific desktop positioning */
         .profile-menu.desktop-positioned {
-            position: fixed !important; /* Use fixed to position relative to viewport via JS */
-            transform: none !important; /* Override any default transform */
-            /* top, left will be set by JS */
+            position: fixed !important; 
+            transform: none !important; 
         }
 
 
         .topbar {
-            padding: 20px 25px; /* Adjusted padding for logo */
-            background-color: transparent !important; /* Transparent background */
+            padding: 20px 25px; 
+            background-color: transparent !important; 
             position: fixed;
             top: 0;
-            left: 0; /* Align to left for logo */
-            width: 100%; /* Full width for fixed positioning */
-            z-index: 1100; /* Above feature slider, below vertical nav if they could overlap */
-            box-shadow: none !important; /* No shadow */
-            justify-content: flex-start; /* Align logo to the left */
+            left: 0; 
+            width: 100%; 
+            z-index: 1100; 
+            box-shadow: none !important; 
+            justify-content: flex-start; 
         }
 
         a.logo { 
-            margin-right: 0; /* Reset margin if any was for nav links */
-            z-index: 1101; /* Ensure logo is above feature slider gradient */
+            margin-right: 0; 
+            z-index: 1101; 
         }
         a.logo img { 
              height: 40px; 
         }
 
         #mainContainer {
-            padding-top: 0 !important; /* Feature slider starts at the very top */
-            padding-left: var(--desktop-nav-width) !important; /* Space for the vertical nav */
+            padding-top: 0 !important; 
+            padding-left: var(--desktop-nav-width) !important; 
             max-width: 100%;
             box-sizing: border-box;
         }
-
-        .main-content, .plus-page, .categories-page {
-            padding: 25px 40px;
-            max-width: calc(1600px - var(--desktop-nav-width)); /* Adjust max width considering nav */
+        
+        .main-content { /* Home section, feature slider is above it */
+            padding: 25px 40px; 
+            max-width: calc(1600px - var(--desktop-nav-width)); 
             margin: 0 auto;
         }
+        .plus-page, .categories-page {
+            padding: 85px 40px 25px 40px; /* top (for topbar) right bottom left */
+            max-width: calc(1600px - var(--desktop-nav-width)); 
+            margin: 0 auto;
+        }
+
 
         .feature-slider-section {
             margin-bottom: 40px;
@@ -341,9 +342,9 @@
             height: 60vh; 
             max-height: 550px;
             min-height: 400px;
-            margin-top: 0; /* Starts at the top of mainContainer */
+            margin-top: 0; 
             display: block;
-            position: relative; /* For z-index context if needed */
+            position: relative; 
         }
 
         .feature-slider {
@@ -370,7 +371,7 @@
             text-align: left;
             align-items: flex-start;
             max-width: 40%; 
-            margin-left: calc(5% + 20px); /* Added some extra margin from left edge */
+            margin-left: calc(5% + 20px); 
             gap: 15px;
             position: absolute;
             bottom: 15%; 
@@ -454,9 +455,9 @@
         }
 
         .channel-card {
-            width: var(--channel-card-width); /* Using the desktop var */
-            aspect-ratio: 16 / 9; /* Ensuring 16:9 aspect ratio */
-            height: auto; /* Height is determined by width and aspect ratio */
+            width: var(--channel-card-width); 
+            aspect-ratio: 16 / 9; 
+            height: auto; 
         }
         .channel-card:hover {
             transform: scale(1.05); 
@@ -465,8 +466,14 @@
         .channel-card::before {
             filter: blur(15px) brightness(70%) saturate(100%);
         }
-        .category-channels { /* Adjust min-height based on new card size */
-             min-height: calc(var(--channel-card-width) * 9 / 16 + 30px); /* + padding/gap */
+        .channel-card img { 
+             /* Ensure these are not overriding aspect ratio needs, they seem fine for object-fit:contain */
+            max-width: 80%; 
+            max-height: 70%; 
+            object-fit: contain; 
+        }
+        .category-channels { 
+             min-height: calc(var(--channel-card-width) * 9 / 16 + 30px); 
         }
 
 
@@ -523,21 +530,17 @@
     <a href="#" class="logo" onclick="location.reload(); return false;" title="Reload flow+">
         <img src="https://media-hosting.imagekit.io/65ba828a967b413d/Adobe Express - file (2) (1).png?Expires=1841659838&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ASjHfhrmwHgwGl0cjH~Dni8EbrpNaQHn9TcRk6iBE4XNlkALfCWd0z8ohPHs5C8uGClaGahHr9ffxfE0GkHNWsS67XlTySz9oo~Tq-V7MZz40HFG3uFuG-FeA5mieop~fnLeYuhqnQSKjsifC8a82K9OoA36vZ5TBhiA6pqTc5FqFr9~hakVmf5ShYdc2VgscVO8CQWmA-NiToapdvuyPfCHNctLY-Ntp9TKBjZ5mpOitHYpUkxtQwlnznZ5OvyOZFWeeCyy~jT7gbyf~by~VeFrrlbu9Kwg5IJwmUpwv-ARM3jj3DQsyMRXt2cLAhz97bODIuOH8GmFrYpZ0zRrfQ__" alt="flow+ Logo" id="logoImage">
     </a>
-    <!-- Original Desktop Nav Links (now hidden by CSS on desktop) -->
     <div class="desktop-nav-links">
         <span class="desktop-nav-item active" id="navHomeDesktop" onclick="switchTab('home', this)" data-target-page="homeSection">Home</span>
         <span class="desktop-nav-item" id="navStreamDesktop" onclick="switchTab('stream', this)" data-target-page="plusPage">Stream</span>
         <span class="desktop-nav-item" id="navCategoriesDesktop" onclick="switchTab('categories', this)" data-target-page="categoriesPage">Live TV</span>
     </div>
-    <!-- Original Topbar Icons (now hidden by CSS on desktop) -->
     <div class="topbar-icons">
         <span class="material-symbols-outlined" id="searchBtn" title="Search">search</span>
         <span class="material-symbols-outlined" id="profileBtn" title="Profile">account_circle</span>
-        <!-- Profile menu is a sibling here for mobile, JS will handle desktop positioning -->
     </div>
   </div>
 
-  <!-- New Desktop Vertical Navigation -->
   <div class="desktop-vertical-nav" id="desktopVerticalNav">
     <span class="desktop-vertical-nav-item" id="desktopNavSearch" title="Search">
         <span class="material-symbols-outlined">search</span>
@@ -551,14 +554,13 @@
     <span class="desktop-vertical-nav-item" id="desktopNavCategories" data-target-page="categoriesPage" title="Live TV">
         <span class="material-symbols-outlined">live_tv</span>
     </span>
-    <div class="profile-button-wrapper"> <!-- Wrapper for profile icon to help position menu -->
+    <div class="profile-button-wrapper"> 
       <span class="desktop-vertical-nav-item" id="desktopNavProfile" title="Profile">
           <span class="material-symbols-outlined">account_circle</span>
       </span>
     </div>
   </div>
   
-  <!-- Profile Menu (Common for mobile and desktop, JS/CSS handle positioning) -->
   <div class="profile-menu" id="profileMenu">
       <div class="profile-menu-item" id="signInBtn"> <span class="material-symbols-outlined profile-item-icon">login</span> <span class="profile-item-text">Sign In / Log In</span> <span class="soon-badge">SOON!</span> </div>
       <div class="profile-menu-item" id="facebookLink"> <span class="material-symbols-outlined profile-item-icon">thumb_up</span> <span class="profile-item-text">Like Us on Facebook</span> </div>
@@ -623,11 +625,9 @@
     const tmdbTopRatedTVRow = document.getElementById('tmdbTopRatedTVRow');
     const categoryGroups = document.getElementById("categoryGroups"); const playerContainer = document.getElementById('playerContainer'); const playerBoxExpanded = document.getElementById('playerBoxExpanded'); const playerBarMinimized = document.getElementById('playerBarMinimized'); const shakaVideoElement = document.getElementById('shaka-player'); const shakaPlayerContainer = document.getElementById('shaka-player-container'); const playerTitleExpanded = document.getElementById('playerTitleExpanded'); const playerSubExpanded = document.getElementById('playerSubExpanded'); const playerLiveIconExpanded = document.getElementById('playerLiveIconExpanded'); const minimizedLogo = document.getElementById('minimizedLogo'); const minimizedTitle = document.getElementById('minimizedTitle'); const searchModal = document.getElementById("searchModal"); const searchInput = document.getElementById("searchInput"); const searchResultsModal = document.getElementById("searchResultsModal"); const searchLoadingIndicator = searchResultsModal.querySelector('.loading-text'); 
     
-    // Mobile topbar buttons
     const mobileSearchBtn = document.getElementById("searchBtn"); 
     const mobileProfileBtn = document.getElementById("profileBtn");
     
-    // Desktop vertical nav buttons
     const desktopSearchBtn = document.getElementById("desktopNavSearch");
     const desktopProfileBtn = document.getElementById("desktopNavProfile");
     const desktopVerticalNavItems = document.querySelectorAll('.desktop-vertical-nav .desktop-vertical-nav-item[data-target-page]');
@@ -679,14 +679,12 @@
                     item.classList.toggle('selected', item.id === 'navHome');
                     item.setAttribute('aria-selected', (item.id === 'navHome').toString() );
                 });
-                 // Default to home on desktop vertical nav if target not found
                 desktopVerticalNavItems.forEach(item => {
                     item.classList.toggle('active', item.id === 'desktopNavHome');
                 });
             }
         }
 
-        // Update mobile footer nav
         footerItems.forEach(item => {
             item.classList.remove('selected');
             item.setAttribute('aria-selected', 'false');
@@ -696,7 +694,6 @@
             }
         });
         
-        // Update desktop vertical nav
         desktopVerticalNavItems.forEach(item => {
             item.classList.remove('active');
             if (item.dataset.targetPage === targetPageId) {
@@ -706,15 +703,18 @@
         
         if (featureSliderSection) {
             const isHomePage = (targetPanel && targetPanel.id === 'homeSection');
-            featureSliderSection.style.display = isHomePage ? (window.innerWidth >= 1024 ? "block" : "flex") : "none";
+            const isDesktop = window.innerWidth >= 1024;
+            
             if (isHomePage) {
+                featureSliderSection.style.display = isDesktop ? "block" : "flex";
                 startFeatureSliderInterval();
             } else {
+                featureSliderSection.style.display = "none";
                 if (featureSliderInterval) clearInterval(featureSliderInterval);
             }
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        closeProfileMenu(); // Close profile menu on any tab switch
+        closeProfileMenu(); 
 
         if (targetPageId === 'categoriesPage' && (!categoryPillsContainer.hasChildNodes() || (categoryPillsContainer.children.length === 1 && categoryPillsContainer.querySelector('.loading-text')))) {
             renderCategoryPills();
@@ -735,7 +735,6 @@
         profileMenu.classList.toggle('active');
         triggerElement.classList.toggle('menu-active', profileMenu.classList.contains('active'));
         
-        // Desktop-specific positioning for profile menu next to vertical nav icon
         if (window.innerWidth >= 1024 && triggerElement.id === 'desktopNavProfile') {
             if (profileMenu.classList.contains('active')) {
                 const rect = triggerElement.getBoundingClientRect();
@@ -744,11 +743,10 @@
                 profileMenu.style.left = `${rect.right + 10}px`; 
             } else {
                 profileMenu.classList.remove('desktop-positioned');
-                 // Reset styles if needed, or rely on default CSS for hidden state
                 profileMenu.style.top = ''; 
                 profileMenu.style.left = '';
             }
-        } else if (window.innerWidth < 1024) { // Mobile positioning (relies on CSS default)
+        } else if (window.innerWidth < 1024) { 
              profileMenu.classList.remove('desktop-positioned');
              profileMenu.style.top = ''; 
              profileMenu.style.left = '';
@@ -762,7 +760,6 @@
             profileMenu.style.top = ''; 
             profileMenu.style.left = '';
         }
-        // Deactivate both potential trigger buttons
         if (mobileProfileBtn) mobileProfileBtn.classList.remove('menu-active');
         if (desktopProfileBtn) desktopProfileBtn.classList.remove('menu-active');
     }
@@ -772,14 +769,12 @@
         if (facebookLink) facebookLink.onclick = () => { window.open('https://www.facebook.com/profile.php?id=61560926960219', '_blank'); closeProfileMenu(); };
         if (aboutBtn) aboutBtn.onclick = () => { alert('flow+\n\nYour simplified hub for live channels and streaming links.\n\nVersion: 2.5\nCreated by: flxw'); closeProfileMenu(); };
         
-        // Click listeners for profile buttons
         if (mobileProfileBtn) mobileProfileBtn.onclick = toggleProfileMenu;
         if (desktopProfileBtn) desktopProfileBtn.onclick = toggleProfileMenu;
 
         document.addEventListener('click', (event) => {
             if (!profileMenu) return;
             const isClickInsideMenu = profileMenu.contains(event.target);
-            // Check if click is on any of the profile buttons
             const isClickOnMobileProfileBtn = mobileProfileBtn && mobileProfileBtn.contains(event.target);
             const isClickOnDesktopProfileBtn = desktopProfileBtn && desktopProfileBtn.contains(event.target);
 
@@ -794,18 +789,27 @@
     document.addEventListener('DOMContentLoaded', () => {
         if (typeof shaka !== 'undefined') { shaka.polyfill.installAll(); if (!shaka.Player.isBrowserSupported()) { console.warn('Browser not supported by Shaka Player.'); } } else { console.error("Shaka Player library not found!"); }
         
-        // Set initial active tab for desktop vertical nav if on desktop
+        const initialActiveFooterItem = document.querySelector('.footer-item.selected');
+        let initialTargetPageId = 'homeSection'; // Default to home
+        if (initialActiveFooterItem) {
+            initialTargetPageId = initialActiveFooterItem.getAttribute('aria-controls');
+        }
+
         if (window.innerWidth >= 1024) {
-            const initialDesktopActiveNavItem = document.getElementById('desktopNavHome');
-            if (initialDesktopActiveNavItem) {
-                 // Ensure only one is active, then activate the home one.
-                desktopVerticalNavItems.forEach(item => item.classList.remove('active'));
-                initialDesktopActiveNavItem.classList.add('active');
+            desktopVerticalNavItems.forEach(item => {
+                item.classList.toggle('active', item.dataset.targetPage === initialTargetPageId);
+            });
+            // Ensure the feature slider visibility is correct on load for desktop
+            const targetPanel = document.getElementById(initialTargetPageId);
+            if (featureSliderSection) {
+                featureSliderSection.style.display = (targetPanel && targetPanel.id === 'homeSection') ? "block" : "none";
             }
-        } else { // For mobile, use footer nav logic
-            const initialActiveFooterItem = document.querySelector('.footer-item.selected');
-            if (initialActiveFooterItem) {
-                // No desktop-specific update needed here as vertical nav is hidden
+        } else {
+            // Footer nav already handles its 'selected' state via HTML
+            // Ensure the feature slider visibility is correct on load for mobile
+            const targetPanel = document.getElementById(initialTargetPageId);
+             if (featureSliderSection) {
+                featureSliderSection.style.display = (targetPanel && targetPanel.id === 'homeSection') ? "flex" : "none";
             }
         }
 
@@ -821,12 +825,10 @@
         fetchTMDbData('/tv/airing_today', tmdbAiringTodayTVRow, 12, 'standard');
         fetchTMDbData('/tv/top_rated', tmdbTopRatedTVRow, 12, 'standard');
         
-        // Attach search listeners
         if(mobileSearchBtn) mobileSearchBtn.onclick = openSearchModal; 
         if(desktopSearchBtn) desktopSearchBtn.onclick = openSearchModal;
         if(searchInput) searchInput.oninput = handleSearchInput;
         
-        // Attach tab switching to desktop vertical nav items
         desktopVerticalNavItems.forEach(item => {
             item.onclick = function() { switchTab(this.dataset.targetPage, this); };
         });
@@ -834,7 +836,7 @@
         setupProfileMenuActions(); 
         
         window.switchTab = switchTab; window.expandPlayer = expandPlayer; window.minimizePlayer = minimizePlayer; window.closePlayerCompletely = closePlayerCompletely; window.closeSearchModal = closeSearchModal; window.goToSlide = goToSlide; window.closeProfileMenu = closeProfileMenu; window.showTMDbDetails = showTMDbDetails;
-        console.log("Initialization complete. Desktop UI updated with vertical nav, channel card aspect ratio, and feature slider position.");
+        console.log("Initialization complete. Desktop UI updated. Content padding adjusted.");
     });
   </script>
 </body>
