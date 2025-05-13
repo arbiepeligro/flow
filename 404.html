@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Not Found - Redirecting...</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding-top: 50px; background-color: #000; color: #fff; }
+    .loader {
+        border: 5px solid #f3f3f3; /* Light grey */
+        border-top: 5px solid #ff4d00; /* Accent color */
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+  </style>
+  <script type="text/javascript">
+    // --- Configuration ---
+    // IMPORTANT: This basePath MUST match the basePath in your main application (index.html)
+    // It represents the subdirectory where your application is hosted.
+    // For GitHub Pages, if your repository is 'username.github.io/my-repo', then basePath is '/my-repo'.
+    // If it's a custom domain pointing to the root of the repo, basePath might be '/'.
+    const basePath = '/flow.ph'; // <<<< MAKE SURE THIS MATCHES YOUR index.html basePath
+
+    // --- Redirection Logic ---
+    (function() {
+      // Get the full path that was originally requested.
+      const fullPath = window.location.pathname;
+
+      // Store the full path in sessionStorage. The main app (index.html) will pick this up.
+      sessionStorage.setItem('redirect', fullPath);
+
+      // Construct the URL to redirect to (the root of your SPA, usually index.html within the basePath).
+      // GitHub Pages will serve index.html by default if you redirect to the directory.
+      let redirectUrl = window.location.origin + basePath + '/';
+
+      // Perform the redirect.
+      window.location.replace(redirectUrl);
+    })();
+  </script>
+</head>
+<body>
+  <h1>Page Not Found</h1>
+  <p>We couldn't find the page you were looking for.</p>
+  <p>You will be redirected to the home page shortly.</p>
+  <div class="loader"></div>
+  <p>If you are not redirected automatically, <a id="manualRedirectLink" href="#">click here</a>.</p>
+
+  <script type="text/javascript">
+    // Fallback link in case redirect fails (though script above should work)
+    const fallbackRedirectUrl = window.location.origin + basePath + '/';
+    document.getElementById('manualRedirectLink').href = fallbackRedirectUrl;
+  </script>
+</body>
+</html>
