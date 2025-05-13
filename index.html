@@ -58,36 +58,49 @@
         --movie-poster-width: 140px;
         --ranked-poster-width: 140px;
         --channel-card-width: 160px;
+        --tv-sidebar-width: 260px; /* For Netflix TV UI */
+        --tv-sidebar-width-compact: 80px; /* Optional compact state */
+    }
+
+    *, *::before, *::after {
+        box-sizing: border-box;
     }
 
     body { margin: 0; background: var(--bg-gradient-end); font-family: 'gilroy-bold', sans-serif; color: var(--text-primary); padding-bottom: var(--footer-height); -webkit-tap-highlight-color: transparent; transition: background 0.3s ease, color 0.3s ease, padding-bottom 0.3s ease-out; }
+    
+    /* Original Topbar - will be hidden on desktop for TV UI */
     .topbar { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 0 18px; gap: 16px; position: relative; }
     
     a.logo {
-        /* font-size, font-weight, letter-spacing, line-height removed as image handles visuals */
-        color: #fff; /* Fallback or if other elements were ever added */
+        color: #fff; 
         user-select: none;
         margin: 0;
         padding: 0;
         display: flex;
         align-items: center;
-        height: 50px; /* Defines clickable area and vertical boundary */
+        height: 50px; 
         z-index: 999;
         transition: background 0.3s ease;
         text-decoration: none;
         cursor: pointer;
     }
     a.logo img {
-        height: 35px; /* Default height for the logo image */
-        width: auto;   /* Maintain aspect ratio */
-        display: block; /* Removes extra space if any */
+        height: 35px; 
+        width: auto;   
+        display: block; 
     }
 
-    .desktop-nav-links { display: none; } /* Hidden on mobile by default */
+    .desktop-nav-links { display: none; } 
     .topbar-icons { display: flex; align-items: center; gap: 16px; z-index: 999; position: relative; }
-    .topbar .material-symbols-outlined { font-size: 28px; color: var(--text-primary); cursor: pointer; background: none; padding: 4px; border-radius: 50%; transition: background-color 0.2s, color 0.3s ease, font-variation-settings 0.2s ease; font-variation-settings: 'FILL' 0; }
-    .topbar .material-symbols-outlined:hover { background-color: rgba(255, 255, 255, 0.1); }
-    .topbar #profileBtn.menu-active { font-variation-settings: 'FILL' 1; background-color: rgba(255, 255, 255, 0.05); }
+    .topbar .material-symbols-outlined,
+    .tv-sidebar-actions .material-symbols-outlined { /* Shared style for icons */
+        font-size: 28px; color: var(--text-primary); cursor: pointer; background: none; padding: 4px; border-radius: 50%; transition: background-color 0.2s, color 0.3s ease, font-variation-settings 0.2s ease; font-variation-settings: 'FILL' 0; }
+    .topbar .material-symbols-outlined:hover,
+    .tv-sidebar-actions .material-symbols-outlined:hover { background-color: rgba(255, 255, 255, 0.1); }
+    
+    .topbar #profileBtn.menu-active,
+    .tv-sidebar-actions #tvProfileBtnDesktop.menu-active { font-variation-settings: 'FILL' 1; background-color: rgba(255, 255, 255, 0.05); }
+    
     .profile-menu { display: none; position: absolute; top: calc(100% + 5px); right: 0; background-color: var(--profile-menu-bg); border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 1500; min-width: 220px; padding: 8px 0; border: 1px solid var(--profile-menu-border); }
     .profile-menu.active { display: block; }
     .profile-menu-item { padding: 10px 18px; color: var(--profile-menu-text); font-size: 0.95em; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: background-color 0.15s ease-out, color 0.3s ease; white-space: nowrap; }
@@ -96,7 +109,11 @@
     .profile-menu-item:hover { background-color: var(--profile-menu-hover-bg); }
     .soon-badge, .beta-badge { font-size: 0.7em; background-color: var(--accent-primary); color: #fff; padding: 1px 5px; border-radius: 4px; margin-left: auto; font-weight: 700; letter-spacing: 0.5px; display: inline-block; flex-shrink: 0; }
     .beta-badge { font-size: 0.8em; padding: 2px 8px; border-radius: 6px; letter-spacing: 0.8px; vertical-align: middle; }
-    .main-content { padding: 0 18px 0 18px; max-width: 100vw; }
+    
+    #mainContainer { /* This will be part of tv-main-content-area on desktop */
+      padding: 0 18px 0 18px; /* Mobile padding */
+      max-width: 100vw;
+    }
     .plus-page, .categories-page { display: none; padding: 20px 18px 18px 18px; animation: fadeIn 0.3s ease-in-out; color: var(--text-primary); transition: color 0.3s ease; }
     .main-content.active, .plus-page.active, .categories-page.active { display: block; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -111,10 +128,38 @@
     .horizontal-list { display: flex; overflow-x: auto; gap: 14px; scrollbar-width: none; -ms-overflow-style: none; padding-bottom: 10px; margin-bottom: 14px; padding-left: 2px; min-height: 110px; align-items: flex-end; }
     .horizontal-list::-webkit-scrollbar { display: none;}
     .horizontal-list .loading-text { color: var(--text-secondary); padding: 10px; width: 100%; text-align: center; font-size: 0.9em; align-self: center; }
-    .channel-card { width: var(--channel-card-width); aspect-ratio: 16 / 9; height: auto; background-color: #222; border-radius: 12px; padding: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; cursor: pointer; transition: transform 0.15s ease-out, box-shadow 0.15s ease-out; border: none; box-shadow: 0 4px 10px rgba(0,0,0,0.3); flex-shrink: 0; overflow: hidden; }
+    
+    .channel-card { 
+        width: var(--channel-card-width); 
+        aspect-ratio: 16 / 9; 
+        height: auto; /* auto is correct with aspect-ratio if box-sizing is border-box */
+        background-color: #222; 
+        border-radius: 12px; 
+        padding: 8px; 
+        display: flex; 
+        flex-direction: column; 
+        align-items: center; 
+        justify-content: center; 
+        position: relative; 
+        cursor: pointer; 
+        transition: transform 0.15s ease-out, box-shadow 0.15s ease-out; 
+        border: none; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3); 
+        flex-shrink: 0; 
+        overflow: hidden; 
+    }
     .channel-card::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: var(--logo-url); background-size: cover; background-position: center; filter: blur(25px) brightness(80%) saturate(120%); opacity: var(--channel-card-blur-opacity); border-radius: inherit; z-index: 0; transform: scale(1.1); }
     .channel-card:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 7px 18px rgba(0,0,0,0.4); }
-    .channel-card img { max-width: 80%; max-height: 70%; object-fit: contain; border: none; margin-bottom: 0; display: block; position: relative; z-index: 1; }
+    .channel-card img { 
+        max-width: 80%; /* Max width relative to padded content box of card */
+        max-height: 70%; /* Max height relative to padded content box of card */
+        object-fit: contain; 
+        border: none; 
+        margin-bottom: 0; 
+        display: block; 
+        position: relative; 
+        z-index: 1; 
+    }
     .channel-card .channel-title { display: none; } .channel-card .live-badge { display: none; }
     .channel-live-icon { position: absolute; top: 6px; right: 6px; font-size: 18px; color: var(--channel-icon-color); background-color: rgba(0, 0, 0, 0.3); border-radius: 50%; padding: 2px; display: flex; align-items: center; justify-content: center; font-variation-settings: 'FILL' 1; transition: color 0.3s ease; z-index: 2;}
     .movie-card { width: var(--movie-poster-width); height: auto; padding: 0; display: block; border: none; background: transparent; border-radius: 0; box-shadow: none; cursor: pointer; position: relative; transition: none; overflow: visible; flex-shrink: 0; }
@@ -146,7 +191,7 @@
     .plus-movies-row { display: flex; gap: 14px; overflow-x: auto; margin-bottom: 10px; scrollbar-width: none; padding-bottom: 5px; min-height: calc(var(--movie-poster-width) * 1.5 + 20px); align-items: flex-start; }
     .plus-movies-row::-webkit-scrollbar { display: none;}
     .plus-movies-row .loading-text { color: var(--text-secondary); padding: 10px; width: 100%; text-align: center; font-size: 0.9em; align-self: center; }
-    .footer-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background: var(--footer-bg); border-radius: 0; display: flex; justify-content: space-around; align-items: stretch; padding: 0; border-top: 1px solid var(--footer-border); z-index: 1000; box-shadow: 0 -3px 15px rgba(0,0,0,0.2); box-sizing: border-box; transition: background-color 0.3s ease, border-color 0.3s ease; }
+    .footer-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: var(--footer-height); background: var(--footer-bg); border-radius: 0; display: flex; justify-content: space-around; align-items: stretch; padding: 0; border-top: 1px solid var(--footer-border); z-index: 1000; box-shadow: 0 -3px 15px rgba(0,0,0,0.2); transition: background-color 0.3s ease, border-color 0.3s ease; }
     .footer-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--footer-text); font-weight: 700; cursor: pointer; user-select: none; min-width: 60px; padding: 4px 8px; transition: color 0.2s ease-in-out; flex: 1; text-align: center; height: 100%; }
     .footer-item .footer-icon { font-size: 25px; margin-bottom: 3px; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: unset; color: inherit; font-variation-settings: 'FILL' 0; transition: transform 0.2s ease-in-out, font-variation-settings 0.3s ease; }
     .footer-item.selected { color: var(--footer-selected); }
@@ -154,14 +199,14 @@
     .footer-item.plus.selected .footer-label { color: var(--footer-selected); }
     .footer-label { font-size: 13px; font-weight: 600; line-height: 1.2; }
     .search-modal { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--modal-bg); z-index: 2000; padding-top: 20px; text-align: left; animation: fadeInModal 0.3s ease-out; transition: background-color 0.3s ease; } .search-modal.active { display: block;} @keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } } .search-modal .search-bar-modal { display: flex; align-items: center; margin: 0 18px 18px 18px; padding: 0; background: var(--modal-input-bg); border-radius: 25px; padding: 5px 5px 5px 15px; transition: background-color 0.3s ease; } .search-modal input[type="text"] { flex: 1; font-size: 1.05em; padding: 8px 5px; border: none; background: transparent; color: var(--modal-input-text); font-family: 'gilroy-bold', sans-serif; outline: none; margin-right: 10px; transition: color 0.3s ease; } .search-modal .material-symbols-outlined { font-size: 26px; color: var(--modal-close-icon); cursor: pointer; background: none; padding: 6px; border-radius: 50%; transition: color 0.2s, background-color 0.2s; font-variation-settings: 'FILL' 0; } .search-modal .material-symbols-outlined:hover { color: var(--accent-primary); background-color: rgba(255, 255, 255, 0.1); } .search-results-modal { max-height: calc(100vh - 100px); overflow-y: auto; margin: 0 18px; scrollbar-width: thin; scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track); transition: scrollbar-color 0.3s ease; } .search-results-modal::-webkit-scrollbar { width: 6px; } .search-results-modal::-webkit-scrollbar-track { background: var(--scrollbar-track); transition: background-color 0.3s ease;} .search-results-modal::-webkit-scrollbar-thumb { background-color: var(--scrollbar-thumb); border-radius: 6px; transition: background-color 0.3s ease;} .search-result-card { background: var(--profile-menu-bg); border-radius: 10px; padding: 12px; margin-bottom: 12px; display: flex; align-items: center; cursor: pointer; transition: background 0.15s ease-out; } .search-result-card:hover { background: var(--profile-menu-hover-bg);} .search-result-card img { width: 50px; height: 50px; border-radius: 8px; object-fit: cover; margin-right: 14px; background: #181818; flex-shrink: 0; } .search-result-info { flex: 1; overflow: hidden;} .search-result-title { font-size: 1em; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s ease; } .search-result-type { font-size: 0.85em; color: var(--accent-primary); font-weight: 700; margin-top: 3px;} .search-results-modal .loading-text { color: var(--text-secondary); padding: 20px; text-align: center; font-size: 0.9em; }
-    .player-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: transparent; z-index: 3000; display: flex; justify-content: center; align-items: center; pointer-events: none; transition: background-color 0.3s ease; } .player-container.expanded { background: var(--player-modal-bg); pointer-events: auto; } .player-box { background: var(--player-box-bg); border-radius: 16px; padding: 14px; position: relative; max-width: 95vw; width: auto; box-shadow: 0 5px 25px rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; transition: background-color 0.3s ease, transform 0.3s ease-out, opacity 0.3s ease-out; transform: scale(0.95); opacity: 0; pointer-events: none; z-index: 3001; } .player-container.expanded .player-box { transform: scale(1); opacity: 1; pointer-events: auto; } .player-container.fullscreen-active .player-box { width: 100%; height: 100%; max-width: 100vw; border-radius: 0; padding: 0; background: #000; } .player-container.fullscreen-active #shaka-player-container { width: 100%; height: 100%; max-width: 100%; border-radius: 0; margin-bottom: 0; } .player-container.fullscreen-active .player-details-expanded { display: none; } .player-container.fullscreen-active .player-minimize { display: none; } .player-minimize { position: absolute; top: 10px; right: 10px; color: var(--player-close); font-size: 2em; z-index: 10; cursor: pointer; background: none; padding: 5px; border-radius: 50%; transition: color 0.2s, background-color 0.2s; font-variation-settings: 'FILL' 0; } .player-minimize:hover { color: var(--accent-primary); background-color: rgba(255, 255, 255, 0.1); } .player-back-landscape { position: absolute; top: 15px; left: 15px; color: #fff; font-size: 2em; z-index: 5000; cursor: pointer; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 50%; transition: opacity 0.3s ease, background-color 0.2s; opacity: 0; pointer-events: none; } .player-back-landscape:hover { background-color: rgba(0,0,0,0.6); } .player-container.fullscreen-active.controls-active .player-back-landscape { opacity: 1; pointer-events: auto; } .player-details-expanded { text-align: center; margin-top: 8px; } .player-title { font-size: 1.05em; font-weight: 700; color: var(--text-primary); transition: color 0.3s ease; margin-bottom: 2px; } .player-sub { font-size: 0.88em; color: var(--accent-primary); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; } .player-live-icon { font-size: 1.5em; color: var(--accent-primary); margin-left: 4px; vertical-align: middle; display: none; font-variation-settings: 'FILL' 1; } #shaka-player-container { width: 90vw; max-width: 640px; height: auto; aspect-ratio: 16 / 9; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; overflow: hidden; position: relative; } #shaka-player { display: block; width: 100%; height: 100%; border-radius: 0; max-height: 100%; max-width: 100%; object-fit: contain; position: relative; z-index: 2; background: #000; } .player-info-overlay { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); z-index: 4000; color: #fff; background-color: rgba(0,0,0,0.5); padding: 10px 15px; border-radius: 8px; display: flex; align-items: center; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); } .player-container.fullscreen-active.controls-active .player-info-overlay { opacity: 1; pointer-events: auto; } .player-info-overlay img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; background: rgba(255,255,255,0.1); padding:2px;} .player-info-overlay-text div { line-height: 1.3; } #playerOverlayChannelName { font-size: 1.2em; font-weight: 700; } #playerOverlayCategoryName { font-size: 0.9em; color: #ccc; display: flex; align-items: center; gap: 5px; } #playerOverlayCategoryName .material-symbols-outlined { font-size: 1.1em; color: var(--accent-primary); font-variation-settings: 'FILL' 1; } .player-minimized-bar { position: fixed; bottom: var(--footer-height); left: 0; width: 100%; height: var(--min-player-height); background: var(--player-minimized-bg); border-top: 1px solid var(--player-minimized-border); display: flex; align-items: center; padding: 0 12px; box-sizing: border-box; cursor: pointer; user-select: none; z-index: 2000; transform: translateY(100%); opacity: 0; pointer-events: none; transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s ease, border-color 0.3s ease, bottom 0.3s ease-out; box-shadow: 0 -2px 10px rgba(0,0,0,0.2); } .player-container.minimized .player-minimized-bar { transform: translateY(0); opacity: 1; pointer-events: auto; } .minimized-logo { width: 40px; height: 40px; object-fit: contain; margin-right: 10px; border-radius: 4px; background-color: #333; flex-shrink: 0; } .minimized-info { flex-grow: 1; overflow: hidden; margin-right: 10px; } .minimized-title { font-size: 0.9em; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s ease; margin-bottom: 2px; } .minimized-status-icon { font-size: 1.4em; color: var(--accent-primary); font-variation-settings: 'FILL' 1; line-height: 1; } .minimized-controls { display: flex; align-items: center; gap: 5px; } .minimized-controls .material-symbols-outlined { font-size: 28px; color: var(--text-primary); cursor: pointer; padding: 5px; border-radius: 50%; transition: color 0.2s, background-color 0.2s; font-variation-settings: 'FILL' 0; } .minimized-controls .material-symbols-outlined:hover { background-color: rgba(128, 128, 128, 0.2); } .player-close-minimized:hover { color: var(--accent-primary); } body.player-minimized-active { padding-bottom: calc(var(--footer-height) + var(--min-player-height)); }
+    .player-container { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: transparent; z-index: 3000; display: flex; justify-content: center; align-items: center; pointer-events: none; transition: background-color 0.3s ease; } .player-container.expanded { background: var(--player-modal-bg); pointer-events: auto; } .player-box { background: var(--player-box-bg); border-radius: 16px; padding: 14px; position: relative; max-width: 95vw; width: auto; box-shadow: 0 5px 25px rgba(0,0,0,0.4); display: flex; flex-direction: column; align-items: center; transition: background-color 0.3s ease, transform 0.3s ease-out, opacity 0.3s ease-out; transform: scale(0.95); opacity: 0; pointer-events: none; z-index: 3001; } .player-container.expanded .player-box { transform: scale(1); opacity: 1; pointer-events: auto; } .player-container.fullscreen-active .player-box { width: 100%; height: 100%; max-width: 100vw; border-radius: 0; padding: 0; background: #000; } .player-container.fullscreen-active #shaka-player-container { width: 100%; height: 100%; max-width: 100%; border-radius: 0; margin-bottom: 0; } .player-container.fullscreen-active .player-details-expanded { display: none; } .player-container.fullscreen-active .player-minimize { display: none; } .player-minimize { position: absolute; top: 10px; right: 10px; color: var(--player-close); font-size: 2em; z-index: 10; cursor: pointer; background: none; padding: 5px; border-radius: 50%; transition: color 0.2s, background-color 0.2s; font-variation-settings: 'FILL' 0; } .player-minimize:hover { color: var(--accent-primary); background-color: rgba(255, 255, 255, 0.1); } .player-back-landscape { position: absolute; top: 15px; left: 15px; color: #fff; font-size: 2em; z-index: 5000; cursor: pointer; background: rgba(0,0,0,0.3); padding: 8px; border-radius: 50%; transition: opacity 0.3s ease, background-color 0.2s; opacity: 0; pointer-events: none; } .player-back-landscape:hover { background-color: rgba(0,0,0,0.6); } .player-container.fullscreen-active.controls-active .player-back-landscape { opacity: 1; pointer-events: auto; } .player-details-expanded { text-align: center; margin-top: 8px; } .player-title { font-size: 1.05em; font-weight: 700; color: var(--text-primary); transition: color 0.3s ease; margin-bottom: 2px; } .player-sub { font-size: 0.88em; color: var(--accent-primary); font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 6px; } .player-live-icon { font-size: 1.5em; color: var(--accent-primary); margin-left: 4px; vertical-align: middle; display: none; font-variation-settings: 'FILL' 1; } #shaka-player-container { width: 90vw; max-width: 640px; height: auto; aspect-ratio: 16 / 9; background: #000; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; overflow: hidden; position: relative; } #shaka-player { display: block; width: 100%; height: 100%; border-radius: 0; max-height: 100%; max-width: 100%; object-fit: contain; position: relative; z-index: 2; background: #000; } .player-info-overlay { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); z-index: 4000; color: #fff; background-color: rgba(0,0,0,0.5); padding: 10px 15px; border-radius: 8px; display: flex; align-items: center; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; text-shadow: 1px 1px 3px rgba(0,0,0,0.7); } .player-container.fullscreen-active.controls-active .player-info-overlay { opacity: 1; pointer-events: auto; } .player-info-overlay img { width: 50px; height: 50px; object-fit: contain; border-radius: 6px; background: rgba(255,255,255,0.1); padding:2px;} .player-info-overlay-text div { line-height: 1.3; } #playerOverlayChannelName { font-size: 1.2em; font-weight: 700; } #playerOverlayCategoryName { font-size: 0.9em; color: #ccc; display: flex; align-items: center; gap: 5px; } #playerOverlayCategoryName .material-symbols-outlined { font-size: 1.1em; color: var(--accent-primary); font-variation-settings: 'FILL' 1; } .player-minimized-bar { position: fixed; bottom: var(--footer-height); left: 0; width: 100%; height: var(--min-player-height); background: var(--player-minimized-bg); border-top: 1px solid var(--player-minimized-border); display: flex; align-items: center; padding: 0 12px; cursor: pointer; user-select: none; z-index: 2000; transform: translateY(100%); opacity: 0; pointer-events: none; transition: transform 0.3s ease-out, opacity 0.3s ease-out, background-color 0.3s ease, border-color 0.3s ease, bottom 0.3s ease-out; box-shadow: 0 -2px 10px rgba(0,0,0,0.2); } .player-container.minimized .player-minimized-bar { transform: translateY(0); opacity: 1; pointer-events: auto; } .minimized-logo { width: 40px; height: 40px; object-fit: contain; margin-right: 10px; border-radius: 4px; background-color: #333; flex-shrink: 0; } .minimized-info { flex-grow: 1; overflow: hidden; margin-right: 10px; } .minimized-title { font-size: 0.9em; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; transition: color 0.3s ease; margin-bottom: 2px; } .minimized-status-icon { font-size: 1.4em; color: var(--accent-primary); font-variation-settings: 'FILL' 1; line-height: 1; } .minimized-controls { display: flex; align-items: center; gap: 5px; } .minimized-controls .material-symbols-outlined { font-size: 28px; color: var(--text-primary); cursor: pointer; padding: 5px; border-radius: 50%; transition: color 0.2s, background-color 0.2s; font-variation-settings: 'FILL' 0; } .minimized-controls .material-symbols-outlined:hover { background-color: rgba(128, 128, 128, 0.2); } .player-close-minimized:hover { color: var(--accent-primary); } body.player-minimized-active { padding-bottom: calc(var(--footer-height) + var(--min-player-height)); }
     .feature-slider-section { margin-bottom: 25px; display: flex; justify-content: center;}
-    .feature-slider { width: 100vw; max-width: 450px; margin-top: -65px; aspect-ratio: 1 / 1; position: relative; overflow: hidden; border-radius: 0px 0px 50px 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; background: #000; box-sizing: border-box; }
+    .feature-slider { width: 100vw; max-width: 450px; margin-top: -65px; aspect-ratio: 1 / 1; position: relative; overflow: hidden; border-radius: 0px 0px 50px 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; background: #000; }
     .feature-slider .loading-text { color: var(--text-secondary); z-index: 5; font-size: 1.1em;}
-    .feature-slide { width: 100%; height: 100%; background-size: cover; background-position: center; position: absolute; top: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; box-sizing: border-box; opacity: 0; transition: opacity 0.6s ease-in-out; z-index: 1; padding-bottom: 45px; }
+    .feature-slide { width: 100%; height: 100%; background-size: cover; background-position: center; position: absolute; top: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; opacity: 0; transition: opacity 0.6s ease-in-out; z-index: 1; padding-bottom: 45px; }
     .feature-slide.active { opacity: 1; z-index: 2;}
     .feature-overlay { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.6) 70%, rgba(0,0,0,0.95) 100%); z-index: 2; }
-    .feature-content { position: relative; z-index: 3; color: var(--text-primary); padding: 0 20px; max-width: 90%; width: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; text-align: center; box-sizing: border-box; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); margin-bottom: 0; }
+    .feature-content { position: relative; z-index: 3; color: var(--text-primary); padding: 0 20px; max-width: 90%; width: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 4px; text-align: center; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); margin-bottom: 0; }
     .feature-logo { min-height: 30px; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; }
     .feature-logo img { height: 30px; max-width: 150px; object-fit: contain; display: block; }
     .feature-title { font-size: 1.8em; font-weight: 800; line-height: 1.2;}
@@ -177,9 +222,8 @@
        .feature-dots { bottom: 10px; gap: 6px; }
        .feature-dot { width: 7px; height: 7px; }
        .profile-menu { top: 55px; min-width: 180px; }
-       /* a.logo { font-size: 2.5em; } REMOVED text specific style */
        a.logo img {
-           height: 30px; /* Slightly smaller logo on small screens */
+           height: 30px; 
        }
        .topbar .material-symbols-outlined { font-size: 26px; }
        .section-title, .plus-section-title, .category-title { font-size: 1.6em; }
@@ -216,101 +260,187 @@
        .category-channels { min-height: calc(var(--channel-card-width) * 0.85 * 9 / 16 + 20px); }
     }
 
-    /* --- Desktop Styles (Netflix-like enhancements) --- */
+
+    /* --- Desktop Styles (Netflix TV UI) --- */
     @media (min-width: 1024px) {
         :root {
             --movie-poster-width: 180px;
             --ranked-poster-width: 180px;
-            --channel-card-width: 220px;
+            --channel-card-width: 220px; /* Approx 5 cards in a 1280px wide content area */
             --scrollbar-thumb: #666;
-            --scrollbar-track: #333;
+            --scrollbar-track: #1a1a1a; /* Darker track for TV UI */
+            --tv-sidebar-bg: #080808;
+            --tv-sidebar-text: #aaa;
+            --tv-sidebar-text-active: #fff;
+            --tv-sidebar-hover-bg: #1f1f1f;
+            --tv-sidebar-active-bg: #2a2a2a;
         }
 
         body {
-            padding-bottom: 20px !important; 
-            background: var(--bg-gradient-start);
+            padding-bottom: 0 !important; 
+            background: var(--bg-gradient-start); /* Main content area will scroll */
+            overflow: hidden; /* Prevent body scroll, main content area will scroll */
+            height: 100vh;
         }
 
-        .footer-nav {
-            display: none !important;
+        .topbar { display: none !important; } /* Hide original topbar */
+        .footer-nav { display: none !important; } /* Hide original footer */
+
+        .tv-layout-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
         }
 
-        .topbar {
-            padding: 15px 40px;
-            background-color: var(--bg-gradient-start);
+        .tv-sidebar {
+            width: var(--tv-sidebar-width);
+            background-color: var(--tv-sidebar-bg);
+            color: var(--tv-sidebar-text);
+            padding: 25px 15px;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            z-index: 1100;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1200;
+            flex-shrink: 0;
+            border-right: 1px solid #222;
+        }
+        
+        .tv-sidebar .logo-sidebar img {
+            height: 35px; /* Adjusted logo size */
+            width: auto;
+            display: block;
+            margin: 0 auto 30px auto; /* Center logo and add bottom margin */
         }
 
-        a.logo { /* Selector changed from .logo to a.logo for specificity */
-            /* font-size: 2.5em; REMOVED text specific style */
-            margin-right: 25px;
+        .tv-sidebar-actions {
+            display: flex;
+            justify-content: space-around; /* Or center, or specific spacing */
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 0 10px; /* Add some padding if needed */
         }
-        a.logo img { /* Style for the image within a.logo */
-             height: 40px; /* Slightly larger logo on desktop */
+        .tv-sidebar-actions .material-symbols-outlined {
+            font-size: 26px; /* Slightly smaller for sidebar */
+            padding: 8px;
+            color: var(--tv-sidebar-text);
+        }
+         .tv-sidebar-actions .material-symbols-outlined:hover {
+            color: var(--tv-sidebar-text-active);
+            background-color: var(--tv-sidebar-hover-bg);
         }
 
 
-        .desktop-nav-links {
+        .tv-nav-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            flex-grow: 1; /* Pushes profile menu items down if they are at the end */
+        }
+
+        .tv-nav-item {
             display: flex;
             align-items: center;
-            gap: 25px;
-            margin-left: 15px;
-            flex-grow: 1;
-        }
-
-        .desktop-nav-item {
-            font-size: 1.05em;
-            font-weight: 600;
-            color: var(--text-secondary);
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: color 0.2s ease;
-            padding: 5px 0;
+            transition: background-color 0.2s ease, color 0.2s ease;
+            color: var(--tv-sidebar-text);
+            font-size: 1.05em; /* Netflix TV nav items are often a bit larger */
+            font-weight: 600;
             user-select: none;
         }
-
-        .desktop-nav-item:hover {
-            color: var(--text-primary);
+        .tv-nav-item .material-symbols-outlined {
+            margin-right: 15px;
+            font-size: 24px; /* Icon size */
+            font-variation-settings: 'FILL' 0;
         }
-
-        .desktop-nav-item.active {
-            color: var(--text-primary);
+        .tv-nav-item:hover {
+            background-color: var(--tv-sidebar-hover-bg);
+            color: var(--tv-sidebar-text-active);
+        }
+        .tv-nav-item.active {
+            background-color: var(--tv-sidebar-active-bg);
+            color: var(--tv-sidebar-text-active);
             font-weight: 700;
         }
+        .tv-nav-item.active .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1;
+        }
+        .tv-nav-item-label {
+            flex-grow: 1;
+        }
+        
+        /* Profile menu specific to TV UI sidebar */
+        .tv-sidebar .profile-menu {
+            top: auto; /* Reset top/right positioning */
+            right: auto;
+            left: calc(100% + 10px); /* Position to the right of the sidebar */
+            bottom: 20px; /* Example: align with bottom of profile icon or specific position */
+            min-width: 240px;
+            /* Ensure it's relative to the tv-sidebar-actions or a wrapper if needed */
+        }
+         /* Adjust if #tvProfileBtnDesktop is wrapped, this assumes #profileMenu is sibling or carefully placed */
+        #tvSidebarActionsContainer { /* You might need a wrapper for tvProfileBtnDesktop for correct positioning */
+            position: relative;
+        }
+        #tvSidebar .profile-menu {
+            /* Position relative to #tvProfileBtnDesktop or its container */
+            left: 100%; /* Start at the right edge of the icon's container */
+            top: 0; /* Align top with the icon */
+            transform: translateX(10px); /* Small gap */
+        }
 
-        .topbar-icons {
-            gap: 20px;
+
+        .tv-main-content-area {
+            flex-grow: 1;
+            margin-left: var(--tv-sidebar-width);
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0; /* Sections will have their own padding */
+            background-color: var(--bg-gradient-end); /* Ensure bg for content area */
         }
-        .topbar .material-symbols-outlined {
-            font-size: 28px;
+        .tv-main-content-area::-webkit-scrollbar {
+            width: 10px;
         }
-        .profile-menu {
-            top: calc(100% + 10px);
+        .tv-main-content-area::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+        .tv-main-content-area::-webkit-scrollbar-thumb {
+            background-color: var(--scrollbar-thumb);
+            border-radius: 10px;
+        }
+         .tv-main-content-area::-webkit-scrollbar-thumb:hover {
+            background-color: #888;
         }
 
-        #mainContainer {
-            padding-top: 80px; /* Adjusted for topbar with image logo if needed */
+        #mainContainer { /* Repurpose for content within tv-main-content-area */
+            padding-top: 0; /* Removed fixed topbar padding */
             max-width: 100%;
+            margin: 0;
         }
 
+        /* Sections within the TV main content area */
         .main-content, .plus-page, .categories-page {
-            padding: 25px 40px;
-            max-width: 1600px; 
-            margin: 0 auto;
+            padding: 25px 40px; /* Standard padding for content sections */
+            max-width: none; /* Allow full width within tv-main-content-area */
+            margin: 0;
         }
+
 
         .feature-slider-section {
-            margin-bottom: 40px;
-            width: 100%;
-            height: 60vh; 
-            max-height: 550px;
-            min-height: 400px;
+            width: 100%; /* Full width of tv-main-content-area */
+            height: 55vh; 
+            min-height: 450px;
+            max-height: 600px;
             margin-top: 0; 
-            display: block;
+            margin-bottom: 0; /* No bottom margin, next section will have its own top margin */
+            display: block; /* Ensure it takes up space correctly */
+            background-color: #000; /* Fallback if slider doesn't load */
         }
 
         .feature-slider {
@@ -326,24 +456,24 @@
         .feature-slide {
             padding: 0; 
             justify-content: center; 
-            align-items: flex-start; 
+            align-items: flex-start; /* Align content to the left for TV UI */
         }
         
         .feature-overlay {
-            background: linear-gradient(90deg, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.6) 35%, rgba(0,0,0,0.1) 70%, transparent 100%);
+            /* More pronounced gradient from one side for TV look */
+            background: linear-gradient(90deg, rgba(0,0,0,0.9) 15%, rgba(0,0,0,0.7) 35%, rgba(0,0,0,0.1) 60%, transparent 80%);
         }
 
         .feature-content {
             text-align: left;
             align-items: flex-start;
-            max-width: 40%; 
-            margin-left: 5%; 
+            max-width: 45%; /* Content takes up less than half the width */
+            margin-left: 5%; /* Push content from the left edge */
             gap: 15px;
             position: absolute;
-            bottom: 15%; 
+            bottom: 15%; /* Position from bottom */
             left: 0; 
-            padding: 20px; 
-            box-sizing: border-box;
+            padding: 20px 40px; /* Padding for the text content */
         }
 
         .feature-logo {
@@ -352,47 +482,45 @@
           margin-bottom: 15px;
         }
         .feature-logo img {
-            height: 35px; 
-            max-width: 180px;
+            height: 40px; /* Larger logo in feature */
+            max-width: 220px;
         }
 
         .feature-title {
-            font-size: 2.8em; 
+            font-size: 3em; /* Larger title */
         }
 
         .feature-desc {
             font-size: 1.2em; 
-            max-width: 90%;
+            max-width: 85%;
             opacity: 0.85;
         }
 
         .feature-dots {
-            bottom: 25px;
+            bottom: 30px;
             left: auto; 
-            right: 5%; 
-            transform: none; 
+            right: 5%; /* Dots on the right side */
             width: auto;
             justify-content: flex-end;
         }
         .feature-dot {
             width: 10px; height: 10px;
-            background: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.3);
         }
         .feature-dot.active {
-            background-color: #fff; 
+            background-color: var(--accent-primary); 
         }
 
         .section-title-container {
-            margin: 35px 0 20px 0;
-            padding: 0;
+            margin: 40px 0 20px 0; /* More top margin for sections */
         }
         .section-title, .plus-section-title, .category-title {
-            font-size: 1.6em;
+            font-size: 1.8em; /* Larger section titles */
         }
 
         .horizontal-list, .plus-movies-row, .category-channels {
-            gap: 18px; 
-            padding-bottom: 15px;
+            gap: 20px; 
+            padding-bottom: 20px; /* More padding for scrollbar */
             scrollbar-width: thin; 
             scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
         }
@@ -400,132 +528,179 @@
         .plus-movies-row::-webkit-scrollbar,
         .category-channels::-webkit-scrollbar {
             display: block; 
-            height: 8px;
+            height: 10px; /* Thicker scrollbar */
         }
         .horizontal-list::-webkit-scrollbar-track,
         .plus-movies-row::-webkit-scrollbar-track,
         .category-channels::-webkit-scrollbar-track {
             background: var(--scrollbar-track);
-            border-radius: 4px;
+            border-radius: 5px;
         }
         .horizontal-list::-webkit-scrollbar-thumb,
         .plus-movies-row::-webkit-scrollbar-thumb,
         .category-channels::-webkit-scrollbar-thumb {
             background-color: var(--scrollbar-thumb);
-            border-radius: 4px;
+            border-radius: 5px;
         }
         .horizontal-list:hover::-webkit-scrollbar-thumb,
         .plus-movies-row:hover::-webkit-scrollbar-thumb,
         .category-channels:hover::-webkit-scrollbar-thumb {
             background-color: #888;
         }
-
+        
+        .channel-card { width: var(--channel-card-width); } /* Ensure this var is used */
         .channel-card:hover {
-            transform: scale(1.05); 
-            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            transform: scale(1.06); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); /* Enhanced shadow */
         }
         .channel-card::before {
-            filter: blur(15px) brightness(70%) saturate(100%);
+            filter: blur(12px) brightness(65%) saturate(100%);
         }
 
+        .movie-card { width: var(--movie-poster-width); }
         .movie-card:hover img {
-            transform: scale(1.06); 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: scale(1.07); 
+            box-shadow: 0 6px 18px rgba(0,0,0,0.35);
         }
 
         .ranked-trending-card {
-            min-width: calc(var(--ranked-poster-width) + 60px); 
-            height: calc(var(--ranked-poster-width) * 1.5);
+             min-width: calc(var(--ranked-poster-width) + 70px); /* Adjusted for potentially larger rank number */
+             height: calc(var(--ranked-poster-width) * 1.5);
         }
         .rank-number {
-            font-size: 6.5em; 
-            margin-right: -28px;
+            font-size: 7em; 
+            margin-right: -30px; /* Adjust overlap */
         }
         .ranked-trending-card:hover .rank-poster-container {
-            transform: scale(1.06);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            transform: scale(1.07);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.55);
         }
         #homeTrendingRow.horizontal-list {
-            min-height: calc(var(--ranked-poster-width) * 1.5 + 30px);
+            min-height: calc(var(--ranked-poster-width) * 1.5 + 40px); /* Adjust if needed */
         }
 
-        .categories-header { font-size: 1.2em; margin-bottom: 20px; }
-        .category-pills-container { padding: 10px 0 20px 0; }
-        .category-pill { padding: 9px 18px; font-size: 0.95em; }
+        .categories-header { font-size: 1.3em; margin-bottom: 25px; }
+        .category-pills-container { padding: 10px 0 25px 0; }
+        .category-pill { padding: 10px 20px; font-size: 1em; }
 
-        .plus-header { font-size: 1.2em; margin-bottom: 30px; }
+        .plus-header { font-size: 1.3em; margin-bottom: 35px; }
         .plus-movies-row {
-            min-height: calc(var(--movie-poster-width) * 1.5 + 30px);
+            min-height: calc(var(--movie-poster-width) * 1.5 + 40px);
         }
 
         .search-modal .search-bar-modal {
-            max-width: 600px; 
-            margin: 30px auto 20px auto;
+            max-width: 700px; 
+            margin: 40px auto 25px auto; /* Centered and more spacing for TV UI modal */
+            padding: 8px 8px 8px 20px;
         }
+        .search-modal input[type="text"] { font-size: 1.15em; }
         .search-results-modal {
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
         }
         
-        body.player-minimized-active {
-            padding-bottom: calc(var(--min-player-height) + 20px) !important;
+        body.player-minimized-active { /* Minimized player bar handling for TV UI */
+            /* The main content area scrolls, so body padding isn't the primary concern.
+               The bar will overlay the bottom of tv-main-content-area.
+               It should be fixed relative to the viewport, not pushing body content. */
+            padding-bottom: 0 !important; 
         }
         .player-minimized-bar {
-            bottom: 0 !important;
+            bottom: 0 !important; /* Stick to viewport bottom */
+            left: var(--tv-sidebar-width) !important; /* Position to the right of the sidebar */
+            width: calc(100% - var(--tv-sidebar-width)) !important; /* Fill remaining width */
+            z-index: 2500; /* Ensure it's above sidebar content but below player */
         }
     }
   </style>
 </head>
 <body>
-  <div class="topbar">
+
+  <!-- Original Topbar for mobile/tablet -->
+  <div class="topbar" id="originalTopbar">
     <a href="#" class="logo" onclick="location.reload(); return false;" title="Reload flow+">
         <img src="https://media-hosting.imagekit.io/65ba828a967b413d/Adobe Express - file (2) (1).png?Expires=1841659838&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ASjHfhrmwHgwGl0cjH~Dni8EbrpNaQHn9TcRk6iBE4XNlkALfCWd0z8ohPHs5C8uGClaGahHr9ffxfE0GkHNWsS67XlTySz9oo~Tq-V7MZz40HFG3uFuG-FeA5mieop~fnLeYuhqnQSKjsifC8a82K9OoA36vZ5TBhiA6pqTc5FqFr9~hakVmf5ShYdc2VgscVO8CQWmA-NiToapdvuyPfCHNctLY-Ntp9TKBjZ5mpOitHYpUkxtQwlnznZ5OvyOZFWeeCyy~jT7gbyf~by~VeFrrlbu9Kwg5IJwmUpwv-ARM3jj3DQsyMRXt2cLAhz97bODIuOH8GmFrYpZ0zRrfQ__" alt="flow+ Logo" id="logoImage">
     </a>
-    <div class="desktop-nav-links">
+    <!-- Desktop nav links (original, hidden on TV UI) -->
+    <div class="desktop-nav-links" id="originalDesktopNav">
         <span class="desktop-nav-item active" id="navHomeDesktop" onclick="switchTab('home', this)" data-target-page="homeSection">Home</span>
         <span class="desktop-nav-item" id="navStreamDesktop" onclick="switchTab('stream', this)" data-target-page="plusPage">Stream</span>
         <span class="desktop-nav-item" id="navCategoriesDesktop" onclick="switchTab('categories', this)" data-target-page="categoriesPage">Live TV</span>
     </div>
-    <div class="topbar-icons">
+    <div class="topbar-icons" id="originalTopbarIcons">
         <span class="material-symbols-outlined" id="searchBtn" title="Search">search</span>
         <span class="material-symbols-outlined" id="profileBtn" title="Profile">account_circle</span>
-        <div class="profile-menu" id="profileMenu">
-            <div class="profile-menu-item" id="signInBtn"> <span class="material-symbols-outlined profile-item-icon">login</span> <span class="profile-item-text">Sign In / Log In</span> <span class="soon-badge">SOON!</span> </div>
-            <div class="profile-menu-item" id="facebookLink"> <span class="material-symbols-outlined profile-item-icon">thumb_up</span> <span class="profile-item-text">Like Us on Facebook</span> </div>
-            <div class="profile-menu-item" id="aboutBtn"> <span class="material-symbols-outlined profile-item-icon">info</span> <span class="profile-item-text">About Us</span> </div>
-        </div>
     </div>
   </div>
-
-  <main id="mainContainer">
-    <div class="feature-slider-section" id="featureSliderSection">
-        <div class="feature-slider" id="featureSlider">
-            <p class="loading-text">Loading features...</p>
+  
+  <!-- TV UI Layout Container (Desktop) -->
+  <div class="tv-layout-container" id="tvLayoutContainer">
+    <nav class="tv-sidebar" id="tvSidebar">
+        <a href="#" class="logo-sidebar" onclick="location.reload(); return false;" title="Reload flow+">
+            <img src="https://media-hosting.imagekit.io/65ba828a967b413d/Adobe Express - file (2) (1).png?Expires=1841659838&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ASjHfhrmwHgwGl0cjH~Dni8EbrpNaQHn9TcRk6iBE4XNlkALfCWd0z8ohPHs5C8uGClaGahHr9ffxfE0GkHNWsS67XlTySz9oo~Tq-V7MZz40HFG3uFuG-FeA5mieop~fnLeYuhqnQSKjsifC8a82K9OoA36vZ5TBhiA6pqTc5FqFr9~hakVmf5ShYdc2VgscVO8CQWmA-NiToapdvuyPfCHNctLY-Ntp9TKBjZ5mpOitHYpUkxtQwlnznZ5OvyOZFWeeCyy~jT7gbyf~by~VeFrrlbu9Kwg5IJwmUpwv-ARM3jj3DQsyMRXt2cLAhz97bODIuOH8GmFrYpZ0zRrfQ__" alt="flow+ Logo" id="sidebarLogoImage">
+        </a>
+        <div id="tvSidebarActionsContainer" style="position: relative;"> <!-- Wrapper for profile menu positioning -->
+            <div class="tv-sidebar-actions">
+                <span class="material-symbols-outlined" id="tvSearchBtnDesktop" title="Search">search</span>
+                <span class="material-symbols-outlined" id="tvProfileBtnDesktop" title="Profile">account_circle</span>
+            </div>
         </div>
+        <ul class="tv-nav-menu">
+            <li class="tv-nav-item active" id="tvNavHome" onclick="switchTab('home', this)" data-target-page="homeSection" aria-controls="homeSection" role="tab" aria-selected="true">
+                <span class="material-symbols-outlined">home</span>
+                <span class="tv-nav-item-label">Home</span>
+            </li>
+            <li class="tv-nav-item" id="tvNavStream" onclick="switchTab('stream', this)" data-target-page="plusPage" aria-controls="plusPage" role="tab" aria-selected="false">
+                <span class="material-symbols-outlined">movie</span>
+                <span class="tv-nav-item-label">Stream</span>
+            </li>
+            <li class="tv-nav-item" id="tvNavCategories" onclick="switchTab('categories', this)" data-target-page="categoriesPage" aria-controls="categoriesPage" role="tab" aria-selected="false">
+                <span class="material-symbols-outlined">live_tv</span>
+                <span class="tv-nav-item-label">Live TV</span>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="tv-main-content-area" id="tvMainContentArea">
+        <main id="mainContainer">
+            <div class="feature-slider-section" id="featureSliderSection">
+                <div class="feature-slider" id="featureSlider">
+                    <p class="loading-text">Loading features...</p>
+                </div>
+            </div>
+            <div class="main-content active" id="homeSection" role="tabpanel" aria-labelledby="navHome tvNavHome">
+                <div class="section-title-container"> <div class="section-title"><span class="material-symbols-outlined">live_tv</span>TOP CHANNELS</div> </div>
+                <div class="horizontal-list" id="topChannelsRow"> <p class="loading-text">Loading channels...</p> </div>
+                <div class="section-title-container"> <div class="section-title"><span class="material-symbols-outlined">trending_up</span>TRENDING TOP 10</div> <div class="title-toggle-buttons"> <button class="toggle-button active" id="homeTrendingTodayBtn" data-period="day">Today</button> <button class="toggle-button" id="homeTrendingWeekBtn" data-period="week">This Week</button> </div> </div>
+                <div class="horizontal-list" id="homeTrendingRow"> <p class="loading-text">Loading trending...</p> </div>
+            </div>
+            <div class="plus-page" id="plusPage" role="tabpanel" aria-labelledby="navStream tvNavStream" hidden>
+                <div class="plus-header"> Discover Movies & TV <span class="beta-badge">Powered by TMDb</span> </div>
+                <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">theaters</span>NOW STREAMING</div> </div>
+                <div class="plus-movies-row" id="tmdbNowPlayingMoviesRow"> <p class="loading-text">Loading movies...</p> </div>
+                <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">star_rate</span>TOP RATED MOVIES</div> </div>
+                <div class="plus-movies-row" id="tmdbTopRatedMoviesRow"> <p class="loading-text">Loading movies...</p> </div>
+                <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">live_tv</span>AIRING TODAY TV</div> </div>
+                <div class="plus-movies-row" id="tmdbAiringTodayTVRow"> <p class="loading-text">Loading TV shows...</p> </div>
+                <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">stars</span>TOP RATED TV</div> </div>
+                <div class="plus-movies-row" id="tmdbTopRatedTVRow"> <p class="loading-text">Loading TV shows...</p> </div>
+            </div>
+            <div class="categories-page" id="categoriesPage" role="tabpanel" aria-labelledby="navCategories tvNavCategories" hidden>
+                <div class="categories-header">Live TV</div>
+                <div class="category-pills-container" id="categoryPillsContainer"> <p class="loading-text">Loading filters...</p> </div>
+                <div id="categoryGroups"> <p class="loading-text">Loading categories...</p> </div>
+            </div>
+        </main>
     </div>
-    <div class="main-content active" id="homeSection" role="tabpanel" aria-labelledby="navHome">
-        <div class="section-title-container"> <div class="section-title"><span class="material-symbols-outlined">live_tv</span>TOP CHANNELS</div> </div>
-        <div class="horizontal-list" id="topChannelsRow"> <p class="loading-text">Loading channels...</p> </div>
-        <div class="section-title-container"> <div class="section-title"><span class="material-symbols-outlined">trending_up</span>TRENDING TOP 10</div> <div class="title-toggle-buttons"> <button class="toggle-button active" id="homeTrendingTodayBtn" data-period="day">Today</button> <button class="toggle-button" id="homeTrendingWeekBtn" data-period="week">This Week</button> </div> </div>
-        <div class="horizontal-list" id="homeTrendingRow"> <p class="loading-text">Loading trending...</p> </div>
-    </div>
-    <div class="plus-page" id="plusPage" role="tabpanel" aria-labelledby="navStream" hidden>
-        <div class="plus-header"> Discover Movies & TV <span class="beta-badge">Powered by TMDb</span> </div>
-        <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">theaters</span>NOW STREAMING</div> </div>
-        <div class="plus-movies-row" id="tmdbNowPlayingMoviesRow"> <p class="loading-text">Loading movies...</p> </div>
-        <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">star_rate</span>TOP RATED MOVIES</div> </div>
-        <div class="plus-movies-row" id="tmdbTopRatedMoviesRow"> <p class="loading-text">Loading movies...</p> </div>
-        <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">live_tv</span>AIRING TODAY TV</div> </div>
-        <div class="plus-movies-row" id="tmdbAiringTodayTVRow"> <p class="loading-text">Loading TV shows...</p> </div>
-        <div class="section-title-container"> <div class="plus-section-title"><span class="material-symbols-outlined">stars</span>TOP RATED TV</div> </div>
-        <div class="plus-movies-row" id="tmdbTopRatedTVRow"> <p class="loading-text">Loading TV shows...</p> </div>
-    </div>
-    <div class="categories-page" id="categoriesPage" role="tabpanel" aria-labelledby="navCategories" hidden>
-        <div class="categories-header">Live TV</div>
-        <div class="category-pills-container" id="categoryPillsContainer"> <p class="loading-text">Loading filters...</p> </div>
-        <div id="categoryGroups"> <p class="loading-text">Loading categories...</p> </div>
-    </div>
-  </main>
+  </div>
+  
+  <!-- Profile Menu - used by both mobile topbar and desktop sidebar -->
+  <div class="profile-menu" id="profileMenu">
+      <div class="profile-menu-item" id="signInBtn"> <span class="material-symbols-outlined profile-item-icon">login</span> <span class="profile-item-text">Sign In / Log In</span> <span class="soon-badge">SOON!</span> </div>
+      <div class="profile-menu-item" id="facebookLink"> <span class="material-symbols-outlined profile-item-icon">thumb_up</span> <span class="profile-item-text">Like Us on Facebook</span> </div>
+      <div class="profile-menu-item" id="aboutBtn"> <span class="material-symbols-outlined profile-item-icon">info</span> <span class="profile-item-text">About Us</span> </div>
+  </div>
+
 
   <footer class="footer-nav" role="tablist" aria-label="Main Navigation">
     <div class="footer-item selected" id="navHome" role="tab" aria-selected="true" aria-controls="homeSection" onclick="switchTab('home', this)"> <span class="material-symbols-outlined footer-icon">home</span> <span class="footer-label">Home</span> </div>
@@ -552,7 +727,26 @@
     const tmdbTopRatedMoviesRow = document.getElementById('tmdbTopRatedMoviesRow');
     const tmdbAiringTodayTVRow = document.getElementById('tmdbAiringTodayTVRow');
     const tmdbTopRatedTVRow = document.getElementById('tmdbTopRatedTVRow');
-    const categoryGroups = document.getElementById("categoryGroups"); const playerContainer = document.getElementById('playerContainer'); const playerBoxExpanded = document.getElementById('playerBoxExpanded'); const playerBarMinimized = document.getElementById('playerBarMinimized'); const shakaVideoElement = document.getElementById('shaka-player'); const shakaPlayerContainer = document.getElementById('shaka-player-container'); const playerTitleExpanded = document.getElementById('playerTitleExpanded'); const playerSubExpanded = document.getElementById('playerSubExpanded'); const playerLiveIconExpanded = document.getElementById('playerLiveIconExpanded'); const minimizedLogo = document.getElementById('minimizedLogo'); const minimizedTitle = document.getElementById('minimizedTitle'); const searchModal = document.getElementById("searchModal"); const searchInput = document.getElementById("searchInput"); const searchResultsModal = document.getElementById("searchResultsModal"); const searchLoadingIndicator = searchResultsModal.querySelector('.loading-text'); const searchBtn = document.getElementById("searchBtn"); const footerNav = document.querySelector('.footer-nav'); const footerItems = document.querySelectorAll('.footer-item[role="tab"]'); const tabPanels = document.querySelectorAll('[role="tabpanel"]'); const profileBtn = document.getElementById("profileBtn"); const profileMenu = document.getElementById("profileMenu"); const signInBtn = document.getElementById("signInBtn"); const facebookLink = document.getElementById("facebookLink"); const aboutBtn = document.getElementById("aboutBtn");
+    const categoryGroups = document.getElementById("categoryGroups"); const playerContainer = document.getElementById('playerContainer'); const playerBoxExpanded = document.getElementById('playerBoxExpanded'); const playerBarMinimized = document.getElementById('playerBarMinimized'); const shakaVideoElement = document.getElementById('shaka-player'); const shakaPlayerContainer = document.getElementById('shaka-player-container'); const playerTitleExpanded = document.getElementById('playerTitleExpanded'); const playerSubExpanded = document.getElementById('playerSubExpanded'); const playerLiveIconExpanded = document.getElementById('playerLiveIconExpanded'); const minimizedLogo = document.getElementById('minimizedLogo'); const minimizedTitle = document.getElementById('minimizedTitle'); const searchModal = document.getElementById("searchModal"); const searchInput = document.getElementById("searchInput"); const searchResultsModal = document.getElementById("searchResultsModal"); const searchLoadingIndicator = searchResultsModal.querySelector('.loading-text'); 
+    
+    // Original topbar elements (mobile/tablet)
+    const searchBtn = document.getElementById("searchBtn"); 
+    const profileBtn = document.getElementById("profileBtn"); 
+
+    // TV UI Sidebar elements (desktop)
+    const tvSearchBtnDesktop = document.getElementById("tvSearchBtnDesktop");
+    const tvProfileBtnDesktop = document.getElementById("tvProfileBtnDesktop");
+    const tvSidebar = document.getElementById("tvSidebar");
+    const tvLayoutContainer = document.getElementById("tvLayoutContainer"); // For desktop layout
+    const originalTopbar = document.getElementById("originalTopbar"); // For mobile/tablet
+
+    const footerNav = document.querySelector('.footer-nav'); 
+    const footerItems = document.querySelectorAll('.footer-item[role="tab"]'); 
+    const tabPanels = document.querySelectorAll('[role="tabpanel"]'); 
+    const profileMenu = document.getElementById("profileMenu"); 
+    const signInBtn = document.getElementById("signInBtn"); 
+    const facebookLink = document.getElementById("facebookLink"); 
+    const aboutBtn = document.getElementById("aboutBtn");
     const playerBackLandscapeBtn = document.getElementById('playerBackLandscapeBtn'); const playerInfoOverlay = document.getElementById('playerInfoOverlay'); const playerOverlayLogo = document.getElementById('playerOverlayLogo'); const playerOverlayChannelName = document.getElementById('playerOverlayChannelName'); const playerOverlayCategoryText = document.getElementById('playerOverlayCategoryText');
     const homeTrendingTodayBtn = document.getElementById('homeTrendingTodayBtn');
     const homeTrendingWeekBtn = document.getElementById('homeTrendingWeekBtn');
@@ -589,19 +783,25 @@
             targetPanel.classList.add('active');
         } else {
             console.error("Target panel not found for tab:", tabName, "targetPageId:", targetPageId);
-            if (homeSection && targetPageId !== homeSection.id) {
+            if (homeSection && targetPageId !== homeSection.id) { // Fallback to home
                 homeSection.hidden = false;
                 homeSection.classList.add('active');
-                footerItems.forEach(item => {
+                 footerItems.forEach(item => {
                     item.classList.toggle('selected', item.id === 'navHome');
                     item.setAttribute('aria-selected', (item.id === 'navHome').toString() );
                 });
+                // For desktop TV UI
+                document.querySelectorAll('.tv-nav-item').forEach(item => {
+                    item.classList.toggle('active', item.id === 'tvNavHome');
+                });
+                // For original desktop nav (pre-TV UI)
                 document.querySelectorAll('.desktop-nav-item').forEach(item => {
                     item.classList.toggle('active', item.id === 'navHomeDesktop');
                 });
             }
         }
 
+        // Footer nav (mobile/tablet)
         footerItems.forEach(item => {
             item.classList.remove('selected');
             item.setAttribute('aria-selected', 'false');
@@ -611,6 +811,18 @@
             }
         });
 
+        // TV Sidebar nav (desktop)
+        const tvNavItems = document.querySelectorAll('.tv-nav-item');
+        if (tvNavItems.length > 0) {
+            tvNavItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.targetPage === targetPageId) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        // Original Desktop nav (pre-TV UI, in case it's still somehow relevant)
         const desktopNavItems = document.querySelectorAll('.desktop-nav-item');
         if (desktopNavItems.length > 0) {
             desktopNavItems.forEach(item => {
@@ -623,14 +835,28 @@
         
         if (featureSliderSection) {
             const isHomePage = (targetPanel && targetPanel.id === 'homeSection');
-            featureSliderSection.style.display = isHomePage ? (window.innerWidth >= 1024 ? "block" : "flex") : "none";
+            const isDesktop = window.innerWidth >= 1024;
+            
+            if (isDesktop) { // TV UI specific logic for feature slider
+                 featureSliderSection.style.display = isHomePage ? "block" : "none";
+            } else { // Mobile/tablet logic
+                 featureSliderSection.style.display = isHomePage ? "flex" : "none";
+            }
+
             if (isHomePage) {
                 startFeatureSliderInterval();
             } else {
                 if (featureSliderInterval) clearInterval(featureSliderInterval);
             }
         }
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Scroll main content area on TV UI, or window on mobile
+        const contentScroller = document.getElementById('tvMainContentArea');
+        if (contentScroller && window.getComputedStyle(contentScroller).display !== 'none') {
+            contentScroller.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         closeProfileMenu();
 
         if (targetPageId === 'categoriesPage' && (!categoryPillsContainer.hasChildNodes() || (categoryPillsContainer.children.length === 1 && categoryPillsContainer.querySelector('.loading-text')))) {
@@ -644,9 +870,57 @@
     document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement && playerContainer.classList.contains('fullscreen-active')) { playerContainer.classList.remove('fullscreen-active', 'controls-active'); } else if (document.fullscreenElement && !playerContainer.classList.contains('fullscreen-active')) { playerContainer.classList.add('fullscreen-active'); syncCustomControlsVisibility(); } });
     async function closePlayerCompletely(event = null) { if (event) { event.stopPropagation(); } if (!isPlayerActive) return; if (document.fullscreenElement) { document.exitFullscreen().catch(err => console.warn("Exit fullscreen error on close:", err)); } isPlayerActive = false; currentPlayingChannelData = null; playerContainer.classList.remove('expanded', 'minimized', 'fullscreen-active', 'controls-active'); bodyElement.classList.remove('player-minimized-active'); if (shakaPlayer) { try { shakaVideoElement.pause(); shakaVideoElement.src = ''; shakaVideoElement.poster = "https://media-hosting.imagekit.io/5c573f92b4d54110/f15d421b-2279-40e7-abd0-86a70be0008a.png?Expires=1841661533&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ddSLSTxHIKUGvrWX8h2tby6vgkfXlo78QCd3zYCuxCzL2dkFUXGqGhphTRd6MnGUUIaSC4LGABS5QiiAQ4EqtqaFbFQDVuMIpWYvAAei4-ZQfY0g1gCWtHUA3x626Hcm6sQ7evLdh-A4U8d8tEE1EOd~mPdlAc9Vvclk92oFUKBsh0-u2smfvk9G7WDpdA7KpeC342UY9w1YK4LZm0-S0u-Sf~ZSaxYwLh20KtiTwlVVZ4932ubXn4sVoOLufbAlJOI~39LSDG8RhlZiKtCOO-fAgjTDWGf5Np-ohsdBe2EqQ0z6fygNaYZIdyo1coLPhHbLcbr4BXwFxdJTYX-vPw__"; if (shakaControlsObserver) shakaControlsObserver.disconnect(); await shakaPlayer.unload(); await shakaPlayer.destroy(); } catch (e) { console.error('Error closing/destroying player:', e); } finally { shakaPlayer = null; } } else { shakaVideoElement.pause(); shakaVideoElement.src = ''; shakaVideoElement.poster = "https://media-hosting.imagekit.io/5c573f92b4d54110/f15d421b-2279-40e7-abd0-86a70be0008a.png?Expires=1841661533&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=ddSLSTxHIKUGvrWX8h2tby6vgkfXlo78QCd3zYCuxCzL2dkFUXGqGhphTRd6MnGUUIaSC4LGABS5QiiAQ4EqtqaFbFQDVuMIpWYvAAei4-ZQfY0g1gCWtHUA3x626Hcm6sQ7evLdh-A4U8d8tEE1EOd~mPdlAc9Vvclk92oFUKBsh0-u2smfvk9G7WDpdA7KpeC342UY9w1YK4LZm0-S0u-Sf~ZSaxYwLh20KtiTwlVVZ4932ubXn4sVoOLufbAlJOI~39LSDG8RhlZiKtCOO-fAgjTDWGf5Np-ohsdBe2EqQ0z6fygNaYZIdyo1coLPhHbLcbr4BXwFxdJTYX-vPw__"; } playerTitleExpanded.textContent = ''; playerSubExpanded.textContent = ''; playerLiveIconExpanded.style.display = 'none'; minimizedTitle.textContent = ''; minimizedLogo.src = ''; playerOverlayLogo.src = ''; playerOverlayChannelName.textContent = ''; playerOverlayCategoryText.textContent = ''; }
     let searchDebounceTimer; const DEBOUNCE_DELAY = 400; async function searchTMDb(query) { const url = `${TMDB_BASE_URL}/search/multi?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(query)}&include_adult=false&language=en-US&page=1`; try { const response = await fetch(url); if (!response.ok) throw new Error(`TMDb Search HTTP error! status: ${response.status}`); const data = await response.json(); return (data.results || []) .filter(item => (item.media_type === 'movie' || item.media_type === 'tv') && (item.poster_path || item.backdrop_path)) .map(item => ({ resultType: 'TMDb', title: item.title || item.name, img: item.poster_path || item.backdrop_path, id: item.id, media_type: item.media_type })); } catch (error) { console.error("Failed to search TMDb:", error); return []; } } function openSearchModal() { if (!searchModal || !searchInput || !searchResultsModal) return; searchModal.classList.add("active"); searchInput.value = ""; searchResultsModal.innerHTML = ""; searchLoadingIndicator.style.display = 'none'; setTimeout(() => searchInput.focus(), 150); searchModal.addEventListener('keydown', trapFocusInSearch); closeProfileMenu(); } function closeSearchModal() { if (!searchModal) return; searchModal.classList.remove("active"); searchResultsModal.innerHTML = ""; searchModal.removeEventListener('keydown', trapFocusInSearch); } function trapFocusInSearch(event) { if (event.key === 'Escape') { closeSearchModal(); return; } if (event.key !== 'Tab') return; const focusableElements = searchModal.querySelectorAll('input, button, [onclick], .search-result-card'); if (!focusableElements.length) return; const firstElement = focusableElements[0]; const lastElement = focusableElements[focusableElements.length - 1]; if (event.shiftKey) { if (document.activeElement === firstElement) { lastElement.focus(); event.preventDefault(); } } else { if (document.activeElement === lastElement) { firstElement.focus(); event.preventDefault(); } } } function handleSearchInput() { clearTimeout(searchDebounceTimer); const query = searchInput.value.trim().toLowerCase(); if (!query) { searchResultsModal.innerHTML = ""; searchLoadingIndicator.style.display = 'none'; return; } searchResultsModal.innerHTML = ""; searchLoadingIndicator.style.display = 'block'; searchDebounceTimer = setTimeout(async () => { let streamResults = streams .filter(s => s.name && s.name.toLowerCase().includes(query)) .map(s => ({ ...s, resultType: "Channel" })); let tmdbResults = await searchTMDb(query); let combinedResults = [...streamResults, ...tmdbResults].slice(0, 15); searchLoadingIndicator.style.display = 'none'; if (combinedResults.length === 0) { searchResultsModal.innerHTML = `<p class="loading-text">No results found for "${searchInput.value}".</p>`; return; } searchResultsModal.innerHTML = ""; combinedResults.forEach(r => { let cardHTML = '', onclickAction = null; const cardDiv = document.createElement('div'); cardDiv.className = 'search-result-card'; cardDiv.tabIndex = 0; switch (r.resultType) { case "Channel": const streamData = streams.find(s => s.name === r.name && s.logo === r.logo); if (streamData) { onclickAction = () => { openPlayerChannel(streamData); closeSearchModal(); }; } cardHTML = `<img src="${r.logo || 'https://via.placeholder.com/50?text=No+Logo'}" alt="${r.name}"/><div class="search-result-info"><div class="search-result-title">${r.name}</div><div class="search-result-type">${r.resultType}</div></div>`; break; case "TMDb": const tmdbImageUrl = r.img ? TMDB_IMAGE_BASE_URL + 'w92' + r.img : 'https://via.placeholder.com/50x75/1a1a1a/444444?text=N/A'; const tmdbUrl = `https://www.themoviedb.org/${r.media_type}/${r.id}`; onclickAction = () => { window.open(tmdbUrl, '_blank'); closeSearchModal(); closeProfileMenu(); }; cardHTML = `<img src="${tmdbImageUrl}" alt="${r.title}" style="height:75px; width:50px; object-fit:cover;"/><div class="search-result-info"><div class="search-result-title">${r.title}</div><div class="search-result-type">${r.media_type === 'tv' ? 'TV Series' : 'Movie'} (TMDb)</div></div>`; break; default: cardHTML = `<div>Unknown result type</div>`; } cardDiv.innerHTML = cardHTML; if (onclickAction) { cardDiv.onclick = onclickAction; cardDiv.onkeydown = (e) => { if (e.key === 'Enter') onclickAction(); }; } searchResultsModal.appendChild(cardDiv); }); }, DEBOUNCE_DELAY); }
-    function toggleProfileMenu() { if (profileMenu && profileBtn) { profileMenu.classList.toggle('active'); profileBtn.classList.toggle('menu-active', profileMenu.classList.contains('active')); } }
-    function closeProfileMenu() { if (profileMenu && profileBtn) { profileMenu.classList.remove('active'); profileBtn.classList.remove('menu-active'); } }
-    function setupProfileMenuActions() { if (profileBtn) profileBtn.onclick = toggleProfileMenu; if (signInBtn) signInBtn.onclick = () => { alert('Sign In / Log In feature coming soon!'); closeProfileMenu(); }; if (facebookLink) facebookLink.onclick = () => { window.open('https://www.facebook.com/profile.php?id=61560926960219', '_blank'); closeProfileMenu(); }; if (aboutBtn) aboutBtn.onclick = () => { alert('flow+\n\nYour simplified hub for live channels and streaming links.\n\nVersion: 2.5\nCreated by: flxw'); closeProfileMenu(); }; document.addEventListener('click', (event) => { if (!profileMenu || !profileBtn) return; const isClickInsideMenu = profileMenu.contains(event.target); const isClickOnProfileBtn = profileBtn.contains(event.target); if (!isClickInsideMenu && !isClickOnProfileBtn && profileMenu.classList.contains('active')) { closeProfileMenu(); } }); }
+    function toggleProfileMenu(eventSourceElement) {
+        if (profileMenu && eventSourceElement) {
+            profileMenu.classList.toggle('active');
+            eventSourceElement.classList.toggle('menu-active', profileMenu.classList.contains('active'));
+
+            // Position profile menu relative to the clicked button (for TV UI)
+            if (window.innerWidth >= 1024 && eventSourceElement.id === 'tvProfileBtnDesktop') {
+                const btnRect = eventSourceElement.getBoundingClientRect();
+                const sidebarRect = tvSidebar.getBoundingClientRect();
+                profileMenu.style.position = 'fixed'; // Use fixed for reliable positioning from sidebar
+                profileMenu.style.top = `${btnRect.top}px`;
+                profileMenu.style.left = `${sidebarRect.right + 10}px`; // 10px gap from sidebar
+                profileMenu.style.right = 'auto';
+                profileMenu.style.bottom = 'auto';
+                profileMenu.style.transform = 'none';
+            } else if (window.innerWidth < 1024 && eventSourceElement.id === 'profileBtn') {
+                 // Reset to default absolute positioning for mobile/tablet topbar
+                profileMenu.style.position = 'absolute';
+                profileMenu.style.top = 'calc(100% + 5px)';
+                profileMenu.style.left = 'auto';
+                profileMenu.style.right = '0';
+            }
+        }
+    }
+    function closeProfileMenu() { 
+        if (profileMenu) {
+            profileMenu.classList.remove('active');
+        }
+        if (profileBtn) profileBtn.classList.remove('menu-active');
+        if (tvProfileBtnDesktop) tvProfileBtnDesktop.classList.remove('menu-active');
+    }
+
+    function setupProfileMenuActions() { 
+        if (profileBtn) profileBtn.onclick = () => toggleProfileMenu(profileBtn); 
+        if (tvProfileBtnDesktop) tvProfileBtnDesktop.onclick = () => toggleProfileMenu(tvProfileBtnDesktop);
+
+        if (signInBtn) signInBtn.onclick = () => { alert('Sign In / Log In feature coming soon!'); closeProfileMenu(); }; 
+        if (facebookLink) facebookLink.onclick = () => { window.open('https://www.facebook.com/profile.php?id=61560926960219', '_blank'); closeProfileMenu(); }; 
+        if (aboutBtn) aboutBtn.onclick = () => { alert('flow+\n\nYour simplified hub for live channels and streaming links.\n\nVersion: 2.5\nCreated by: flxw'); closeProfileMenu(); }; 
+        
+        document.addEventListener('click', (event) => { 
+            if (!profileMenu) return;
+            const isClickInsideMenu = profileMenu.contains(event.target);
+            const isClickOnProfileBtn = profileBtn && profileBtn.contains(event.target);
+            const isClickOnTvProfileBtn = tvProfileBtnDesktop && tvProfileBtnDesktop.contains(event.target);
+            
+            if (!isClickInsideMenu && !isClickOnProfileBtn && !isClickOnTvProfileBtn && profileMenu.classList.contains('active')) { 
+                closeProfileMenu(); 
+            } 
+        }); 
+    }
     async function fetchTMDbData(endpoint, containerElement, limit = 12, cardType = 'standard') { if (!containerElement) { return; } const url = `${TMDB_BASE_URL}${endpoint}?api_key=${TMDB_API_KEY}&language=en-US&page=1`; containerElement.innerHTML = `<p class="loading-text">Loading...</p>`; try { const response = await fetch(url); if (!response.ok) { throw new Error(`HTTP error! status: ${response.status} for ${endpoint}`); } const data = await response.json(); const results = data.results; containerElement.innerHTML = ''; if (results && results.length > 0) { const limitedResults = results.slice(0, limit); let itemsAdded = 0; limitedResults.forEach((item, index) => { const imagePath = item.poster_path || item.backdrop_path; if (imagePath) { const cardData = { title: item.title || item.name, img: imagePath, id: item.id, media_type: item.media_type || (item.title ? 'movie' : 'tv'), linkUrl: `https://www.themoviedb.org/${item.media_type || (item.title ? 'movie' : 'tv')}/${item.id}` }; if (cardType === 'ranked') { containerElement.appendChild(createRankedTrendingCard(cardData, index + 1)); } else { containerElement.appendChild(createMovieCard(cardData)); } itemsAdded++; } }); if (itemsAdded === 0) { containerElement.innerHTML = `<p class="loading-text">No items with images found.</p>`; } } else { containerElement.innerHTML = `<p class="loading-text">No results found.</p>`; } } catch (error) { console.error(`Failed to fetch TMDb data for ${endpoint}:`, error); containerElement.innerHTML = `<p class="loading-text">Could not load data.</p>`; } }
 
     // --- Initialization ---
@@ -656,11 +930,17 @@
         const initialActiveFooterItem = document.querySelector('.footer-item.selected');
         if (initialActiveFooterItem) {
             const initialTargetPageId = initialActiveFooterItem.getAttribute('aria-controls');
-            document.querySelectorAll('.desktop-nav-item').forEach(item => {
+            // For TV UI desktop nav
+            document.querySelectorAll('.tv-nav-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.targetPage === initialTargetPageId);
+            });
+            // For original desktop nav (pre-TV UI)
+             document.querySelectorAll('.desktop-nav-item').forEach(item => {
                 item.classList.toggle('active', item.dataset.targetPage === initialTargetPageId);
             });
         }
-
+        
+        // Initial content loading
         initializeFeatures(); renderTopChannels(); renderCategoryPills(); renderCategories();
         renderHomeTrending('day');
         if (homeTrendingTodayBtn && homeTrendingWeekBtn && homeTrendingRow) {
@@ -671,10 +951,17 @@
         fetchTMDbData('/movie/top_rated', tmdbTopRatedMoviesRow, 12, 'standard');
         fetchTMDbData('/tv/airing_today', tmdbAiringTodayTVRow, 12, 'standard');
         fetchTMDbData('/tv/top_rated', tmdbTopRatedTVRow, 12, 'standard');
-        try { if(searchBtn) searchBtn.onclick = openSearchModal; if(searchInput) searchInput.oninput = handleSearchInput; } catch (e) { console.error("Error attaching search listeners:", e); }
+        
+        // Attach event listeners
+        try { 
+            if(searchBtn) searchBtn.onclick = openSearchModal; // Mobile search
+            if(tvSearchBtnDesktop) tvSearchBtnDesktop.onclick = openSearchModal; // Desktop search
+            if(searchInput) searchInput.oninput = handleSearchInput; 
+        } catch (e) { console.error("Error attaching search listeners:", e); }
         try { setupProfileMenuActions(); } catch (e) { console.error("Error setting up profile menu:", e); }
+        
         window.switchTab = switchTab; window.expandPlayer = expandPlayer; window.minimizePlayer = minimizePlayer; window.closePlayerCompletely = closePlayerCompletely; window.closeSearchModal = closeSearchModal; window.goToSlide = goToSlide; window.closeProfileMenu = closeProfileMenu; window.showTMDbDetails = showTMDbDetails;
-        console.log("Initialization complete. Desktop styles added. Full streams list included, viewport updated, Stream tab content changed, Channel card aspect ratio adjusted. Logo changed to image.");
+        console.log("Initialization complete. Netflix TV-like UI for desktop. Channel card consistency improved. Profile icon visible in new UI.");
     });
   </script>
 </body>
