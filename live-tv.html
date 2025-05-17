@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0"/>
-  <title>Flow+ | Home</title>
+  <title>Flow+ | Live TV</title>
   <link rel="icon" href="https://media-hosting.imagekit.io/050a454fa5914b57/Adobe%20Express%20-%20file.png?Expires=1841661202&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=vyVi7SltNr6i3ibsTgWAsDrXzew8DviGAnBkHBfX6vsMSmT09h06YRIEYvQ6y-17ZAeNHAMaAT67PIN9vykmKuo8C98oVdaGsL4CNzoLRiXdn4lozGi~gO-kuXJ21Z8i4o07ijKmHCVHCF2xGMOSQmiIP59hXrvyYOyO~y-k3XzNCA01f0aPVi32WfPKYoLYQCnaQCUUp1a0s8ClsMkeNWL5VKVHVo8AdKizPftDHPGWi8bWIMxz2HfGNrlZnsAQKVwiYdlqnZHQhpnnkWcsZc6bClaWn38aiLP5Xb2ufWlKnRSoAHOObqICOKmkXgmtHmPlofHwu0H67jiUfI6enA__" type="image/x-icon" />
   <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL@20..48,100..700,0..1" rel="stylesheet" />
@@ -37,26 +37,20 @@
       <div class="profile-menu-item" id="aboutBtn"> <span class="material-symbols-outlined profile-item-icon">info</span> <span class="profile-item-text">About Us</span> </div>
   </div>
 
-  <!-- MAIN CONTENT FOR HOME -->
+  <!-- MAIN CONTENT FOR CATEGORIES PAGE -->
   <main id="mainContainer">
-    <div class="feature-slider-section" id="featureSliderSection">
-        <div class="feature-slider" id="featureSlider">
-            <p class="loading-text">Loading features...</p>
-        </div>
-    </div>
-    <div class="main-content active" id="homeSection"> <!-- 'active' class to show it by default -->
-        <div class="section-title-container"> <div class="section-title"><span class="material-symbols-outlined">live_tv</span>TOP CHANNELS</div> </div>
-        <div class="horizontal-list" id="topChannelsRow"> <p class="loading-text">Loading channels...</p> </div>
-        <div class="section-title-container"> <div class="section-title"><span class="material-symbols-outlined">trending_up</span>TRENDING TOP 10</div> <div class="title-toggle-buttons"> <button class="toggle-button active" id="homeTrendingTodayBtn" data-period="day">Today</button> <button class="toggle-button" id="homeTrendingWeekBtn" data-period="week">This Week</button> </div> </div>
-        <div class="horizontal-list" id="homeTrendingRow"> <p class="loading-text">Loading trending...</p> </div>
+    <div class="categories-page active" id="categoriesPage"> <!-- 'active' class to show it by default -->
+        <div class="categories-header">Live TV</div>
+        <div class="category-pills-container" id="categoryPillsContainer"> <p class="loading-text">Loading filters...</p> </div>
+        <div id="categoryGroups"> <p class="loading-text">Loading categories...</p> </div>
     </div>
   </main>
 
   <!-- COMMON FOOTER -->
   <footer class="footer-nav">
-    <a href="/flow.ph/" class="footer-item selected" id="navHome"> <span class="material-symbols-outlined footer-icon">home</span> <span class="footer-label">Home</span> </a>
+    <a href="/flow.ph/" class="footer-item" id="navHome"> <span class="material-symbols-outlined footer-icon">home</span> <span class="footer-label">Home</span> </a>
     <a href="/flow.ph/stream.html" class="footer-item" id="navStream"> <span class="material-symbols-outlined footer-icon">play_circle</span> <span class="footer-label">Stream</span> </a>
-    <a href="/flow.ph/live-tv.html" class="footer-item" id="navCategories"> <span class="material-symbols-outlined footer-icon">live_tv</span> <span class="footer-label">Live TV</span> </a>
+    <a href="/flow.ph/live-tv.html" class="footer-item selected" id="navCategories"> <span class="material-symbols-outlined footer-icon">live_tv</span> <span class="footer-label">Live TV</span> </a>
   </footer>
 
   <!-- COMMON PLAYER & SEARCH MODAL -->
