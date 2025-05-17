@@ -1,7 +1,7 @@
 // ======================================================
 // --- CONFIG & DATA --- (Keep this as is)
 // ======================================================
-const basePath = '/flow.ph'; // IMPORTANT: For GitHub Pages, THIS IS YOUR REPOSITORY NAME
+const basePath = '/flow'; // IMPORTANT: For GitHub Pages, THIS IS YOUR REPOSITORY NAME
 const streams = [ /* ... your existing streams array ... */ ]; // Shortened for brevity
 const TMDB_API_KEY = 'db4c42c9c736e876660ea34369102156';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
